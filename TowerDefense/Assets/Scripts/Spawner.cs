@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
+    [SerializeField] private ObjectPooler pool;
+
     private float _spawnTimer;
     private float _timeInterval = 1f;
-
-    public GameObject Prefab;
 
     // Update is called once per frame
     void Update()
@@ -23,7 +23,8 @@ public class Spawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        GameObject spawnedObject = GameObject.Instantiate(Prefab);
+        GameObject spawnedObject = pool.GetPooledObjected();
         spawnedObject.transform.position = transform.position;
+        spawnedObject.SetActive(true);
     }
 }
