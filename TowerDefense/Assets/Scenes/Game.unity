@@ -395,7 +395,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a536c06d050e537488adbd77591c2b1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pool: {fileID: 1674762095}
+  waves:
+  - {fileID: 11400000, guid: 87d8a4982cc4b3848b8636a1bc1cdb40, type: 2}
+  - {fileID: 11400000, guid: 87941f36a75137b49a4d5bf43db9d43c, type: 2}
+  - {fileID: 11400000, guid: 760a3c830eaf02549af92cc985067b61, type: 2}
+  goblinPool: {fileID: 1657471102}
+  flyingPool: {fileID: 1362308482}
+  heftyPool: {fileID: 1674762095}
 --- !u!1 &897413002 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5693882948132782673, guid: dc6b97f396ef27747973afe43efefd1f, type: 3}
