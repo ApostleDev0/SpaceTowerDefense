@@ -7,7 +7,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private ObjectPooler pool;
 
     private float _spawnTimer;
-    private float _timeInterval = 1f;
+    private float _timeInterval = 2f;
 
     // Update is called once per frame
     void Update()
