@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private EnemyData data;
+    public static event Action<EnemyData> OnEnemyReachedEnd;
+
     private Path _currentPath;
 
     private Vector3 _targetPosition;
@@ -36,8 +39,9 @@ public class Enemy : MonoBehaviour
                 _currentWaypoints++;
                 _targetPosition = _currentPath.GetPosition(_currentWaypoints);
             }
-            else
+            else // reached last waypoint
             {
+                OnEnemyReachedEnd?.Invoke(data);
                 gameObject.SetActive(false);
             }
         }

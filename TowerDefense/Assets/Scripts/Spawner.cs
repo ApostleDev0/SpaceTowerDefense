@@ -18,6 +18,10 @@ public class Spawner : MonoBehaviour
 
     private Dictionary<EnemyType,ObjectPooler> _poolDictionary;
 
+    private float _timeBetweenWaves = 2f;
+    private float _waveCoolDown;
+    private bool _isBetweenWaves = false;
+
     private void Awake()
     {
         _poolDictionary = new Dictionary<EnemyType, ObjectPooler>()
@@ -28,21 +32,45 @@ public class Spawner : MonoBehaviour
         };
     }
 
+    private void OnEnable()
+    {
+        Enemy.OnEnemyReachedEnd += HandleEnemyReachedEnd;
+    }
+    private void OnDisable()
+    {
+        Enemy.OnEnemyReachedEnd -= HandleEnemyReachedEnd;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        // time down to 0 to spawn enemy
-        _spawnTimer -= Time.deltaTime;
-        if( _spawnTimer <= 0 && _spawnCounter <= CurrentWave.enemiesPerWave)
+        if(_isBetweenWaves)
         {
-            _spawnTimer = CurrentWave.spawnInterval;
-            SpawnEnemy();
-            _spawnCounter++;
+            _waveCoolDown -= Time.deltaTime;
+            if(_waveCoolDown < 0f)
+            {
+                _currentWaveIndex = (_currentWaveIndex + 1) % waves.Length;
+                _spawnCounter = 0;
+                _enemiesRemoved = 0;
+                _spawnTimer = 0f;
+                _isBetweenWaves = false;
+            }
         }
-        else if(_spawnCounter >= CurrentWave.enemiesPerWave && _enemiesRemoved >= waves.Length)
+        else
         {
-            _currentWaveIndex = (_currentWaveIndex + 1) % waves.Length;
-            _spawnCounter = 0;
+            // time down to 0 to spawn enemy
+            _spawnTimer -= Time.deltaTime;
+            if (_spawnTimer <= 0 && _spawnCounter < CurrentWave.enemiesPerWave)
+            {
+                _spawnTimer = CurrentWave.spawnInterval;
+                SpawnEnemy();
+                _spawnCounter++;
+            }
+            else if (_spawnCounter >= CurrentWave.enemiesPerWave && _enemiesRemoved >= CurrentWave.enemiesPerWave)
+            {
+                _isBetweenWaves = true;
+                _waveCoolDown = _timeBetweenWaves;
+            }
         }
     }
 
@@ -55,5 +83,10 @@ public class Spawner : MonoBehaviour
             spawnedObject.SetActive(true);
         }
         
+    }
+
+    private void HandleEnemyReachedEnd(EnemyData data)
+    {
+        _enemiesRemoved++;
     }
 }
