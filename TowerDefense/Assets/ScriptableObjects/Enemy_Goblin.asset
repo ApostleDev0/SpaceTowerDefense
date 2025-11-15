@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9fb82b10c303934cae569d7a33f619b, type: 3}
   m_Name: Enemy_Goblin
   m_EditorClassIdentifier: 
-  lives: 3
+  lives: 5
   speed: 7
-  damage: 1
+  damage: 2
