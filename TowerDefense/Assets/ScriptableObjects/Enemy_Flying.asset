@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Enemy_Flying
   m_EditorClassIdentifier: 
   lives: 2
-  speed: 6
+  speed: 10
   damage: 1

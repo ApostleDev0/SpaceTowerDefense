@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
+    public static event Action<int> OnWaveChanged;
+
     [SerializeField] private WaveData[] waves;
     private int _currentWaveIndex = 0;
     private WaveData CurrentWave => waves[_currentWaveIndex];
@@ -11,6 +14,7 @@ public class Spawner : MonoBehaviour
     private float _spawnTimer;
     private float _spawnCounter;
     private int _enemiesRemoved;
+    private int _waveCounter = 0;
 
     [SerializeField] private ObjectPooler goblinPool;
     [SerializeField] private ObjectPooler flyingPool;
@@ -40,6 +44,10 @@ public class Spawner : MonoBehaviour
     {
         Enemy.OnEnemyReachedEnd -= HandleEnemyReachedEnd;
     }
+    private void Start()
+    {
+        OnWaveChanged?.Invoke(_waveCounter);
+    }
 
     // Update is called once per frame
     void Update()
@@ -50,6 +58,8 @@ public class Spawner : MonoBehaviour
             if(_waveCoolDown < 0f)
             {
                 _currentWaveIndex = (_currentWaveIndex + 1) % waves.Length;
+                _waveCounter++;
+                OnWaveChanged?.Invoke(_waveCounter);
                 _spawnCounter = 0;
                 _enemiesRemoved = 0;
                 _spawnTimer = 0f;
