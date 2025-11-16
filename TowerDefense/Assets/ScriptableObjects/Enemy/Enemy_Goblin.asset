@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Enemy_Goblin
   m_EditorClassIdentifier: 
   lives: 5
-  speed: 7
+  speed: 2
   damage: 2

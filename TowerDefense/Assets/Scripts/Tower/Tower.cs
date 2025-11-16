@@ -5,14 +5,29 @@ using UnityEngine;
 public class Tower : MonoBehaviour
 {
     [SerializeField] private TowerData data;
-
     private CircleCollider2D _circleCollider;
+
     private List<Enemy> _enemiesInRange;
+    private ObjectPooler _projectilePool;
+
+    private float _shootTimer;
+
     private void Start()
     {
         _circleCollider = GetComponent<CircleCollider2D>();
         _circleCollider.radius = data.range;
         _enemiesInRange = new List<Enemy>();
+        _projectilePool = GetComponent<ObjectPooler>();
+        _shootTimer = data.shootInterval;
+    }
+    private void Update()
+    {
+        _shootTimer -= Time.deltaTime;
+        if( _shootTimer <= 0 )
+        {
+            _shootTimer = data.shootInterval;
+            Shoot();
+        }
     }
     private void OnDrawGizmos()
     {
@@ -35,6 +50,17 @@ public class Tower : MonoBehaviour
             {
                 _enemiesInRange.Remove(enemy);
             }
+        }
+    }
+    private void Shoot()
+    {
+        if(_enemiesInRange.Count > 0)
+        {
+            GameObject projectile = _projectilePool.GetPooledObjected();
+            projectile.transform.position = transform.position;
+            projectile.SetActive(true);
+            Vector2 _shootDirection = (_enemiesInRange[0].transform.position - transform.position).normalized;
+            projectile.GetComponent<Projectile>().Shoot(data,_shootDirection);
         }
     }
 }

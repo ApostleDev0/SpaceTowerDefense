@@ -39,10 +39,12 @@ public class Spawner : MonoBehaviour
     private void OnEnable()
     {
         Enemy.OnEnemyReachedEnd += HandleEnemyReachedEnd;
+        Enemy.OnEnemyDestroyed += HandleEnemyDestroyed;
     }
     private void OnDisable()
     {
         Enemy.OnEnemyReachedEnd -= HandleEnemyReachedEnd;
+        Enemy.OnEnemyDestroyed -= HandleEnemyDestroyed;
     }
     private void Start()
     {
@@ -83,7 +85,6 @@ public class Spawner : MonoBehaviour
             }
         }
     }
-
     private void SpawnEnemy()
     {
         if(_poolDictionary.TryGetValue(CurrentWave.enemyType, out var pool))
@@ -94,8 +95,11 @@ public class Spawner : MonoBehaviour
         }
         
     }
-
     private void HandleEnemyReachedEnd(EnemyData data)
+    {
+        _enemiesRemoved++;
+    }
+    private void HandleEnemyDestroyed(Enemy enemy)
     {
         _enemiesRemoved++;
     }

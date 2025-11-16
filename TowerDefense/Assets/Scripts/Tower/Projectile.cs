@@ -1,0 +1,42 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class Projectile : MonoBehaviour
+{
+
+    private TowerData _data;
+    private Vector3 _shootDirection;
+    private float _projectileDuration;
+
+    // Update is called once per frame
+    void Update()
+    {
+        if(_projectileDuration <= 0)
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            _projectileDuration -= Time.deltaTime;
+            transform.position += new Vector3(_shootDirection.x, _shootDirection.y) * _data.projectileSpeed * Time.deltaTime;
+        }
+    }
+    public void Shoot(TowerData data, Vector3 shootDirection)
+    {
+        _data = data;
+        _shootDirection = shootDirection;
+        _projectileDuration = _data.projectileDuration;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Enemy"))
+        {
+            Enemy enemy = collision.GetComponent<Enemy>();
+            enemy.TakeDamage(_data.damage);
+            gameObject.SetActive(false);
+        }
+    }
+}

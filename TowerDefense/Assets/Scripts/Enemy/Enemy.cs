@@ -7,11 +7,13 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private EnemyData data;
     public static event Action<EnemyData> OnEnemyReachedEnd;
+    public static event Action<Enemy> OnEnemyDestroyed;
 
     private Path _currentPath;
 
     private Vector3 _targetPosition;
     private int _currentWaypoints;
+    private float _lives;
 
     private void Awake()
     {
@@ -22,6 +24,7 @@ public class Enemy : MonoBehaviour
     {
         _currentWaypoints = 0;
         _targetPosition = _currentPath.GetPosition(_currentWaypoints);
+        _lives = data.lives;
     }
 
     // Update is called once per frame
@@ -44,6 +47,16 @@ public class Enemy : MonoBehaviour
                 OnEnemyReachedEnd?.Invoke(data);
                 gameObject.SetActive(false);
             }
+        }
+    }
+    public void TakeDamage(float damage)
+    {
+        _lives -= damage;
+        _lives = Mathf.Max(_lives, 0);
+        if(_lives <=0)
+        {
+            OnEnemyDestroyed?.Invoke(this);
+            gameObject.SetActive(false);
         }
     }
 }
