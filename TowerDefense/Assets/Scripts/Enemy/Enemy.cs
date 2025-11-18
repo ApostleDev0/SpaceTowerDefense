@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     private Vector3 _targetPosition;
     private int _currentWaypoints;
     private float _lives;
+    private float _maxLives;
 
     [SerializeField] private Transform healthBar;
     private Vector3 _healthBarOriginalScale;
@@ -26,8 +27,6 @@ public class Enemy : MonoBehaviour
     {
         _currentWaypoints = 0;
         _targetPosition = _currentPath.GetPosition(_currentWaypoints);
-        _lives = data.lives;
-        UpdateHealthBar();
     }
 
     // Update is called once per frame
@@ -66,9 +65,15 @@ public class Enemy : MonoBehaviour
     }
     private void UpdateHealthBar()
     {
-        float healthPercent = _lives / data.lives;
+        float healthPercent = _lives / _maxLives;
         Vector3 scale = _healthBarOriginalScale;
         scale.x = _healthBarOriginalScale.x * healthPercent;
         healthBar.localScale = scale;
+    }
+    public void Initialized(float healthMultiplier)
+    {
+        _maxLives = data.lives * healthMultiplier;
+        _lives = _maxLives;
+        UpdateHealthBar();
     }
 }

@@ -91,6 +91,11 @@ public class Spawner : MonoBehaviour
         {
             GameObject spawnedObject = pool.GetPooledObjected();
             spawnedObject.transform.position = transform.position;
+
+            float healthMultiplier = 1f + (_waveCounter * 0.05f); // + 5% health per wave
+            Enemy enemy = spawnedObject.GetComponent<Enemy>();
+            enemy.Initialized(healthMultiplier);
+
             spawnedObject.SetActive(true);
         }
         
