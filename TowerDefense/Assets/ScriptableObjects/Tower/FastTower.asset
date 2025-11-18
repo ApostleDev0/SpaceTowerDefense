@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FastTower
   m_EditorClassIdentifier: 
   range: 3
-  shootInterval: 1
-  projectileSpeed: 10
+  shootInterval: 0.5
+  projectileSpeed: 12
   projectileDuration: 2
   damage: 2
