@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8025779511700488958}
   - component: {fileID: 1990507324772013733}
   m_Layer: 0
-  m_Name: FastTower
+  m_Name: BurstTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 435088613
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 2063036815, guid: 1f4850cbadba45145902b94edcb7011f, type: 3}
+  m_Sprite: {fileID: -903943956, guid: 1f4850cbadba45145902b94edcb7011f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acd23ccce6d0ba648ad2aa713b829781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: a3679f98bfe2b494f96cab7cf79dd3c3, type: 2}
+  data: {fileID: 11400000, guid: 859c9db543a80634fafa58496b68d0dc, type: 2}
 --- !u!58 &8025779511700488958
 CircleCollider2D:
   m_ObjectHideFlags: 0

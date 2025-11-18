@@ -19,6 +19,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Transform healthBar;
     private Vector3 _healthBarOriginalScale;
 
+    private bool _hasBeenCounted = false;
+
     private void Awake()
     {
         _currentPath = GameObject.Find("Path1").GetComponent<Path>();
@@ -34,6 +36,11 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(_hasBeenCounted)
+        {
+            return;
+        }
+
         // move toward to target position
         transform.position = Vector3.MoveTowards(transform.position, _targetPosition, data.speed * Time.deltaTime);
 
@@ -48,6 +55,7 @@ public class Enemy : MonoBehaviour
             }
             else // reached last waypoint
             {
+                _hasBeenCounted = true;
                 OnEnemyReachedEnd?.Invoke(data);
                 gameObject.SetActive(false);
             }
@@ -55,6 +63,11 @@ public class Enemy : MonoBehaviour
     }
     public void TakeDamage(float damage)
     {
+        if(_hasBeenCounted)
+        {
+            return;
+        }
+
         _lives -= damage;
         _lives = Mathf.Max(_lives, 0);
         UpdateHealthBar();
@@ -74,6 +87,7 @@ public class Enemy : MonoBehaviour
     }
     public void Initialized(float healthMultiplier)
     {
+        _hasBeenCounted = false;
         _maxLives = data.lives * healthMultiplier;
         _lives = _maxLives;
         UpdateHealthBar();
