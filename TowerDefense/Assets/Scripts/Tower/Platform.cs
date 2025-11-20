@@ -8,8 +8,14 @@ public class Platform : MonoBehaviour
 {
     public static event Action<Platform> OnPLatformClicked;
     [SerializeField] private LayerMask platformLayerMask;
+    public static bool towerPanelOpen { get; set; } = false;
     private void Update()
     {
+        if (towerPanelOpen)
+        {
+            return;
+        }
+
         if(Input.GetMouseButtonDown(0))
         {
             Vector3 mouseScreenPosition = Input.mousePosition;

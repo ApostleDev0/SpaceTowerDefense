@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9fb82b10c303934cae569d7a33f619b, type: 3}
   m_Name: Enemy_Flying
   m_EditorClassIdentifier: 
-  lives: 2
-  speed: 4
+  lives: 6
+  speed: 2.5
   damage: 1
-  resourceReward: 2
+  resourceReward: 20

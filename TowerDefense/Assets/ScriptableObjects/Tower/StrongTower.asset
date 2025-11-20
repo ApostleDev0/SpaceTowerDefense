@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92ca78012e8507c44996229da5351e49, type: 3}
   m_Name: StrongTower
   m_EditorClassIdentifier: 
-  range: 3.5
-  shootInterval: 1
-  projectileSpeed: 6
-  projectileDuration: 3
-  projectileSize: 3
-  damage: 10
-  cost: 100
+  range: 4
+  shootInterval: 5
+  projectileSpeed: 20
+  projectileDuration: 1
+  projectileSize: 2
+  damage: 5
+  cost: 300
   sprite: {fileID: 1850504256, guid: 1f4850cbadba45145902b94edcb7011f, type: 3}
   prefab: {fileID: 1207189999338620603, guid: 1ed5a4c56c1b8374fb0f6a865bb753f7, type: 3}
