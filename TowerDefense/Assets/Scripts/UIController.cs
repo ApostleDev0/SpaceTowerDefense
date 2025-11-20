@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
@@ -29,6 +30,8 @@ public class UIController : MonoBehaviour
     [SerializeField] private Color normalTextColor = Color.black;
     [SerializeField] private Color selectedTextColor = Color.white;
 
+    [SerializeField] private GameObject pausePanel;
+    private bool _isGamePaused = false;
 
     private void Start()
     {
@@ -54,7 +57,13 @@ public class UIController : MonoBehaviour
         Platform.OnPLatformClicked -= HandlePLatformClicked;
         TowerCard.OnTowerSelected -= HandleTowerSelected;
     }
-    
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePause();
+        }
+    }
     private void UpdateWaveText(int currentWave)
     {
         waveText.text = $"Wave: {currentWave + 1}";
@@ -140,5 +149,39 @@ public class UIController : MonoBehaviour
         UpdateButtonVisual(speed1Button, selectedSpeed == 0.2f);
         UpdateButtonVisual(speed2Button, selectedSpeed == 1f);
         UpdateButtonVisual(speed3Button, selectedSpeed == 3f);
+    }
+    public void TogglePause()
+    {
+        if(towerPanel.activeSelf)
+        {
+            return;
+        }
+        if(_isGamePaused)
+        {
+            pausePanel.SetActive(false);
+            _isGamePaused = false;
+            GameManager.Instance.SetTimeScale(GameManager.Instance.GameSpeed);
+        }
+        else
+        {
+            pausePanel.SetActive(true);
+            _isGamePaused = true;
+            GameManager.Instance.SetTimeScale(0f);
+        }
+    }
+    public void RestartLevel()
+    {
+        GameManager.Instance.SetTimeScale(1f);
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.buildIndex);
+    }
+    public void QuitGame()
+    {
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
+            
     }
 }

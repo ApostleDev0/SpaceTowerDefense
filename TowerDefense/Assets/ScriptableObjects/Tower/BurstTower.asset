@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92ca78012e8507c44996229da5351e49, type: 3}
   m_Name: BurstTower
   m_EditorClassIdentifier: 
-  range: 8
+  range: 6
   shootInterval: 0.5
   projectileSpeed: 20
   projectileDuration: 1

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 4
   shootInterval: 5
-  projectileSpeed: 20
+  projectileSpeed: 16
   projectileDuration: 1
   projectileSize: 2
   damage: 5
