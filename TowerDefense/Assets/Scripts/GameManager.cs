@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
     private int _lives = 5;
     private int _resource = 200;
     public int Resources => _resource;
+
+    private float _gameSpeed = 1f;
+    public float GameSpeed => _gameSpeed;
     private void Awake()
     {
         if(Instance != null && Instance != this)
@@ -54,10 +57,19 @@ public class GameManager : MonoBehaviour
         _resource += amount;
         OnResourcesChanged?.Invoke(_resource);
     }
+
+    // for pausing/unpausing UI 
     public void SetTimeScale(float scale)
     {
         Time.timeScale = scale;
     }
+    // for speed button
+    public void SetGameSpeed(float newSpeed)
+    {
+        _gameSpeed = newSpeed;
+        SetTimeScale(newSpeed);
+    }
+
     public void SpendResources(int amount)
     {
         if(_resource >= amount)
