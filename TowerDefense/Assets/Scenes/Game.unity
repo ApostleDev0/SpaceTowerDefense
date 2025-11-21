@@ -600,7 +600,7 @@ MonoBehaviour:
   waveText: {fileID: 1853010318}
   livesText: {fileID: 1496729743}
   resourcesText: {fileID: 1983143610}
-  noResourcesText: {fileID: 1279971908}
+  warningText: {fileID: 1279971910}
   towerPanel: {fileID: 1556915167}
   towerCardPrefab: {fileID: 3835617887902175671, guid: 4b3e718cf9dbb214d8f410e8f2cf4ab3, type: 3}
   cardsContainer: {fileID: 1294235291}
@@ -1672,7 +1672,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -219.99998}
+  m_AnchoredPosition: {x: 0, y: -220}
   m_SizeDelta: {x: 600, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &622728133
@@ -2725,7 +2725,7 @@ GameObject:
   - component: {fileID: 1279971911}
   - component: {fileID: 1279971910}
   m_Layer: 5
-  m_Name: NoResourcesText
+  m_Name: WarningText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2748,7 +2748,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -40}
-  m_SizeDelta: {x: 400, y: 50}
+  m_SizeDelta: {x: 600, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1279971910
 MonoBehaviour:
@@ -5519,7 +5519,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Golds: XXX'
+  m_text: 'Gold: XXX$'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

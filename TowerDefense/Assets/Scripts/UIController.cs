@@ -10,7 +10,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private TMP_Text waveText;
     [SerializeField] private TMP_Text livesText;
     [SerializeField] private TMP_Text resourcesText;
-    [SerializeField] private GameObject noResourcesText;
+    [SerializeField] private TMP_Text warningText;
 
     [SerializeField] private GameObject towerPanel;
     [SerializeField] private GameObject towerCardPrefab;
@@ -80,7 +80,7 @@ public class UIController : MonoBehaviour
     }
     private void UpdateResourcesText(int currentResources)
     {
-        resourcesText.text = $"Golds: {currentResources}";
+        resourcesText.text = $"Gold: {currentResources}$";
     }
     private void HandlePLatformClicked(Platform platform)
     {
@@ -118,6 +118,12 @@ public class UIController : MonoBehaviour
     }
     private void HandleTowerSelected(TowerData towerData)
     {
+        if(_currentPlatform.transform.childCount > 0)
+        {
+            HideTowerPanel();
+            StartCoroutine(ShowWarningMessage("You already place Tower!"));
+            return;
+        }
         if(GameManager.Instance.Resources >= towerData.cost)
         {
             GameManager.Instance.SpendResources(towerData.cost);
@@ -125,15 +131,16 @@ public class UIController : MonoBehaviour
         }
         else
         {
-            StartCoroutine(ShowNoResourcesMessage());
+            StartCoroutine(ShowWarningMessage("Not enough Gold$ !"));
         }
         HideTowerPanel();
     }
-    private IEnumerator ShowNoResourcesMessage()
+    private IEnumerator ShowWarningMessage(string message)
     {
-        noResourcesText.SetActive(true);    
+        warningText.text = message;
+        warningText.gameObject.SetActive(true);    
         yield return new WaitForSecondsRealtime(3f);
-        noResourcesText.SetActive(false);
+        warningText.gameObject.SetActive(false);
     }
     private void SetGameSpeed(float timeScale)
     {
