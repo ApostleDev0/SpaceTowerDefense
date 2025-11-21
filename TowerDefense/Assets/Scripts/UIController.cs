@@ -177,11 +177,11 @@ public class UIController : MonoBehaviour
     }
     public void QuitGame()
     {
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
-            Application.Quit();
-        #endif
-            
+        Application.Quit();
+    }
+    public void GoToMainMenu()
+    {
+        GameManager.Instance.SetTimeScale(1f);
+        SceneManager.LoadScene("MainMenu");
     }
 }
