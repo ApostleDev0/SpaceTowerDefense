@@ -3181,6 +3181,7 @@ MonoBehaviour:
   allLevels:
   - {fileID: 11400000, guid: 4692ccd4c37eede49ab492adc9e05f06, type: 2}
   - {fileID: 11400000, guid: f055501bd621c8240974ca5ae43ee9c5, type: 2}
+  - {fileID: 11400000, guid: db8ca7d6b5371a049be3690e0f7c4421, type: 2}
 --- !u!4 &1207003126
 Transform:
   m_ObjectHideFlags: 0
@@ -3855,7 +3856,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5932738845955343628, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
       propertyPath: m_Interactable
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5932738845955343628, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5932738845955343628, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5932738845955343628, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1866716395}
+    - target: {fileID: 5932738845955343628, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5932738845955343628, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadNextLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 5932738845955343628, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UIController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5932738845955343628, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3867,6 +3896,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1485300120647600743, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
   m_PrefabInstance: {fileID: 1703116911}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1703116913 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5932738845955343628, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
+  m_PrefabInstance: {fileID: 1703116911}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1738884258
 GameObject:
   m_ObjectHideFlags: 0
@@ -4620,6 +4660,7 @@ MonoBehaviour:
   speed2Button: {fileID: 1804908782}
   speed3Button: {fileID: 899189763}
   pauseButton: {fileID: 1409277843}
+  nextLevelButton: {fileID: 1703116913}
   normalButtonColor: {r: 1, g: 1, b: 1, a: 1}
   selectedButtonColor: {r: 0, g: 0, b: 1, a: 1}
   normalTextColor: {r: 0, g: 0, b: 0, a: 1}

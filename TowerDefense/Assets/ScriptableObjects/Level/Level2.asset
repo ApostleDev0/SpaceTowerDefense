@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Level2
   m_EditorClassIdentifier: 
   levelName: Level 2
-  wavesToWin: 5
-  startingResources: 200
+  wavesToWin: 2
+  startingResources: 300
   startingLives: 7

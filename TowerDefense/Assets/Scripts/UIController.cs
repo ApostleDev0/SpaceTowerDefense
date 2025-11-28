@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -27,6 +28,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private Button speed2Button;
     [SerializeField] private Button speed3Button;
     [SerializeField] private Button pauseButton;
+    [SerializeField] private Button nextLevelButton;
 
     [SerializeField] private Color normalButtonColor = Color.white;
     [SerializeField] private Color selectedButtonColor = Color.blue;
@@ -264,6 +266,7 @@ public class UIController : MonoBehaviour
         resourcesText.gameObject.SetActive(false);
         livesText.gameObject.SetActive(false);
         warningText.gameObject.SetActive(false);
+        questText.gameObject.SetActive(false);
 
         speed1Button.gameObject.SetActive(false);
         speed2Button.gameObject.SetActive(false);
@@ -275,7 +278,7 @@ public class UIController : MonoBehaviour
         waveText.gameObject.SetActive(true);
         resourcesText.gameObject.SetActive(true);
         livesText.gameObject.SetActive(true);
-        warningText.gameObject.SetActive(true);
+        //warningText.gameObject.SetActive(true);
 
         speed1Button.gameObject.SetActive(true);
         speed2Button.gameObject.SetActive(true);
@@ -288,10 +291,22 @@ public class UIController : MonoBehaviour
         gameOverPanel.SetActive(false);
         missionCompletePanel.SetActive(false);
     }
-    private void ShowPanel()
+    public void LoadNextLevel()
     {
-        pausePanel.SetActive(true);
-        gameOverPanel.SetActive(true);
-        missionCompletePanel.SetActive(true);
+        var levelManager = LevelManager.Instance;
+        int currentIndex = Array.IndexOf(levelManager.allLevels, levelManager.CurrentLevel);
+        
+        int nextIndex = currentIndex + 1;
+        if(nextIndex < levelManager.allLevels.Length)
+        {
+            missionCompletePanel.SetActive(false);
+            levelManager.LoadLevel(levelManager.allLevels[nextIndex]);
+        }
+    }
+    private void UpdateNextButton()
+    {
+        var levelManager = LevelManager.Instance;
+        int currentIndex = Array.IndexOf(levelManager.allLevels, levelManager.CurrentLevel);
+        nextLevelButton.interactable = currentIndex + 1 < levelManager.allLevels.Length;
     }
 }
