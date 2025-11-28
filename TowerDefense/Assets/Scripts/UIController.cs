@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
+    public static UIController Instance { get; private set; } 
+
     [SerializeField] private TMP_Text waveText;
     [SerializeField] private TMP_Text livesText;
     [SerializeField] private TMP_Text resourcesText;
@@ -24,6 +26,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private Button speed1Button;
     [SerializeField] private Button speed2Button;
     [SerializeField] private Button speed3Button;
+    [SerializeField] private Button pauseButton;
 
     [SerializeField] private Color normalButtonColor = Color.white;
     [SerializeField] private Color selectedButtonColor = Color.blue;
@@ -36,6 +39,18 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject missionCompletePanel;
     [SerializeField] private TMP_Text questText;
 
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
     private void Start()
     {
         speed1Button.onClick.AddListener(() => SetGameSpeed(0.2f));
@@ -208,6 +223,20 @@ public class UIController : MonoBehaviour
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Camera mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        Canvas canvas = GetComponent<Canvas>();
+        canvas.worldCamera = mainCamera;
+
+        HidePanel();
+
+        if(scene.name == "MainMenu")
+        {
+            HideUI();
+        }
+        else
+        {
+            ShowUI();
+        }
         StartCoroutine(ShowQuest());
     }
     private IEnumerator ShowQuest()
@@ -227,5 +256,42 @@ public class UIController : MonoBehaviour
         missionCompletePanel.SetActive(false);
         GameManager.Instance.SetTimeScale(GameManager.Instance.GameSpeed);
         Spawner.Instance.EnableEndlessMode();
+    }
+    private void HideUI()
+    {
+        HidePanel();
+        waveText.gameObject.SetActive(false);
+        resourcesText.gameObject.SetActive(false);
+        livesText.gameObject.SetActive(false);
+        warningText.gameObject.SetActive(false);
+
+        speed1Button.gameObject.SetActive(false);
+        speed2Button.gameObject.SetActive(false);
+        speed3Button.gameObject.SetActive(false);
+        pauseButton.gameObject.SetActive(false);
+    }
+    private void ShowUI()
+    {
+        waveText.gameObject.SetActive(true);
+        resourcesText.gameObject.SetActive(true);
+        livesText.gameObject.SetActive(true);
+        warningText.gameObject.SetActive(true);
+
+        speed1Button.gameObject.SetActive(true);
+        speed2Button.gameObject.SetActive(true);
+        speed3Button.gameObject.SetActive(true);
+        pauseButton.gameObject.SetActive(true);
+    }
+    private void HidePanel()
+    {
+        pausePanel.SetActive(false);
+        gameOverPanel.SetActive(false);
+        missionCompletePanel.SetActive(false);
+    }
+    private void ShowPanel()
+    {
+        pausePanel.SetActive(true);
+        gameOverPanel.SetActive(true);
+        missionCompletePanel.SetActive(true);
     }
 }
