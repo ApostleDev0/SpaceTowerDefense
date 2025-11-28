@@ -250,6 +250,7 @@ public class UIController : MonoBehaviour
     }
     private void ShowMissionComplete()
     {
+        UpdateNextLevelButton();
         missionCompletePanel.SetActive(true);
         GameManager.Instance.SetTimeScale(0f);
     }
@@ -303,7 +304,7 @@ public class UIController : MonoBehaviour
             levelManager.LoadLevel(levelManager.allLevels[nextIndex]);
         }
     }
-    private void UpdateNextButton()
+    private void UpdateNextLevelButton()
     {
         var levelManager = LevelManager.Instance;
         int currentIndex = Array.IndexOf(levelManager.allLevels, levelManager.CurrentLevel);
