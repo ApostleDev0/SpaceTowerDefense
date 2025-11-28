@@ -69,11 +69,11 @@ public class UIController : MonoBehaviour
         });
         speed3Button.onClick.AddListener(() =>
         {
-            SetGameSpeed(3f);
+            SetGameSpeed(2.25f);
             AudioManager.Instance.PlaySpeedFast();
         });
 
-        HighlightSelectedButton(GameManager.Instance.GameSpeed);
+        HighlightSelectedSpeedButton(GameManager.Instance.GameSpeed);
     }
     private void OnEnable()
     {
@@ -184,7 +184,7 @@ public class UIController : MonoBehaviour
     }
     private void SetGameSpeed(float timeScale)
     {
-        HighlightSelectedButton(timeScale);
+        HighlightSelectedSpeedButton(timeScale);
         GameManager.Instance.SetGameSpeed(timeScale);
     }
     private void UpdateButtonVisual(Button button, bool isSelected)
@@ -197,11 +197,11 @@ public class UIController : MonoBehaviour
             text.color = isSelected ? selectedTextColor : normalTextColor;
         }
     }
-    private void HighlightSelectedButton(float selectedSpeed)
+    private void HighlightSelectedSpeedButton(float selectedSpeed)
     {
         UpdateButtonVisual(speed1Button, selectedSpeed == 0.2f);
         UpdateButtonVisual(speed2Button, selectedSpeed == 1f);
-        UpdateButtonVisual(speed3Button, selectedSpeed == 3f);
+        UpdateButtonVisual(speed3Button, selectedSpeed == 2.25f);
     }
     public void TogglePause()
     {
@@ -298,6 +298,7 @@ public class UIController : MonoBehaviour
         speed1Button.gameObject.SetActive(false);
         speed2Button.gameObject.SetActive(false);
         speed3Button.gameObject.SetActive(false);
+        HighlightSelectedSpeedButton(GameManager.Instance.GameSpeed);
         pauseButton.gameObject.SetActive(false);
     }
     private void ShowUI()
@@ -305,7 +306,6 @@ public class UIController : MonoBehaviour
         waveText.gameObject.SetActive(true);
         resourcesText.gameObject.SetActive(true);
         livesText.gameObject.SetActive(true);
-        //warningText.gameObject.SetActive(true);
 
         speed1Button.gameObject.SetActive(true);
         speed2Button.gameObject.SetActive(true);
