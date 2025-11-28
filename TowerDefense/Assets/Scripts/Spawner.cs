@@ -5,7 +5,10 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
+    public static Spawner Instance { get; private set; }
+
     public static event Action<int> OnWaveChanged;
+    public static event Action OnMissionComplete;
 
     [SerializeField] private WaveData[] waves;
     private int _currentWaveIndex = 0;
@@ -25,6 +28,7 @@ public class Spawner : MonoBehaviour
     private float _timeBetweenWaves = 2f;
     private float _waveCoolDown;
     private bool _isBetweenWaves = false;
+    private bool _isEndlessMode = false;
 
     private void Awake()
     {
@@ -34,6 +38,14 @@ public class Spawner : MonoBehaviour
             {EnemyType.Flying, flyingPool },
             {EnemyType.Hefty, heftyPool },
         };
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
     }
 
     private void OnEnable()
@@ -59,6 +71,12 @@ public class Spawner : MonoBehaviour
             _waveCoolDown -= Time.deltaTime;
             if(_waveCoolDown < 0f)
             {
+                if(_waveCounter + 1 >= LevelManager.Instance.CurrentLevel.wavesToWin && !_isEndlessMode)
+                {
+                    OnMissionComplete?.Invoke();
+                    return;
+                }
+
                 _currentWaveIndex = (_currentWaveIndex + 1) % waves.Length;
                 _waveCounter++;
                 OnWaveChanged?.Invoke(_waveCounter);
@@ -92,7 +110,7 @@ public class Spawner : MonoBehaviour
             GameObject spawnedObject = pool.GetPooledObjected();
             spawnedObject.transform.position = transform.position;
 
-            float healthMultiplier = 1f + (_waveCounter * 0.05f); // + 5% health per wave
+            float healthMultiplier = 1f + (_waveCounter * 0.1f); // + 10% health per wave
             Enemy enemy = spawnedObject.GetComponent<Enemy>();
             enemy.Initialized(healthMultiplier);
 
@@ -107,5 +125,9 @@ public class Spawner : MonoBehaviour
     private void HandleEnemyDestroyed(Enemy enemy)
     {
         _enemiesRemoved++;
+    }
+    public void EnableEndlessMode()
+    {
+        _isEndlessMode = true;
     }
 }

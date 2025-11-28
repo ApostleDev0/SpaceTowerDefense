@@ -33,6 +33,8 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject pausePanel;
     private bool _isGamePaused = false;
     [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private GameObject missionCompletePanel;
+    [SerializeField] private TMP_Text questText;
 
     private void Start()
     {
@@ -49,6 +51,8 @@ public class UIController : MonoBehaviour
         GameManager.OnResourcesChanged += UpdateResourcesText;
         Platform.OnPLatformClicked += HandlePLatformClicked;
         TowerCard.OnTowerSelected += HandleTowerSelected;
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        Spawner.OnMissionComplete += ShowMissionComplete;
     }
     private void OnDisable()
     {
@@ -57,6 +61,8 @@ public class UIController : MonoBehaviour
         GameManager.OnResourcesChanged -= UpdateResourcesText;
         Platform.OnPLatformClicked -= HandlePLatformClicked;
         TowerCard.OnTowerSelected -= HandleTowerSelected;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        Spawner.OnMissionComplete -= ShowMissionComplete;
     }
     private void Update()
     {
@@ -201,5 +207,27 @@ public class UIController : MonoBehaviour
     {
         GameManager.Instance.SetTimeScale(0f);
         gameOverPanel.SetActive(true);
+    }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        StartCoroutine(ShowQuest());
+    }
+    private IEnumerator ShowQuest()
+    {
+        questText.text = $"Mission: Survive {LevelManager.Instance.CurrentLevel.wavesToWin} Waves! ";
+        questText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(6f);
+        questText.gameObject.SetActive(false);  
+    }
+    private void ShowMissionComplete()
+    {
+        missionCompletePanel.SetActive(true);
+        GameManager.Instance.SetTimeScale(0f);
+    }
+    public void EnterEndlessMode()
+    {
+        missionCompletePanel.SetActive(false);
+        GameManager.Instance.SetTimeScale(GameManager.Instance.GameSpeed);
+        Spawner.Instance.EnableEndlessMode();
     }
 }
