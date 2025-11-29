@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92ca78012e8507c44996229da5351e49, type: 3}
   m_Name: BurstTower
   m_EditorClassIdentifier: 
-  range: 6
-  shootInterval: 0.5
+  range: 5
+  shootInterval: 0.1
   projectileSpeed: 20
   projectileDuration: 1
-  projectileSize: 0.5
+  projectileSize: 0.75
   damage: 1
   cost: 175
-  sprite: {fileID: -903943956, guid: 1f4850cbadba45145902b94edcb7011f, type: 3}
+  sprite: {fileID: 1758934699, guid: 311734346e4316a41851983d64a47999, type: 3}
   prefab: {fileID: 1207189999338620603, guid: 344891fc82c70d747a3ee3687a9f3c25, type: 3}
