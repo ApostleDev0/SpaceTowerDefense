@@ -7,4 +7,6 @@ public class LevelData : ScriptableObject
     public int wavesToWin; // condition to win
     public int startingResources; // amount golds to start
     public int startingLives; // amount lives to start
+
+    public Vector2 initialSpawnPosition;
 }

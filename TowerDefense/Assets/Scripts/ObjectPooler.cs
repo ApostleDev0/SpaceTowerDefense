@@ -10,7 +10,7 @@ public class ObjectPooler : MonoBehaviour
     private List<GameObject> _pool;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         // create pool
         _pool = new List<GameObject>();
@@ -38,5 +38,12 @@ public class ObjectPooler : MonoBehaviour
             }
         }
         return CreateNewObject();
+    }
+    public void ResetPool()
+    {
+        foreach (GameObject obj in _pool)
+        {
+            obj.SetActive(false);
+        }
     }
 }

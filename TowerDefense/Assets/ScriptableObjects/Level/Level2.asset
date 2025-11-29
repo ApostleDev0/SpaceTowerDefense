@@ -16,3 +16,4 @@ MonoBehaviour:
   wavesToWin: 2
   startingResources: 300
   startingLives: 7
+  initialSpawnPosition: {x: -12, y: 0}

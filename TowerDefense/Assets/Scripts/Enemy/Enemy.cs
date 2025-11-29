@@ -25,14 +25,12 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
-        _currentPath = GameObject.Find("Path1").GetComponent<Path>();
         _healthBarOriginalScale = transform.localScale;
     }
 
     private void OnEnable()
     {
-        _currentWaypoints = 0;
-        _targetPosition = _currentPath.GetPosition(_currentWaypoints) + _offset;
+        
     }
 
     // Update is called once per frame
@@ -89,8 +87,11 @@ public class Enemy : MonoBehaviour
         scale.x = _healthBarOriginalScale.x * healthPercent;
         healthBar.localScale = scale;
     }
-    public void Initialized(float healthMultiplier)
+    public void Initialized(Path path, float healthMultiplier)
     {
+        _currentPath = path;
+        _currentWaypoints = 0;
+        _targetPosition = _currentPath.GetPosition(_currentWaypoints) + _offset;
         _hasBeenCounted = false;
         _maxLives = data.lives * healthMultiplier;
         _lives = _maxLives;
