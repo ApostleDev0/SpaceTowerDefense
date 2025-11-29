@@ -37,7 +37,7 @@ public class AudioManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            musicSource.volume = 0.4f;
+            musicSource.volume = 0.3f;
         }
     }
     public void PlaySound(AudioClip clip)

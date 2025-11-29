@@ -429,6 +429,18 @@ PrefabInstance:
       propertyPath: m_text
       value: Quit Game
       objectReference: {fileID: 0}
+    - target: {fileID: 5833489632108536134, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 87a4393b1adab8d48af19e2862e563dd, type: 2}
+    - target: {fileID: 5833489632108536134, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -8074476795037522729, guid: 87a4393b1adab8d48af19e2862e563dd, type: 2}
+    - target: {fileID: 5833489632108536134, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5932738845955343628, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -1997,8 +2009,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 733.365, y: -83.79}
-  m_SizeDelta: {x: 1466.73, y: 0}
+  m_AnchoredPosition: {x: 755.035, y: -75.245}
+  m_SizeDelta: {x: 1510.07, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &712920703
 MonoBehaviour:
@@ -2022,8 +2034,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Space Tower Defense
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 87a4393b1adab8d48af19e2862e563dd, type: 2}
+  m_sharedMaterial: {fileID: -8074476795037522729, guid: 87a4393b1adab8d48af19e2862e563dd, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2047,8 +2059,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 150
-  m_fontSizeBase: 150
+  m_fontSize: 120
+  m_fontSizeBase: 120
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2206,6 +2218,18 @@ PrefabInstance:
     - target: {fileID: 5833489632108536134, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
       propertyPath: m_text
       value: New Game
+      objectReference: {fileID: 0}
+    - target: {fileID: 5833489632108536134, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 87a4393b1adab8d48af19e2862e563dd, type: 2}
+    - target: {fileID: 5833489632108536134, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -8074476795037522729, guid: 87a4393b1adab8d48af19e2862e563dd, type: 2}
+    - target: {fileID: 5833489632108536134, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5932738845955343628, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -3488,7 +3512,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 733.365, y: -372.58002}
+  m_AnchoredPosition: {x: 755.035, y: -355.49}
   m_SizeDelta: {x: 350, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1233436728
@@ -6176,6 +6200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f12500e0000e6264cbeecf1bef4ebec4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  globalFont: {fileID: 11400000, guid: 87a4393b1adab8d48af19e2862e563dd, type: 2}
 --- !u!4 &2039331251
 Transform:
   m_ObjectHideFlags: 0
