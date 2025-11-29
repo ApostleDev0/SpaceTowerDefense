@@ -4,7 +4,8 @@ using UnityEngine;
 public class EnemyData : ScriptableObject
 {
     public float lives;
-    public float speed;
+    public float minSpeed;
+    public float maxSpeed;
     public int damage;
     public float resourceReward;
 }

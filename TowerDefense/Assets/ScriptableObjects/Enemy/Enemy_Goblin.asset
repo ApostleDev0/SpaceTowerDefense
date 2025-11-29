@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Enemy_Goblin
   m_EditorClassIdentifier: 
   lives: 10
-  speed: 1
+  minSpeed: 1
+  maxSpeed: 1.75
   damage: 2
   resourceReward: 15

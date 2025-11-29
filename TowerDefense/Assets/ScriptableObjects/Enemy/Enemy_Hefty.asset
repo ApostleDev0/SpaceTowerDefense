@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Enemy_Hefty
   m_EditorClassIdentifier: 
   lives: 10
-  speed: 0.5
+  minSpeed: 0.5
+  maxSpeed: 1
   damage: 3
   resourceReward: 30
