@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level1
   m_EditorClassIdentifier: 
   levelName: Level 1
-  wavesToWin: 2
+  wavesToWin: 1
   startingResources: 200
   startingLives: 3
   initialSpawnPosition: {x: -8, y: 7}

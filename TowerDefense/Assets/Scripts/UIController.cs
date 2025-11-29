@@ -205,6 +205,10 @@ public class UIController : MonoBehaviour
     }
     public void TogglePause()
     {
+        if(SceneManager.GetActiveScene().name == "MainMenu")
+        {
+            return;
+        }
         if(towerPanel.activeSelf)
         {
             return;
