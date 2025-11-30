@@ -6,7 +6,18 @@ using UnityEngine;
 public class Path : MonoBehaviour
 {
     public GameObject[] Waypoints;
+    private LineRenderer _line;
 
+    private void Awake()
+    {
+        _line = GetComponent<LineRenderer>();
+        _line.positionCount = Waypoints.Length;
+
+        for(int i = 0; i < Waypoints.Length; i++)
+        {
+            _line.SetPosition(i, Waypoints[i].transform.position);
+        }
+    }
     public Vector3 GetPosition(int index)
     {
         return Waypoints[index].transform.position;
