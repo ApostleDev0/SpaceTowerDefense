@@ -7,4 +7,6 @@ public enum EnemyType
     Beetle_1,   
     Beetle_2,
     Beetle_Boss1,
+    Krypter_1,
+    Virdius_Boss2
 }

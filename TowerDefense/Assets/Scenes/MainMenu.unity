@@ -256,6 +256,52 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1485300120647600743, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
   m_PrefabInstance: {fileID: 43978228}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &109010352
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 109010353}
+  - component: {fileID: 109010354}
+  m_Layer: 0
+  m_Name: Krypter1Pool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &109010353
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109010352}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 8, y: -3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1728434315}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &109010354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109010352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02b5facf2f6c5574d9ba9719f7132373, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 878540133352928267, guid: 18d7230fd2af9d54cbab786c915864d8, type: 3}
+  poolSize: 5
 --- !u!1001 &124154407
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4723,9 +4769,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   krogan1Pool: {fileID: 1593851376}
   krogan2Pool: {fileID: 1786480888}
+  krypter1Pool: {fileID: 109010354}
   beetle1Pool: {fileID: 1925207627}
   beetle2Pool: {fileID: 1210927548}
   boss1Pool: {fileID: 1200751511}
+  boss2Pool: {fileID: 2034539365}
 --- !u!4 &1728434315
 Transform:
   m_ObjectHideFlags: 0
@@ -4740,10 +4788,12 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1593851377}
+  - {fileID: 109010353}
   - {fileID: 1786480887}
   - {fileID: 1925207628}
   - {fileID: 1210927547}
   - {fileID: 1200751512}
+  - {fileID: 2034539364}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1738884258
@@ -6824,6 +6874,52 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &2034539363
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2034539364}
+  - component: {fileID: 2034539365}
+  m_Layer: 0
+  m_Name: Boss2Pool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2034539364
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034539363}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 7.4852734, y: -2.987818, z: 0.02439192}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1728434315}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2034539365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034539363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02b5facf2f6c5574d9ba9719f7132373, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 878540133352928267, guid: f67a108cb8f8a2c4b84cacbd4c1b12a5, type: 3}
+  poolSize: 5
 --- !u!1 &2039331249
 GameObject:
   m_ObjectHideFlags: 0
