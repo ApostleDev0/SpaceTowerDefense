@@ -3801,6 +3801,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1210927546
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1210927547}
+  - component: {fileID: 1210927548}
+  m_Layer: 0
+  m_Name: Beetle2Pool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1210927547
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210927546}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 7.4852734, y: -2.987818, z: 0.02439192}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1728434315}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1210927548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210927546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02b5facf2f6c5574d9ba9719f7132373, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 878540133352928267, guid: 0f97da74b3b7a48428b0ad8fe67c0230, type: 3}
+  poolSize: 5
 --- !u!1 &1233436726
 GameObject:
   m_ObjectHideFlags: 0
@@ -4378,7 +4424,7 @@ GameObject:
   - component: {fileID: 1593851377}
   - component: {fileID: 1593851376}
   m_Layer: 0
-  m_Name: GoblinPool
+  m_Name: Krogan1Pool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4396,7 +4442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02b5facf2f6c5574d9ba9719f7132373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 878540133352928267, guid: 26720580e46fcb646b61f6b359d5dd2b, type: 3}
+  prefab: {fileID: 878540133352928267, guid: 09f69d8256359064f9e091f6385de49d, type: 3}
   poolSize: 5
 --- !u!4 &1593851377
 Transform:
@@ -4675,8 +4721,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a536c06d050e537488adbd77591c2b1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goblinPool: {fileID: 1593851376}
-  flyingPool: {fileID: 1925207627}
+  krogan1Pool: {fileID: 1593851376}
+  krogan2Pool: {fileID: 1786480888}
+  beetle1Pool: {fileID: 1925207627}
+  beetle2Pool: {fileID: 1210927548}
   heftyPool: {fileID: 1200751511}
 --- !u!4 &1728434315
 Transform:
@@ -4692,7 +4740,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1593851377}
+  - {fileID: 1786480887}
   - {fileID: 1925207628}
+  - {fileID: 1210927547}
   - {fileID: 1200751512}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5098,6 +5148,52 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 20}
   m_SizeDelta: {x: 1100, y: 100}
   m_Pivot: {x: 0.5, y: 0}
+--- !u!1 &1786480886
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1786480887}
+  - component: {fileID: 1786480888}
+  m_Layer: 0
+  m_Name: Krogan2Pool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1786480887
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1786480886}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 8, y: -3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1728434315}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1786480888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1786480886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02b5facf2f6c5574d9ba9719f7132373, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 878540133352928267, guid: 5416fa151dc353a49a3a11fb322798d3, type: 3}
+  poolSize: 5
 --- !u!1 &1804908778
 GameObject:
   m_ObjectHideFlags: 0
@@ -6076,7 +6172,7 @@ GameObject:
   - component: {fileID: 1925207628}
   - component: {fileID: 1925207627}
   m_Layer: 0
-  m_Name: FlyingPool
+  m_Name: Beetle1Pool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6917,6 +7013,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1151711721}
+  - {fileID: 429323036}
   - {fileID: 1627075529}
   - {fileID: 1913917810}
   - {fileID: 1876965445}
@@ -6925,4 +7022,3 @@ SceneRoots:
   - {fileID: 1866716399}
   - {fileID: 1160082411}
   - {fileID: 1728434315}
-  - {fileID: 429323036}

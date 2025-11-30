@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9fb82b10c303934cae569d7a33f619b, type: 3}
-  m_Name: Enemy_Flying
+  m_Script: {fileID: 11500000, guid: d91bf8801d69a7f48a7a95f2a50cd3af, type: 3}
+  m_Name: Krogan1_Wave
   m_EditorClassIdentifier: 
-  lives: 6
-  minSpeed: 2.5
-  maxSpeed: 3.25
-  damage: 1
-  resourceReward: 20
+  enemyType: 0
+  spawnInterval: 1
+  enemiesPerWave: 5

@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d91bf8801d69a7f48a7a95f2a50cd3af, type: 3}
-  m_Name: GoblinWave
+  m_Name: Beetle2_Wave
   m_EditorClassIdentifier: 
-  enemyType: 0
-  spawnInterval: 1.25
-  enemiesPerWave: 4
+  enemyType: 4
+  spawnInterval: 0.75
+  enemiesPerWave: 10

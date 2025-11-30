@@ -20,8 +20,10 @@ public class Spawner : MonoBehaviour
     private float _spawnCounter;
     private int _enemiesRemoved;
 
-    [SerializeField] private ObjectPooler goblinPool;
-    [SerializeField] private ObjectPooler flyingPool;
+    [SerializeField] private ObjectPooler krogan1Pool;
+    [SerializeField] private ObjectPooler krogan2Pool;
+    [SerializeField] private ObjectPooler beetle1Pool;
+    [SerializeField] private ObjectPooler beetle2Pool;
     [SerializeField] private ObjectPooler heftyPool;
 
     private Dictionary<EnemyType,ObjectPooler> _poolDictionary;
@@ -38,8 +40,10 @@ public class Spawner : MonoBehaviour
     {
         _poolDictionary = new Dictionary<EnemyType, ObjectPooler>()
         {
-            {EnemyType.Golbin, goblinPool },
-            {EnemyType.Flying, flyingPool },
+            {EnemyType.Krogan_1, krogan1Pool },
+            {EnemyType.Krogan_2, krogan2Pool },
+            {EnemyType.Beetle_1, beetle1Pool },
+            {EnemyType.Beetle_2, beetle2Pool },
             {EnemyType.Hefty, heftyPool },
         };
         if(Instance != null && Instance != this)
