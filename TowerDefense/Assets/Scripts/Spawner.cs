@@ -24,7 +24,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private ObjectPooler krogan2Pool;
     [SerializeField] private ObjectPooler beetle1Pool;
     [SerializeField] private ObjectPooler beetle2Pool;
-    [SerializeField] private ObjectPooler heftyPool;
+    [SerializeField] private ObjectPooler boss1Pool;
 
     private Dictionary<EnemyType,ObjectPooler> _poolDictionary;
 
@@ -44,7 +44,7 @@ public class Spawner : MonoBehaviour
             {EnemyType.Krogan_2, krogan2Pool },
             {EnemyType.Beetle_1, beetle1Pool },
             {EnemyType.Beetle_2, beetle2Pool },
-            {EnemyType.Hefty, heftyPool },
+            {EnemyType.Beetle_Boss1, boss1Pool },
         };
         if(Instance != null && Instance != this)
         {

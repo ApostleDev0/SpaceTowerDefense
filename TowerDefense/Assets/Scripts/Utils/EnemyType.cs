@@ -6,5 +6,5 @@ public enum EnemyType
     Krogan_2,
     Beetle_1,   
     Beetle_2,
-    Hefty
+    Beetle_Boss1,
 }

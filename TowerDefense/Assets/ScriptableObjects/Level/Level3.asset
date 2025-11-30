@@ -13,11 +13,18 @@ MonoBehaviour:
   m_Name: Level3
   m_EditorClassIdentifier: 
   levelName: Level 3
-  wavesToWin: 4
+  wavesToWin: 10
   startingResources: 400
-  startingLives: 10
-  initialSpawnPosition: {x: -12, y: 3}
+  startingLives: 25
+  initialSpawnPosition: {x: 7, y: 8}
   waves:
-  - {fileID: 11400000, guid: 760a3c830eaf02549af92cc985067b61, type: 2}
+  - {fileID: 11400000, guid: 87941f36a75137b49a4d5bf43db9d43c, type: 2}
   - {fileID: 11400000, guid: 87941f36a75137b49a4d5bf43db9d43c, type: 2}
   - {fileID: 11400000, guid: 87d8a4982cc4b3848b8636a1bc1cdb40, type: 2}
+  - {fileID: 11400000, guid: 87d8a4982cc4b3848b8636a1bc1cdb40, type: 2}
+  - {fileID: 11400000, guid: 760a3c830eaf02549af92cc985067b61, type: 2}
+  - {fileID: 11400000, guid: 548520e104ba4f845b089b89ef2778ad, type: 2}
+  - {fileID: 11400000, guid: 548520e104ba4f845b089b89ef2778ad, type: 2}
+  - {fileID: 11400000, guid: f2c70e6272d94e44ba2d29169f877495, type: 2}
+  - {fileID: 11400000, guid: f2c70e6272d94e44ba2d29169f877495, type: 2}
+  - {fileID: 11400000, guid: 760a3c830eaf02549af92cc985067b61, type: 2}

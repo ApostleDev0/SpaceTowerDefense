@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9fb82b10c303934cae569d7a33f619b, type: 3}
-  m_Name: Enemy_Hefty
+  m_Name: Boss_1
   m_EditorClassIdentifier: 
-  lives: 10
-  minSpeed: 0.5
-  maxSpeed: 1
-  damage: 3
-  resourceReward: 30
+  lives: 30
+  minSpeed: 0.8
+  maxSpeed: 1.5
+  damage: 10
+  resourceReward: 100

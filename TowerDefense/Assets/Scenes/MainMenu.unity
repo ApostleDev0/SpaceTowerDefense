@@ -3718,7 +3718,7 @@ GameObject:
   - component: {fileID: 1200751512}
   - component: {fileID: 1200751511}
   m_Layer: 0
-  m_Name: HeftyPool
+  m_Name: Boss1Pool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3736,7 +3736,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02b5facf2f6c5574d9ba9719f7132373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 878540133352928267, guid: fc0167d46f9cc4748a68b8e6679af3ee, type: 3}
+  prefab: {fileID: 878540133352928267, guid: 62917cb046bbaf14e919f0863b63f22b, type: 3}
   poolSize: 5
 --- !u!4 &1200751512
 Transform:
@@ -4725,7 +4725,7 @@ MonoBehaviour:
   krogan2Pool: {fileID: 1786480888}
   beetle1Pool: {fileID: 1925207627}
   beetle2Pool: {fileID: 1210927548}
-  heftyPool: {fileID: 1200751511}
+  boss1Pool: {fileID: 1200751511}
 --- !u!4 &1728434315
 Transform:
   m_ObjectHideFlags: 0
