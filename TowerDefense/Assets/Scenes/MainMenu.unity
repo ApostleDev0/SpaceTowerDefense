@@ -5166,10 +5166,6 @@ MonoBehaviour:
   speed3Button: {fileID: 899189763}
   pauseButton: {fileID: 1409277843}
   nextLevelButton: {fileID: 1703116913}
-  normalButtonColor: {r: 1, g: 1, b: 1, a: 1}
-  selectedButtonColor: {r: 0, g: 0.44827557, b: 1, a: 0.47058824}
-  normalTextColor: {r: 0, g: 0, b: 0, a: 1}
-  selectedTextColor: {r: 1, g: 1, b: 1, a: 1}
   pausePanel: {fileID: 700363552}
   gameOverPanel: {fileID: 129808712}
   questText: {fileID: 1777114102}

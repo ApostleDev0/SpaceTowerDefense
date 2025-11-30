@@ -30,10 +30,10 @@ public class UIController : MonoBehaviour
     [SerializeField] private Button pauseButton;
     [SerializeField] private Button nextLevelButton;
 
-    [SerializeField] private Color normalButtonColor = Color.white;
-    [SerializeField] private Color selectedButtonColor = Color.blue;
-    [SerializeField] private Color normalTextColor = Color.black;
-    [SerializeField] private Color selectedTextColor = Color.white;
+    private Color normalButtonColor = Color.white;
+    private Color selectedButtonColor = new Color(0f/255f,114f/255f,255f/255f,120f/255f);
+    private Color normalTextColor = Color.black;
+    private Color selectedTextColor = Color.white;
 
     [SerializeField] private GameObject pausePanel;
     private bool _isGamePaused = false;

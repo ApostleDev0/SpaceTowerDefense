@@ -18,6 +18,10 @@ public class Path : MonoBehaviour
             _line.SetPosition(i, Waypoints[i].transform.position);
         }
     }
+    private void Update()
+    {
+        _line.material.mainTextureOffset -= new Vector2(Time.deltaTime * 0.1f, 0);
+    }
     public Vector3 GetPosition(int index)
     {
         return Waypoints[index].transform.position;
