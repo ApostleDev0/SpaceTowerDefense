@@ -20,7 +20,7 @@ public class Path : MonoBehaviour
     }
     private void Update()
     {
-        _line.material.mainTextureOffset -= new Vector2(Time.deltaTime * 0.1f, 0);
+        _line.material.mainTextureOffset -= new Vector2(Time.deltaTime * 0.2f, 0);
     }
     public Vector3 GetPosition(int index)
     {
