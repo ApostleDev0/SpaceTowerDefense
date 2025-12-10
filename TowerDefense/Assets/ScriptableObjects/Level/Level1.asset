@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: Level1
   m_EditorClassIdentifier: 
   levelName: Level 1
-  wavesToWin: 5
-  startingResources: 200
+  wavesToWin: 6
+  startingResources: 100
   startingLives: 10
   initialSpawnPosition: {x: -10, y: 6}
   waves:
   - {fileID: 11400000, guid: 87d8a4982cc4b3848b8636a1bc1cdb40, type: 2}
-  - {fileID: 11400000, guid: 87941f36a75137b49a4d5bf43db9d43c, type: 2}
   - {fileID: 11400000, guid: f2c70e6272d94e44ba2d29169f877495, type: 2}
+  - {fileID: 11400000, guid: 87941f36a75137b49a4d5bf43db9d43c, type: 2}
   - {fileID: 11400000, guid: 548520e104ba4f845b089b89ef2778ad, type: 2}
   - {fileID: 11400000, guid: 760a3c830eaf02549af92cc985067b61, type: 2}
+  - {fileID: 11400000, guid: a226da9b8a3e9d6429a2a2c12fbe87cb, type: 2}

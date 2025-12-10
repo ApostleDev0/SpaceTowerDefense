@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9fb82b10c303934cae569d7a33f619b, type: 3}
   m_Name: Boss_2
   m_EditorClassIdentifier: 
-  lives: 45
-  minSpeed: 0.8
-  maxSpeed: 1.5
+  lives: 1200
+  minSpeed: 2
+  maxSpeed: 2.5
   damage: 15
-  resourceReward: 120
+  resourceReward: 250

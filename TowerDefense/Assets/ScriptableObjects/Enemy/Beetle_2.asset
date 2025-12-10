@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9fb82b10c303934cae569d7a33f619b, type: 3}
   m_Name: Beetle_2
   m_EditorClassIdentifier: 
-  lives: 2
-  minSpeed: 1.75
-  maxSpeed: 2.5
+  lives: 12
+  minSpeed: 3.5
+  maxSpeed: 4.5
   damage: 2
-  resourceReward: 15
+  resourceReward: 4

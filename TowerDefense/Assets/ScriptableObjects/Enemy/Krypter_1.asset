@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9fb82b10c303934cae569d7a33f619b, type: 3}
   m_Name: Krypter_1
   m_EditorClassIdentifier: 
-  lives: 7
-  minSpeed: 1
-  maxSpeed: 1.75
-  damage: 3
-  resourceReward: 25
+  lives: 80
+  minSpeed: 2.5
+  maxSpeed: 3
+  damage: 6
+  resourceReward: 15
