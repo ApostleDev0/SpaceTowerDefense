@@ -15,8 +15,8 @@ MonoBehaviour:
   levelName: Level 3
   wavesToWin: 10
   startingResources: 200
-  startingLives: 25
-  initialSpawnPosition: {x: 7, y: 8}
+  startingLives: 30
+  initialSpawnPosition: {x: -12, y: 1}
   waves:
   - {fileID: 11400000, guid: 87941f36a75137b49a4d5bf43db9d43c, type: 2}
   - {fileID: 11400000, guid: 87941f36a75137b49a4d5bf43db9d43c, type: 2}
