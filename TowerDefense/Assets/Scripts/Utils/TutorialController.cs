@@ -18,8 +18,10 @@ public class TutorialController : MonoBehaviour
     [SerializeField] private GameObject tutorialPanel;
     [SerializeField] private Image tutorialImage;
     [SerializeField] private TextMeshProUGUI descriptionText;
+
     [SerializeField] private Button nextButton;
-    [SerializeField] private TextMeshProUGUI buttonLabel;
+    [SerializeField] private TextMeshProUGUI nextButtonLabel;
+    [SerializeField] private Button backButton;
 
     [SerializeField] private TutorialStep[] steps;
 
@@ -40,9 +42,22 @@ public class TutorialController : MonoBehaviour
             nextButton.onClick.RemoveAllListeners();
             nextButton.onClick.AddListener(OnNextClicked);
         }
+        if (backButton != null)
+        {
+            backButton.onClick.RemoveAllListeners();
+            backButton.onClick.AddListener(OnBackClicked);
+        }
         // check log
-        Debug.Log("TutorialController: Start() is running at scene: " + SceneManager.GetActiveScene().name);
-        HideTutorial();
+        Debug.Log("Tutorial is running at scene: " + SceneManager.GetActiveScene().name);
+
+        if (SceneManager.GetActiveScene().name == targetSceneName)
+        {
+            ShowTutorial();
+        }
+        else
+        {
+            HideTutorial();
+        }
     }
     private void Update()
     {
@@ -54,15 +69,12 @@ public class TutorialController : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("TutorialController: OnSceneLoaded. Scene name loading: '" + scene.name + "' | Target Scene: '" + targetSceneName + "'");
         if (scene.name == targetSceneName)
         {
-            Debug.Log("Match Scene Level 1! Calling ShowTutorial!");
             ShowTutorial();
         }
         else
         {
-            Debug.Log("Not Match Scene Level 1! Calling HideTutorial!");
             HideTutorial();
         }
     }
@@ -70,7 +82,6 @@ public class TutorialController : MonoBehaviour
     {
         if (steps == null || steps.Length == 0)
         {
-            Debug.Log("Error: Steps is Empty");
             return;
         }
 
@@ -78,6 +89,7 @@ public class TutorialController : MonoBehaviour
         tutorialPanel.SetActive(true);
         _currentIndex = 0;
         UpdateVisuals();
+
         Time.timeScale = 0f;
     }
     public void HideTutorial()
@@ -103,6 +115,14 @@ public class TutorialController : MonoBehaviour
             StartGame();
         }
     }
+    private void OnBackClicked()
+    {
+        if (_currentIndex > 0)
+        {
+            _currentIndex--;
+            UpdateVisuals();
+        }
+    }
     private void UpdateVisuals()
     {
         TutorialStep currentStep = steps[_currentIndex];
@@ -115,10 +135,14 @@ public class TutorialController : MonoBehaviour
         {
             descriptionText.text = currentStep.Description;
         }
-        if(buttonLabel != null)
+        if(nextButtonLabel != null)
         {
             bool isLastStep = (_currentIndex == steps.Length - 1);
-            buttonLabel.text = isLastStep ? "START" : "NEXT";
+            nextButtonLabel.text = isLastStep ? "START" : "NEXT";
+        }
+        if (backButton != null)
+        {
+            backButton.gameObject.SetActive(_currentIndex > 0);
         }
     }
     private void StartGame()
