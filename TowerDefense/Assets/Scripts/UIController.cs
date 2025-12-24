@@ -264,6 +264,7 @@ public class UIController : MonoBehaviour
         {
             ShowUI();
             StartCoroutine(ShowQuest());
+            SetGameSpeed(1f);
         }
     }
     private IEnumerator ShowQuest()
