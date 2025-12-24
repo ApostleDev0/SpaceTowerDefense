@@ -1719,6 +1719,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1485300120647600743, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
   m_PrefabInstance: {fileID: 556778630}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &556778632 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5833489632108536134, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
+  m_PrefabInstance: {fileID: 556778630}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &556778633 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5932738845955343628, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
+  m_PrefabInstance: {fileID: 556778630}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &570333971
 GameObject:
   m_ObjectHideFlags: 0
@@ -2101,7 +2123,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 755.035, y: -75.245}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 1510.07, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &712920703
 MonoBehaviour:
@@ -2906,7 +2928,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &955992049
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2942,7 +2964,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3980,7 +4002,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 755.035, y: -355.49}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 350, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1233436728
 MonoBehaviour:
@@ -5633,7 +5655,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -20}
-  m_SizeDelta: {x: 1200, y: 500}
+  m_SizeDelta: {x: 1000, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1842146035
 MonoBehaviour:
@@ -5648,12 +5670,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 30
-    m_Right: 30
-    m_Top: 20
-    m_Bottom: 20
+    m_Left: 20
+    m_Right: 20
+    m_Top: 10
+    m_Bottom: 10
   m_ChildAlignment: 4
-  m_Spacing: 50
+  m_Spacing: 80
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
@@ -5694,10 +5716,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1842146034}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 501.55, y: -250}
-  m_SizeDelta: {x: 800, y: 460}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1854835900
 MonoBehaviour:
@@ -5753,7 +5775,7 @@ MonoBehaviour:
   m_MinWidth: -1
   m_MinHeight: -1
   m_PreferredWidth: 800
-  m_PreferredHeight: 450
+  m_PreferredHeight: 400
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
@@ -5770,6 +5792,7 @@ GameObject:
   - component: {fileID: 1866716397}
   - component: {fileID: 1866716396}
   - component: {fileID: 1866716395}
+  - component: {fileID: 1866716400}
   m_Layer: 5
   m_Name: UICanvas
   m_TagString: Untagged
@@ -5902,6 +5925,47 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1866716400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1866716394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0d8992770379d047a0342de9d1e1133, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetSceneName: Level 1
+  tutorialPanel: {fileID: 955992048}
+  tutorialImage: {fileID: 1854835900}
+  descriptionText: {fileID: 2133600242}
+  nextButton: {fileID: 556778633}
+  buttonLabel: {fileID: 556778632}
+  steps:
+  - Image: {fileID: 21300000, guid: a82e1c7e99e01804e93ccafce64507b5, type: 3}
+    Description: Enemies appear from the left side. They follow the glowing path
+      to attack your base.
+  - Image: {fileID: 21300000, guid: b662b19c59627e74ba501c1b4c3997b8, type: 3}
+    Description: This is your Satellite Base. You must protect it at all costs.
+  - Image: {fileID: 21300000, guid: 23551c07815950d4c89f80e4b4edf4aa, type: 3}
+    Description: 'Floating platforms are construction sites. This is where you place
+      your defenses.
+
+'
+  - Image: {fileID: 21300000, guid: 29a2fcc3a186bbb44beac4da70325b70, type: 3}
+    Description: 'Click on a platform to select a Tower. Build a strong defense line
+      to stop the enemy.
+
+'
+  - Image: {fileID: 21300000, guid: f166fb49202f218468fb9b9a1b8b8ac7, type: 3}
+    Description: 'You need Gold to build and upgrade towers. Spend it wisely!
+
+'
+  - Image: {fileID: 21300000, guid: 855d61db1af7e454880fd9490245ea99, type: 3}
+    Description: If your Base Lives reach 0, it's Game Over. Survive as long as you
+      can!
 --- !u!1 &1876965442
 GameObject:
   m_ObjectHideFlags: 0
@@ -7018,10 +7082,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1842146034}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1025, y: -250}
-  m_SizeDelta: {x: 146.9, y: 460}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2133600242
 MonoBehaviour:
@@ -7045,8 +7109,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 87a4393b1adab8d48af19e2862e563dd, type: 2}
+  m_sharedMaterial: {fileID: -8074476795037522729, guid: 87a4393b1adab8d48af19e2862e563dd, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -7070,15 +7134,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
