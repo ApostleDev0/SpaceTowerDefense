@@ -10,10 +10,6 @@ public class Projectile : MonoBehaviour
     private Vector3 _shootDirection;
     private float _projectileDuration;
 
-    private void Start()
-    {
-        transform.localScale = Vector3.one * _data.projectileSize;
-    }
     // Update is called once per frame
     void Update()
     {
@@ -41,6 +37,7 @@ public class Projectile : MonoBehaviour
         _data = data;
         _shootDirection = shootDirection;
         _projectileDuration = _data.projectileDuration;
+        transform.localScale = Vector3.one * _data.projectileSize;
     }
 
     
