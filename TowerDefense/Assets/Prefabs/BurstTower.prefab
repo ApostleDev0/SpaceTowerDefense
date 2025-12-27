@@ -185,6 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 859c9db543a80634fafa58496b68d0dc, type: 2}
+  rangeCircle: {fileID: 1156476123162451502}
 --- !u!58 &8025779511700488958
 CircleCollider2D:
   m_ObjectHideFlags: 0
