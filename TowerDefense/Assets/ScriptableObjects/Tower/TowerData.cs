@@ -18,6 +18,7 @@ public class TowerData : ScriptableObject
     // next level tower data
     public int upgradeCost;
     public int sellPrice;
+    public string displayLevel;
     public TowerData nextLevelData;
 
 }

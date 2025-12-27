@@ -10,6 +10,8 @@ public class Platform : MonoBehaviour
     [SerializeField] private LayerMask platformLayerMask;
     public static bool towerPanelOpen { get; set; } = false;
     private SpriteRenderer _spriteRenderer;
+
+    public Tower tower;
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -29,10 +31,10 @@ public class Platform : MonoBehaviour
 
             if(raycastHit.collider != null)
             {
-                Platform platform = raycastHit.collider.GetComponent<Platform>();
-                if(platform != null)
+                Platform hitPlatform = raycastHit.collider.GetComponent<Platform>();
+                if(hitPlatform != null && hitPlatform == this)
                 {
-                    OnPLatformClicked?.Invoke(platform);
+                    OnPLatformClicked?.Invoke(hitPlatform);
                 }
             }
 
@@ -40,7 +42,10 @@ public class Platform : MonoBehaviour
     }
     public void PlaceTower(TowerData data)
     {
-        Instantiate(data.prefab,transform.position, Quaternion.identity,transform);
+        GameObject newTowerObj = Instantiate(data.prefab,transform.position, Quaternion.identity,transform);
+
+        tower = newTowerObj.GetComponent<Tower>();
+
         if(_spriteRenderer != null)
         {
             _spriteRenderer.enabled = false;

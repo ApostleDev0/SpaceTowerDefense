@@ -5,13 +5,29 @@ using UnityEngine;
 public class Tower : MonoBehaviour
 {
     [SerializeField] private TowerData data;
-    private CircleCollider2D _circleCollider;
+    [SerializeField] private GameObject rangeIndicator;
 
+    private CircleCollider2D _circleCollider;
     private List<Enemy> _enemiesInRange;
     private ObjectPooler _projectilePool;
-
     private float _shootTimer;
 
+    public TowerData GetData()
+    {
+        return data;
+    }
+    public void ToggleRange(bool status)
+    {
+        if(rangeIndicator != null)
+        {
+            rangeIndicator.SetActive(status);
+            if(status)
+            {
+                float diameter = data.range * 2f;
+                rangeIndicator.transform.localPosition = new Vector3(diameter, diameter, 1f);
+            }
+        }
+    }
     private void OnEnable()
     {
         Enemy.OnEnemyDestroyed += HandleEnemyDestroyed;
@@ -27,6 +43,11 @@ public class Tower : MonoBehaviour
         _enemiesInRange = new List<Enemy>();
         _projectilePool = GetComponent<ObjectPooler>();
         _shootTimer = data.shootInterval;
+
+        if(rangeIndicator == null)
+        {
+            rangeIndicator.SetActive(false);
+        }
     }
     private void Update()
     {

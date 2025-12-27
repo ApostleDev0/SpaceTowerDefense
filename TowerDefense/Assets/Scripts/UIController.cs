@@ -22,7 +22,14 @@ public class UIController : MonoBehaviour
     [SerializeField] private TowerData[] towers;
     private List<GameObject> activeCards = new List<GameObject>();
 
+    [SerializeField] private GameObject upgradePanel;
+    [SerializeField] private TMP_Text levelText;      
+    [SerializeField] private TMP_Text upgradeCostText;  
+    [SerializeField] private TMP_Text sellPriceText;    
+    [SerializeField] private Button upgradeButton;
+
     private Platform _currentPlatform;
+    private Tower _selectedTower;
 
     [SerializeField] private Button speed1Button;
     [SerializeField] private Button speed2Button;
@@ -57,6 +64,10 @@ public class UIController : MonoBehaviour
     }
     private void Start()
     {
+        if(upgradePanel != null)
+        {
+            upgradePanel.SetActive(false);
+        }
         speed1Button.onClick.AddListener(() =>
         {
             SetGameSpeed(0.2f);
@@ -122,7 +133,16 @@ public class UIController : MonoBehaviour
     private void HandlePLatformClicked(Platform platform)
     {
         _currentPlatform = platform;
-        ShowTowerPanel();
+        if(_currentPlatform.tower == null)
+        {
+            HideUpgradePanel();
+            ShowTowerPanel();
+        }
+        else
+        {
+            HideTowerPanel();
+            ShowUpgradePanel(_currentPlatform.tower);
+        }
     }
     private void ShowTowerPanel()
     {
@@ -174,6 +194,97 @@ public class UIController : MonoBehaviour
         }
         HideTowerPanel();
     }
+    public void ShowUpgradePanel(Tower tower)
+    {
+        _selectedTower = tower;
+        upgradePanel.SetActive(true);
+        Platform.towerPanelOpen = true;
+        GameManager.Instance.SetTimeScale(0f);
+        AudioManager.Instance.PlayPanelToggle();
+
+        _selectedTower.ToggleRange(true);
+        TowerData data = _selectedTower.GetData();
+        levelText.text = data.displayLevel;
+        sellPriceText.text = $"{data.sellPrice}";
+        if(data.nextLevelData != null)
+        {
+            upgradeButton.interactable = true;
+            upgradeCostText.text = $"{data.upgradeCost}";
+        }
+        else
+        {
+            upgradeButton.interactable = false;
+            upgradeCostText.text = "MAX";
+        }
+    }
+    public void HideUpgradePanel()
+    {
+        if(upgradePanel.activeSelf)
+        {
+            if(_selectedTower != null)
+            {
+                _selectedTower.ToggleRange(false);
+                _selectedTower = null;
+            }
+            upgradePanel.SetActive(false);
+            Platform.towerPanelOpen = false;
+            GameManager.Instance.SetTimeScale(GameManager.Instance.GameSpeed);
+        }
+    }
+    public void OnUpgradeButtonClicked()
+    {
+        if(_selectedTower == null)
+        {
+            return;
+        }
+        TowerData currentData = _selectedTower.GetData();
+        if(GameManager.Instance.Resources >= currentData.upgradeCost)
+        {
+            // Minus money
+            GameManager.Instance.SpendResources(currentData.upgradeCost);
+            AudioManager.Instance.PlayTowerPlaced();
+            // save old position
+            Vector3 pos = _selectedTower.transform.position;
+            Quaternion rot = _selectedTower.transform.rotation;
+            // delete old tower
+            Destroy(_selectedTower.gameObject);
+            //create new tower
+            GameObject newTowerObj = Instantiate(currentData.nextLevelData.prefab, pos, rot);
+            Tower newTowerScript = newTowerObj.GetComponent<Tower>();
+            // update platfrom & child of platform
+            _currentPlatform.tower = newTowerScript;
+            newTowerObj.transform.SetParent(_currentPlatform.transform);
+            // display panel for new tower
+            ShowUpgradePanel(newTowerScript);
+
+        }
+        else
+        {
+            StartCoroutine(ShowWarningMessage("Not enough Gold!"));
+        }
+    }
+    public void OnSellButtonClicked()
+    {
+        if (_selectedTower == null) return;
+        TowerData currentData = _selectedTower.GetData();
+
+        // plus money
+        GameManager.Instance.AddResources(currentData.sellPrice);
+        AudioManager.Instance.PlayTowerPlaced();
+
+        // delete tower
+        Destroy(_selectedTower.gameObject);
+
+        // Reset 
+        _currentPlatform.tower = null;
+
+        // close panel
+        HideUpgradePanel();
+    }
+    public void OnCloseUpgradePanelClicked()
+    {
+        HideUpgradePanel();
+    }
     private IEnumerator ShowWarningMessage(string message)
     {
         warningText.text = message;
@@ -210,6 +321,10 @@ public class UIController : MonoBehaviour
             return;
         }
         if(towerPanel.activeSelf)
+        {
+            return;
+        }
+        if(upgradePanel.activeSelf)
         {
             return;
         }
@@ -322,6 +437,8 @@ public class UIController : MonoBehaviour
         pausePanel.SetActive(false);
         gameOverPanel.SetActive(false);
         missionCompletePanel.SetActive(false);
+        HideUpgradePanel();
+        HideTowerPanel();
     }
     public void LoadNextLevel()
     {
