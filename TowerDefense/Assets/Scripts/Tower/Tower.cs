@@ -23,9 +23,18 @@ public class Tower : MonoBehaviour
             rangeIndicator.SetActive(status);
             if(status)
             {
+                // reset position of range circle 
+                rangeIndicator.transform.localPosition = Vector3.zero;
                 float diameter = data.range * 2f;
-                rangeIndicator.transform.localPosition = new Vector3(diameter, diameter, 1f);
+                rangeIndicator.transform.localScale = new Vector3(diameter, diameter, 1f);
             }
+        }
+    }
+    private void Awake()
+    {
+        if (rangeIndicator != null)
+        {
+            rangeIndicator.SetActive(false);
         }
     }
     private void OnEnable()
@@ -43,11 +52,6 @@ public class Tower : MonoBehaviour
         _enemiesInRange = new List<Enemy>();
         _projectilePool = GetComponent<ObjectPooler>();
         _shootTimer = data.shootInterval;
-
-        if(rangeIndicator == null)
-        {
-            rangeIndicator.SetActive(false);
-        }
     }
     private void Update()
     {
@@ -60,7 +64,10 @@ public class Tower : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position,data.range);
+        if(data != null)
+        {
+            Gizmos.DrawWireSphere(transform.position,data.range);
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -88,10 +95,13 @@ public class Tower : MonoBehaviour
         if(_enemiesInRange.Count > 0)
         {
             GameObject projectile = _projectilePool.GetPooledObjected();
-            projectile.transform.position = transform.position;
-            projectile.SetActive(true);
-            Vector2 _shootDirection = (_enemiesInRange[0].transform.position - transform.position).normalized;
-            projectile.GetComponent<Projectile>().Shoot(data,_shootDirection);
+            if(projectile != null )
+            {
+                projectile.transform.position = transform.position;
+                projectile.SetActive(true);
+                Vector2 _shootDirection = (_enemiesInRange[0].transform.position - transform.position).normalized;
+                projectile.GetComponent<Projectile>().Shoot(data, _shootDirection);
+            }
         }
     }
     private void HandleEnemyDestroyed(Enemy enemy)

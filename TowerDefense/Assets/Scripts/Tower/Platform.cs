@@ -51,4 +51,12 @@ public class Platform : MonoBehaviour
             _spriteRenderer.enabled = false;
         }
     }
+    public void ResetPlatform()
+    {
+        tower = null; 
+        if (_spriteRenderer != null)
+        {
+            _spriteRenderer.enabled = true;
+        }
+    }
 }

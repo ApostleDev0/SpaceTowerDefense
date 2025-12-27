@@ -18,10 +18,10 @@ MonoBehaviour:
   projectileDuration: 1
   projectileSize: 0.85
   damage: 5
-  cost: 50
+  cost: 20
   sprite: {fileID: 2106743611, guid: 311734346e4316a41851983d64a47999, type: 3}
   prefab: {fileID: 1207189999338620603, guid: 1890c8fbe3b435b4eaf7237e7305b442, type: 3}
-  upgradeCost: 100
+  upgradeCost: 30
   sellPrice: 10
   displayLevel: Level 1
   nextLevelData: {fileID: 11400000, guid: ce4cbb87b8e3d204dbeabb13182d58e8, type: 2}

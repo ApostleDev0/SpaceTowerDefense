@@ -21,7 +21,7 @@ MonoBehaviour:
   cost: 50
   sprite: {fileID: 2106743611, guid: 311734346e4316a41851983d64a47999, type: 3}
   prefab: {fileID: 1207189999338620603, guid: 3625288c4a12f8746ac423f5b8ae2874, type: 3}
-  upgradeCost: 0
+  upgradeCost: 100
   sellPrice: 20
   displayLevel: Level 2
   nextLevelData: {fileID: 0}

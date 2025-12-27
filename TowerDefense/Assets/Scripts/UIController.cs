@@ -205,11 +205,11 @@ public class UIController : MonoBehaviour
         _selectedTower.ToggleRange(true);
         TowerData data = _selectedTower.GetData();
         levelText.text = data.displayLevel;
-        sellPriceText.text = $"{data.sellPrice}";
+        sellPriceText.text = $"${data.sellPrice}";
         if(data.nextLevelData != null)
         {
             upgradeButton.interactable = true;
-            upgradeCostText.text = $"{data.upgradeCost}";
+            upgradeCostText.text = $"${data.upgradeCost}";
         }
         else
         {
@@ -265,7 +265,10 @@ public class UIController : MonoBehaviour
     }
     public void OnSellButtonClicked()
     {
-        if (_selectedTower == null) return;
+        if (_selectedTower == null)
+        {
+            return;
+        }
         TowerData currentData = _selectedTower.GetData();
 
         // plus money
@@ -276,7 +279,7 @@ public class UIController : MonoBehaviour
         Destroy(_selectedTower.gameObject);
 
         // Reset 
-        _currentPlatform.tower = null;
+        _currentPlatform.ResetPlatform();
 
         // close panel
         HideUpgradePanel();
