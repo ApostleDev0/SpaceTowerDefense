@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d91bf8801d69a7f48a7a95f2a50cd3af, type: 3}
   m_Name: Beetle1_Wave
   m_EditorClassIdentifier: 
-  enemyType: 2
-  spawnInterval: 0.5
-  enemiesPerWave: 10
+  groups:
+  - enemyType: 2
+    count: 5
+    spawnInterval: 1
+    initialDelay: 0
+  - enemyType: 0
+    count: 5
+    spawnInterval: 1
+    initialDelay: 0

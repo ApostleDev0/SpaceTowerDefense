@@ -5653,6 +5653,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1485300120647600743, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
   m_PrefabInstance: {fileID: 1508850707}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1508850710 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5932738845955343628, guid: 31680e0c4368e8a4a8a31b7c21c8db46, type: 3}
+  m_PrefabInstance: {fileID: 1508850707}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1564550686
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7148,7 +7159,7 @@ MonoBehaviour:
   levelText: {fileID: 1159059702}
   upgradeCostText: {fileID: 1199393595}
   sellPriceText: {fileID: 700099718}
-  upgradeButton: {fileID: 0}
+  upgradeButton: {fileID: 1508850710}
   speed1Button: {fileID: 1805836551}
   speed2Button: {fileID: 1804908782}
   speed3Button: {fileID: 899189763}
