@@ -93,7 +93,7 @@ public class Enemy : MonoBehaviour
         _currentWaypoints = 0;
         _targetPosition = _currentPath.GetPosition(_currentWaypoints) + _offset;
         _hasBeenCounted = false;
-        _maxLives = data.lives * healthMultiplier;
+        _maxLives = data.maxHealth * healthMultiplier;
         _lives = _maxLives;
         UpdateHealthBar();
         speed = UnityEngine.Random.Range(data.minSpeed, data.maxSpeed);

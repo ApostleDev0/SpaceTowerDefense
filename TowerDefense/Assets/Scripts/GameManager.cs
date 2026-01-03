@@ -53,12 +53,12 @@ public class GameManager : MonoBehaviour
     }
     private void HandleEnemyReachedEnd(EnemyData data)
     {
-        _lives = Mathf.Max(0, _lives - data.damage);
+        _lives = Mathf.Max(0, _lives - data.damageToBase);
         OnLivesChanged?.Invoke(_lives);
     }
     private void HandleEnemyDestroyed(Enemy enemy)
     {
-        AddResources(Mathf.RoundToInt(enemy.Data.resourceReward));
+        AddResources(Mathf.RoundToInt(enemy.Data.goldReward));
     }
     public void AddResources(int amount)
     {
