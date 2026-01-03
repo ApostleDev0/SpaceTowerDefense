@@ -28,18 +28,16 @@ public class Spawner : MonoBehaviour
 
     private int _totalEnemiesInWave = 0;
     private int _enemiesRemoved = 0;
-
-    //private float _spawnTimer;
-    //private float _spawnCounter;
     
 
-    [SerializeField] private ObjectPooler krogan1Pool;
-    [SerializeField] private ObjectPooler krogan2Pool;
-    [SerializeField] private ObjectPooler krypter1Pool;
-    [SerializeField] private ObjectPooler beetle1Pool;
-    [SerializeField] private ObjectPooler beetle2Pool;
-    [SerializeField] private ObjectPooler boss1Pool;
-    [SerializeField] private ObjectPooler boss2Pool;
+    [SerializeField] private ObjectPooler alphaCritterPool;
+    [SerializeField] private ObjectPooler alphaGruntPool;
+    [SerializeField] private ObjectPooler alphaBossPool;
+    [SerializeField] private ObjectPooler betaCritterPool;
+    [SerializeField] private ObjectPooler betaGruntPool;
+    [SerializeField] private ObjectPooler betaBossPool;
+    [SerializeField] private ObjectPooler deltaGruntPool;
+    [SerializeField] private ObjectPooler deltaBossPool;
 
     private Dictionary<EnemyType,ObjectPooler> _poolDictionary;
 
@@ -58,13 +56,14 @@ public class Spawner : MonoBehaviour
     {
         _poolDictionary = new Dictionary<EnemyType, ObjectPooler>()
         {
-            {EnemyType.Krogan_1, krogan1Pool },
-            {EnemyType.Krogan_2, krogan2Pool },
-            {EnemyType.Krypter_1, krypter1Pool },
-            {EnemyType.Beetle_1, beetle1Pool },
-            {EnemyType.Beetle_2, beetle2Pool },
-            {EnemyType.Beetle_Boss1, boss1Pool },
-            {EnemyType.Virdius_Boss2, boss2Pool },
+            {EnemyType.AlphaCritter, alphaCritterPool },
+            {EnemyType.AlphaGrunt, alphaGruntPool },
+            {EnemyType.AlphaBoss, alphaBossPool },
+            {EnemyType.BetaCritter, betaCritterPool },
+            {EnemyType.BetaGrunt, betaGruntPool },
+            {EnemyType.BetaBoss, betaBossPool },
+            {EnemyType.DeltaGrunt, deltaGruntPool },
+            {EnemyType.DeltaBoss, deltaBossPool },
         };
         if(Instance != null && Instance != this)
         {
@@ -211,10 +210,12 @@ public class Spawner : MonoBehaviour
     private void HandleEnemyReachedEnd(EnemyData data)
     {
         _enemiesRemoved++;
+        CheckWaveCompletion();
     }
     private void HandleEnemyDestroyed(Enemy enemy)
     {
         _enemiesRemoved++;
+        CheckWaveCompletion();
     }
     public void EnableEndlessMode()
     {

@@ -2,11 +2,12 @@ using UnityEngine;
 
 public enum EnemyType
 {
-    Krogan_1,
-    Krogan_2,
-    Beetle_1,   
-    Beetle_2,
-    Beetle_Boss1,
-    Krypter_1,
-    Virdius_Boss2
+    AlphaCritter,
+    AlphaGrunt,
+    AlphaBoss,
+    BetaCritter,
+    BetaGrunt,
+    BetaBoss,
+    DeltaGrunt,
+    DeltaBoss,
 }

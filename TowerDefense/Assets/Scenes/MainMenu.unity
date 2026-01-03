@@ -275,7 +275,7 @@ GameObject:
   - component: {fileID: 109010353}
   - component: {fileID: 109010354}
   m_Layer: 0
-  m_Name: Krypter1Pool
+  m_Name: BetaCritterPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -308,7 +308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02b5facf2f6c5574d9ba9719f7132373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 878540133352928267, guid: 18d7230fd2af9d54cbab786c915864d8, type: 3}
+  prefab: {fileID: 878540133352928267, guid: 989a776791bb14f42af4f88136b5e267, type: 3}
   poolSize: 5
 --- !u!1001 &124154407
 PrefabInstance:
@@ -1783,6 +1783,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 468917164}
   m_CullTransparentMesh: 1
+--- !u!1 &497291982
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 497291983}
+  - component: {fileID: 497291984}
+  m_Layer: 0
+  m_Name: DeltaBossPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &497291983
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497291982}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 7.4852734, y: -2.987818, z: 0.02439192}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1728434315}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &497291984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497291982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02b5facf2f6c5574d9ba9719f7132373, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 878540133352928267, guid: 5a683fd25a8ec064d8f93ecec5a27b30, type: 3}
+  poolSize: 5
 --- !u!1001 &511850805
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4863,7 +4909,7 @@ GameObject:
   - component: {fileID: 1200751512}
   - component: {fileID: 1200751511}
   m_Layer: 0
-  m_Name: Boss1Pool
+  m_Name: AlphaBossPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4957,7 +5003,7 @@ GameObject:
   - component: {fileID: 1210927547}
   - component: {fileID: 1210927548}
   m_Layer: 0
-  m_Name: Beetle2Pool
+  m_Name: DeltaGruntPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4990,7 +5036,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02b5facf2f6c5574d9ba9719f7132373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 878540133352928267, guid: 0f97da74b3b7a48428b0ad8fe67c0230, type: 3}
+  prefab: {fileID: 878540133352928267, guid: de2693037c4c09449838a2ba54e0e87c, type: 3}
   poolSize: 5
 --- !u!1 &1233436726
 GameObject:
@@ -5809,7 +5855,7 @@ GameObject:
   - component: {fileID: 1593851377}
   - component: {fileID: 1593851376}
   m_Layer: 0
-  m_Name: Krogan1Pool
+  m_Name: AlphaCritterPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5827,7 +5873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02b5facf2f6c5574d9ba9719f7132373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 878540133352928267, guid: 09f69d8256359064f9e091f6385de49d, type: 3}
+  prefab: {fileID: 878540133352928267, guid: d1aa4db372bc99241954f3d3f34603fe, type: 3}
   poolSize: 5
 --- !u!4 &1593851377
 Transform:
@@ -6170,13 +6216,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a536c06d050e537488adbd77591c2b1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  krogan1Pool: {fileID: 1593851376}
-  krogan2Pool: {fileID: 1786480888}
-  krypter1Pool: {fileID: 109010354}
-  beetle1Pool: {fileID: 1925207627}
-  beetle2Pool: {fileID: 1210927548}
-  boss1Pool: {fileID: 1200751511}
-  boss2Pool: {fileID: 2034539365}
+  alphaCritterPool: {fileID: 1593851376}
+  alphaGruntPool: {fileID: 1786480888}
+  alphaBossPool: {fileID: 1200751511}
+  betaCritterPool: {fileID: 109010354}
+  betaGruntPool: {fileID: 1925207627}
+  betaBossPool: {fileID: 2034539365}
+  deltaGruntPool: {fileID: 1210927548}
+  deltaBossPool: {fileID: 497291984}
 --- !u!4 &1728434315
 Transform:
   m_ObjectHideFlags: 0
@@ -6197,6 +6244,7 @@ Transform:
   - {fileID: 1210927547}
   - {fileID: 1200751512}
   - {fileID: 2034539364}
+  - {fileID: 497291983}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1738884258
@@ -6612,7 +6660,7 @@ GameObject:
   - component: {fileID: 1786480887}
   - component: {fileID: 1786480888}
   m_Layer: 0
-  m_Name: Krogan2Pool
+  m_Name: AlphaGruntPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6645,7 +6693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02b5facf2f6c5574d9ba9719f7132373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 878540133352928267, guid: 5416fa151dc353a49a3a11fb322798d3, type: 3}
+  prefab: {fileID: 878540133352928267, guid: 09f69d8256359064f9e091f6385de49d, type: 3}
   poolSize: 5
 --- !u!1 &1804908778
 GameObject:
@@ -7835,7 +7883,7 @@ GameObject:
   - component: {fileID: 1925207628}
   - component: {fileID: 1925207627}
   m_Layer: 0
-  m_Name: Beetle1Pool
+  m_Name: BetaGruntPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7853,7 +7901,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02b5facf2f6c5574d9ba9719f7132373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 878540133352928267, guid: d1aa4db372bc99241954f3d3f34603fe, type: 3}
+  prefab: {fileID: 878540133352928267, guid: 18d7230fd2af9d54cbab786c915864d8, type: 3}
   poolSize: 5
 --- !u!4 &1925207628
 Transform:
@@ -8229,7 +8277,7 @@ GameObject:
   - component: {fileID: 2034539364}
   - component: {fileID: 2034539365}
   m_Layer: 0
-  m_Name: Boss2Pool
+  m_Name: BetaBossPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
