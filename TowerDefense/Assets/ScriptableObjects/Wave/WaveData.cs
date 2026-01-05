@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "WaveData", menuName = "Scriptable Objects/WaveData")]
-public class WaveData : ScriptableObject
+[System.Serializable]
+public class WaveData
 {
     [System.Serializable]
     public class WaveGroup
@@ -13,7 +13,7 @@ public class WaveData : ScriptableObject
         public float initialDelay;
     }
 
-    public List<WaveGroup> groups;
+    public List<WaveGroup> groups = new List<WaveGroup>();
     public int GetTotalEnemyCount()
     {
         int total = 0;

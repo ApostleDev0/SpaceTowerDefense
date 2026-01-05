@@ -11,14 +11,14 @@ public class Spawner : MonoBehaviour
     public static event Action<int> OnWaveChanged;
     public static event Action OnMissionComplete;
 
-    private WaveData[] _waves => LevelManager.Instance.CurrentLevel.waves;
+    private List<WaveData> _waves => LevelManager.Instance.CurrentLevel.waves;
     private int _currentWaveIndex = 0;
     private int _waveCounter = 0;
     private WaveData CurrentWave
     {
         get
         {
-            if(_waves == null || _currentWaveIndex >= _waves.Length)
+            if(_waves == null || _currentWaveIndex >= _waves.Count)
             {
                 return null;
             }
@@ -203,7 +203,7 @@ public class Spawner : MonoBehaviour
     }
     private void StartNextWaveLogic()
     {
-        _currentWaveIndex = (_currentWaveIndex + 1) % _waves.Length;
+        _currentWaveIndex = (_currentWaveIndex + 1) % _waves.Count;
         _waveCounter++;
         StartWave();
     }

@@ -1,16 +1,14 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "LevelData", menuName = "Scriptable Objects/LevelData")]
 public class LevelData : ScriptableObject
 {
-    public string levelName; // match scene name game
-    public int wavesToWin; // condition to win
-    public int startingResources; // amount golds to start
-    public int startingLives; // amount lives to start
-
+    public string levelName; 
+    public int wavesToWin; 
+    public int startingResources; 
+    public int startingLives; 
     public Vector2 initialSpawnPosition;
 
-    public WaveData[] waves;
-
-
+    public List<WaveData> waves = new List<WaveData>();
 }
