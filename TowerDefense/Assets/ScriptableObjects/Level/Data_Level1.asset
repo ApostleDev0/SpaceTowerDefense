@@ -23,10 +23,6 @@ MonoBehaviour:
       count: 5
       spawnInterval: 2.5
       initialDelay: 0
-    - enemyType: 2
-      count: 5
-      spawnInterval: 2.5
-      initialDelay: 5
   - groups:
     - enemyType: 1
       count: 3
@@ -80,12 +76,12 @@ MonoBehaviour:
     - enemyType: 5
       count: 1
       spawnInterval: 0
-      initialDelay: 20
+      initialDelay: 10
     - enemyType: 3
       count: 5
       spawnInterval: 2
-      initialDelay: 30
+      initialDelay: 12
     - enemyType: 7
       count: 1
       spawnInterval: 0
-      initialDelay: 40
+      initialDelay: 15
