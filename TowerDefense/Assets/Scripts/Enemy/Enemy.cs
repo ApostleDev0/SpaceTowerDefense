@@ -22,10 +22,12 @@ public class Enemy : MonoBehaviour
     private Vector3 _healthBarOriginalScale;
 
     private bool _hasBeenCounted = false;
+    private FlashDamage _flashEffect;
 
     private void Awake()
     {
         _healthBarOriginalScale = transform.localScale;
+        _flashEffect = GetComponent<FlashDamage>();
     }
 
     private void OnEnable()
@@ -70,6 +72,10 @@ public class Enemy : MonoBehaviour
 
         _lives -= damage;
         _lives = Mathf.Max(_lives, 0);
+        if (_flashEffect != null)
+        {
+            _flashEffect.Flash();
+        }
         UpdateHealthBar();
 
         if(_lives <=0)

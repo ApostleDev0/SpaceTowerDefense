@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5024804990187456348}
   - component: {fileID: 2608433235910610752}
   - component: {fileID: 8180243902088727354}
+  - component: {fileID: 879096816630082584}
   m_Layer: 0
   m_Name: Alpha_Boss
   m_TagString: Enemy
@@ -112,6 +113,21 @@ CircleCollider2D:
   m_Offset: {x: -0.09, y: -0.05}
   serializedVersion: 2
   m_Radius: 0.95
+--- !u!114 &879096816630082584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 878540133352928267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66215cdf9bd6fcd4a9f11b9b0d09c9ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  duration: 0.2
+  _spriteRenderer: {fileID: 7216274581635770561}
 --- !u!1 &5640815555755268479
 GameObject:
   m_ObjectHideFlags: 0
