@@ -23,11 +23,13 @@ public class Enemy : MonoBehaviour
 
     private bool _hasBeenCounted = false;
     private FlashDamage _flashEffect;
+    private EnemyVisuals _enemyVisuals;
 
     private void Awake()
     {
         _healthBarOriginalScale = transform.localScale;
         _flashEffect = GetComponent<FlashDamage>();
+        _enemyVisuals = GetComponentInChildren<EnemyVisuals>();
     }
 
     private void OnEnable()
@@ -80,6 +82,10 @@ public class Enemy : MonoBehaviour
 
         if(_lives <=0)
         {
+            if (_enemyVisuals != null)
+            {
+                _enemyVisuals.HandleDeathEffect();
+            }
             AudioManager.Instance.PlayEnemyDestroyed();
             _hasBeenCounted = true;
             OnEnemyDestroyed?.Invoke(this);

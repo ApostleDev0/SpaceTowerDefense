@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: f23f834b15a35bc41a912b8a69d43a35, type: 2}
+  deathVFXPrefab: {fileID: 6438968344342620653, guid: 5263a4eddee8515498481f6de1ab55e8, type: 3}
   healthBar: {fileID: 6337985287885673953}
 --- !u!50 &2608433235910610752
 Rigidbody2D:
@@ -140,6 +141,7 @@ GameObject:
   - component: {fileID: 7216274581635770561}
   - component: {fileID: 5040120468314740113}
   - component: {fileID: 3223565439447312461}
+  - component: {fileID: 6644346730042047220}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -251,6 +253,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 400
   rotationOffset: 0
+--- !u!114 &6644346730042047220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5640815555755268479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 147e912ee31097e4c8e42790b760db57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathVFXPrefab: {fileID: 6438968344342620653, guid: 5263a4eddee8515498481f6de1ab55e8, type: 3}
 --- !u!1 &8652918464393085771
 GameObject:
   m_ObjectHideFlags: 0
