@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 62e73ae4a6fa8b24a8e497c3aebfa041
+guid: e7ab84908e0377f45ae2cf20dedd4f25
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -100,10 +100,10 @@ TextureImporter:
       name: DeltaGrunt_Death_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 1
         y: 0
-        width: 112
-        height: 112
+        width: 111
+        height: 113
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -111,8 +111,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 207f946ec1db8ca46a23938d7f54216b
-      internalID: 2118751295
+      spriteID: ac4dbd288eb6c1342a01bc52292e456c
+      internalID: 2075284370
       vertices: []
       indices: 
       edges: []
@@ -121,10 +121,10 @@ TextureImporter:
       name: DeltaGrunt_Death_1
       rect:
         serializedVersion: 2
-        x: 112
+        x: 113
         y: 0
-        width: 112
-        height: 112
+        width: 111
+        height: 113
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -132,8 +132,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5ae678af482de2a4eb6b9de71c059847
-      internalID: 636349906
+      spriteID: b2bda5fd8a21e1c49a75466d094978f2
+      internalID: -657032614
       vertices: []
       indices: 
       edges: []
@@ -142,10 +142,10 @@ TextureImporter:
       name: DeltaGrunt_Death_2
       rect:
         serializedVersion: 2
-        x: 224
-        y: 0
-        width: 112
-        height: 112
+        x: 226
+        y: 5
+        width: 111
+        height: 108
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,8 +153,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: af5134f5c21e5214b8ba531dcbb6f3e5
-      internalID: -1759631339
+      spriteID: 12ecc44b33e3df142b0a69bd852e0d59
+      internalID: 1189648380
       vertices: []
       indices: 
       edges: []
@@ -163,10 +163,10 @@ TextureImporter:
       name: DeltaGrunt_Death_3
       rect:
         serializedVersion: 2
-        x: 336
-        y: 0
-        width: 112
-        height: 112
+        x: 357
+        y: 5
+        width: 75
+        height: 86
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -174,8 +174,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: afbb403a81893b64795f1513fc2716d1
-      internalID: -1704559362
+      spriteID: 280c03bb2faf3cb4cb4569cf20b9ad59
+      internalID: 920890726
       vertices: []
       indices: 
       edges: []
@@ -184,10 +184,10 @@ TextureImporter:
       name: DeltaGrunt_Death_4
       rect:
         serializedVersion: 2
-        x: 448
-        y: 0
-        width: 112
-        height: 112
+        x: 469
+        y: 5
+        width: 76
+        height: 86
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -195,8 +195,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0843a2ddc1e048c4a904af940fe966e0
-      internalID: -87938802
+      spriteID: da36c13a706e05e4995afaedea99d00a
+      internalID: 1359942029
       vertices: []
       indices: 
       edges: []
@@ -205,10 +205,10 @@ TextureImporter:
       name: DeltaGrunt_Death_5
       rect:
         serializedVersion: 2
-        x: 560
+        x: 562
         y: 0
-        width: 112
-        height: 112
+        width: 113
+        height: 113
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -216,8 +216,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d8e9a1d422d63284a95d0bf820f1dc3d
-      internalID: -1642336621
+      spriteID: 881fbb2ceeef73945a83f3d8abb84c33
+      internalID: -1857660459
       vertices: []
       indices: 
       edges: []
@@ -233,12 +233,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      DeltaGrunt_Death_0: 2118751295
-      DeltaGrunt_Death_1: 636349906
-      DeltaGrunt_Death_2: -1759631339
-      DeltaGrunt_Death_3: -1704559362
-      DeltaGrunt_Death_4: -87938802
-      DeltaGrunt_Death_5: -1642336621
+      DeltaGrunt_Death_0: 2075284370
+      DeltaGrunt_Death_1: -657032614
+      DeltaGrunt_Death_2: 1189648380
+      DeltaGrunt_Death_3: 920890726
+      DeltaGrunt_Death_4: 1359942029
+      DeltaGrunt_Death_5: -1857660459
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
