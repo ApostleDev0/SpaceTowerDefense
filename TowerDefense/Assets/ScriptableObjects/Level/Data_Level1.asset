@@ -19,8 +19,8 @@ MonoBehaviour:
   initialSpawnPosition: {x: -13, y: 5}
   waves:
   - groups:
-    - enemyType: 6
-      count: 5
+    - enemyType: 2
+      count: 1
       spawnInterval: 1
       initialDelay: 0
   - groups:
