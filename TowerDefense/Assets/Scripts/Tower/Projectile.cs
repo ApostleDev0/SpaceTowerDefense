@@ -20,7 +20,8 @@ public class Projectile : MonoBehaviour
         else
         {
             _projectileDuration -= Time.deltaTime;
-            transform.position += new Vector3(_shootDirection.x, _shootDirection.y) * _data.projectileSpeed * Time.deltaTime;
+            //transform.position += new Vector3(_shootDirection.x, _shootDirection.y) * _data.projectileSpeed * Time.deltaTime;
+            transform.position += _shootDirection * _data.projectileSpeed * Time.deltaTime;
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -38,7 +39,8 @@ public class Projectile : MonoBehaviour
         _shootDirection = shootDirection;
         _projectileDuration = _data.projectileDuration;
         transform.localScale = Vector3.one * _data.projectileSize;
-    }
 
-    
+        float angle = Mathf.Atan2(_shootDirection.y, _shootDirection.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+    }
 }
