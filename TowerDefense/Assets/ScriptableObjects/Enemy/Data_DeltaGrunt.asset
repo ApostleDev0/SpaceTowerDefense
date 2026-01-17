@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Data_DeltaGrunt
   m_EditorClassIdentifier: 
   maxHealth: 400
-  minSpeed: 1.5
-  maxSpeed: 1.8
+  minSpeed: 1.3
+  maxSpeed: 1.5
   damageToBase: 3
   goldReward: 25

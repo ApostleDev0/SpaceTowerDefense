@@ -3,27 +3,35 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private EnemyData data;
-    public EnemyData Data => data;
-
+    #region Events
     public static event Action<EnemyData> OnEnemyReachedEnd;
     public static event Action<Enemy> OnEnemyDestroyed;
+    #endregion
 
+    #region Serialized Fields
+    [SerializeField] private EnemyData data;
+    [SerializeField] private Transform healthBar;
+    #endregion
+
+    #region Public Fields
+    public EnemyData Data => data;
+    #endregion
+
+    #region Private Fields
     private Path _currentPath;
+    private FlashDamage _flashEffect;
+    private EnemyVisuals _enemyVisuals;
+
     private Vector3 _targetPosition;
-    private int _currentWaypoints;
+    private Vector3 _healthBarOriginalScale;
     private Vector3 _offset;
 
+    private int _currentWaypoints;
     private float _lives;
     private float _maxLives;
     private float speed;
-
-    [SerializeField] private Transform healthBar;
-    private Vector3 _healthBarOriginalScale;
-
     private bool _hasBeenCounted = false;
-    private FlashDamage _flashEffect;
-    private EnemyVisuals _enemyVisuals;
+    #endregion
 
     private void Awake()
     {
@@ -31,24 +39,13 @@ public class Enemy : MonoBehaviour
         _flashEffect = GetComponent<FlashDamage>();
         _enemyVisuals = GetComponentInChildren<EnemyVisuals>();
     }
-
-    private void OnEnable()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if(_hasBeenCounted)
         {
             return;
         }
-
-        // move toward to target position
         transform.position = Vector3.MoveTowards(transform.position, _targetPosition, speed * Time.deltaTime);
-
-        // set new target position
         float relativeDistance = (transform.position - _targetPosition).magnitude;
         if(relativeDistance < 0.1f)
         {
@@ -57,7 +54,7 @@ public class Enemy : MonoBehaviour
                 _currentWaypoints++;
                 _targetPosition = _currentPath.GetPosition(_currentWaypoints) + _offset;
             }
-            else // reached last waypoint
+            else
             {
                 _hasBeenCounted = true;
                 OnEnemyReachedEnd?.Invoke(data);
@@ -65,13 +62,11 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+
+    //====PUBLIC
     public void TakeDamage(float damage)
     {
-        if(_hasBeenCounted)
-        {
-            return;
-        }
-
+        if(_hasBeenCounted) { return; }
         _lives -= damage;
         _lives = Mathf.Max(_lives, 0);
         if (_flashEffect != null)
@@ -79,7 +74,6 @@ public class Enemy : MonoBehaviour
             _flashEffect.Flash();
         }
         UpdateHealthBar();
-
         if(_lives <=0)
         {
             if (_enemyVisuals != null)
@@ -91,13 +85,6 @@ public class Enemy : MonoBehaviour
             OnEnemyDestroyed?.Invoke(this);
             gameObject.SetActive(false);
         }
-    }
-    private void UpdateHealthBar()
-    {
-        float healthPercent = _lives / _maxLives;
-        Vector3 scale = _healthBarOriginalScale;
-        scale.x = _healthBarOriginalScale.x * healthPercent;
-        healthBar.localScale = scale;
     }
     public void Initialized(Path path, float healthMultiplier)
     {
@@ -113,4 +100,14 @@ public class Enemy : MonoBehaviour
         float offsetY = UnityEngine.Random.Range(-0.5f, 0.5f);
         _offset = new Vector2(offsetX, offsetY);
     }
+
+    //====PRIVATE
+    private void UpdateHealthBar()
+    {
+        float healthPercent = _lives / _maxLives;
+        Vector3 scale = _healthBarOriginalScale;
+        scale.x = _healthBarOriginalScale.x * healthPercent;
+        healthBar.localScale = scale;
+    }
+    
 }

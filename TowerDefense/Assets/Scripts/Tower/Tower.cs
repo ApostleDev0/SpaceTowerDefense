@@ -4,32 +4,18 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
+    #region Serialized Fields
     [SerializeField] private TowerData data;
     [SerializeField] private GameObject rangeIndicator;
+    #endregion
 
+    #region Private Fields
     private CircleCollider2D _circleCollider;
     private List<Enemy> _enemiesInRange;
     private ObjectPooler _projectilePool;
     private float _shootTimer;
+    #endregion
 
-    public TowerData GetData()
-    {
-        return data;
-    }
-    public void ToggleRange(bool status)
-    {
-        if(rangeIndicator != null)
-        {
-            rangeIndicator.SetActive(status);
-            if(status)
-            {
-                // reset position of range circle 
-                rangeIndicator.transform.localPosition = Vector3.zero;
-                float diameter = data.range * 2f;
-                rangeIndicator.transform.localScale = new Vector3(diameter, diameter, 1f);
-            }
-        }
-    }
     private void Awake()
     {
         if (rangeIndicator != null)
@@ -62,6 +48,27 @@ public class Tower : MonoBehaviour
             Shoot();
         }
     }
+
+    //====PUBLIC
+    public TowerData GetData()
+    {
+        return data;
+    }
+    public void ToggleRange(bool status)
+    {
+        if(rangeIndicator != null)
+        {
+            rangeIndicator.SetActive(status);
+            if(status)
+            {
+                rangeIndicator.transform.localPosition = Vector3.zero;
+                float diameter = data.range * 2f;
+                rangeIndicator.transform.localScale = new Vector3(diameter, diameter, 1f);
+            }
+        }
+    }
+
+    //====PRIVATE
     private void OnDrawGizmos()
     {
         if(data != null)
@@ -77,17 +84,6 @@ public class Tower : MonoBehaviour
             _enemiesInRange.Add(enemy);
         }
     }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if(collision.CompareTag("Enemy"))
-        {
-            Enemy enemy = collision.GetComponent<Enemy>();
-            if(_enemiesInRange.Contains(enemy))
-            {
-                _enemiesInRange.Remove(enemy);
-            }
-        }
-    }
     private void Shoot()
     {
         _enemiesInRange.RemoveAll(enemy => enemy == null || !enemy.gameObject.activeInHierarchy);
@@ -101,6 +97,19 @@ public class Tower : MonoBehaviour
                 projectile.SetActive(true);
                 Vector2 _shootDirection = (_enemiesInRange[0].transform.position - transform.position).normalized;
                 projectile.GetComponent<Projectile>().Shoot(data, _shootDirection);
+            }
+        }
+    }
+
+    //====HANDLE
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Enemy"))
+        {
+            Enemy enemy = collision.GetComponent<Enemy>();
+            if(_enemiesInRange.Contains(enemy))
+            {
+                _enemiesInRange.Remove(enemy);
             }
         }
     }

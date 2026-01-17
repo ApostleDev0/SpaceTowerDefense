@@ -6,14 +6,40 @@ using UnityEngine.SceneManagement;
 
 public class Spawner : MonoBehaviour
 {
+    #region Singleton & Events
     public static Spawner Instance { get; private set; }
-
     public static event Action<int> OnWaveChanged;
     public static event Action OnMissionComplete;
+    #endregion
 
+    #region Serialized Fields
+    [SerializeField] private ObjectPooler alphaCritterPool;
+    [SerializeField] private ObjectPooler alphaGruntPool;
+    [SerializeField] private ObjectPooler alphaBossPool;
+    [SerializeField] private ObjectPooler betaCritterPool;
+    [SerializeField] private ObjectPooler betaGruntPool;
+    [SerializeField] private ObjectPooler betaBossPool;
+    [SerializeField] private ObjectPooler deltaGruntPool;
+    [SerializeField] private ObjectPooler deltaBossPool;
+    #endregion
+
+    #region Private Field
+    private Dictionary<EnemyType,ObjectPooler> _poolDictionary;
     private List<WaveData> _waves => LevelManager.Instance.CurrentLevel.waves;
+    private Path _currentPath;
+    private Coroutine _spawnCoroutine;
+
     private int _currentWaveIndex = 0;
     private int _waveCounter = 0;
+    private int _totalEnemiesInWave = 0;
+    private int _enemiesRemoved = 0;
+    private float _timeBetweenWaves = 2f;
+    private float _waveCoolDown;
+
+    private bool _isBetweenWaves = false;
+    private bool _isSpawning = false;
+    private bool _isEndlessMode = false;
+    private bool _isGamePlayScene = false;
     private WaveData CurrentWave
     {
         get
@@ -25,32 +51,7 @@ public class Spawner : MonoBehaviour
             return _waves[_currentWaveIndex];
         }
     }
-
-    private int _totalEnemiesInWave = 0;
-    private int _enemiesRemoved = 0;
-    
-
-    [SerializeField] private ObjectPooler alphaCritterPool;
-    [SerializeField] private ObjectPooler alphaGruntPool;
-    [SerializeField] private ObjectPooler alphaBossPool;
-    [SerializeField] private ObjectPooler betaCritterPool;
-    [SerializeField] private ObjectPooler betaGruntPool;
-    [SerializeField] private ObjectPooler betaBossPool;
-    [SerializeField] private ObjectPooler deltaGruntPool;
-    [SerializeField] private ObjectPooler deltaBossPool;
-
-    private Dictionary<EnemyType,ObjectPooler> _poolDictionary;
-
-    private float _timeBetweenWaves = 2f;
-    private float _waveCoolDown;
-
-    private bool _isBetweenWaves = false;
-    private bool _isSpawning = false;
-    private bool _isEndlessMode = false;
-    private bool _isGamePlayScene = false;
-
-    private Path _currentPath;
-    private Coroutine _spawnCoroutine;
+    #endregion
 
     private void Awake()
     {
@@ -75,7 +76,6 @@ public class Spawner : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
     }
-
     private void OnEnable()
     {
         Enemy.OnEnemyReachedEnd += HandleEnemyReachedEnd;
@@ -95,15 +95,12 @@ public class Spawner : MonoBehaviour
             StartWave();
         }
     }
-
-    // Update is called once per frame
     private void Update()
     {
         if(!_isGamePlayScene)
         {
             return;
         }
-
         if(_isBetweenWaves)
         {
             _waveCoolDown -= Time.deltaTime;
@@ -114,6 +111,13 @@ public class Spawner : MonoBehaviour
             }
         }
     }
+    //====PUBLIC
+    public void EnableEndlessMode()
+    {
+        _isEndlessMode = true;
+    }
+
+    //====PRIVATE
     private void StartWave()
     {
         if (CurrentWave == null)
@@ -121,50 +125,33 @@ public class Spawner : MonoBehaviour
             return;
         }
         _enemiesRemoved = 0;
-
-        // calculate amount total enemies in wave data
         _totalEnemiesInWave = CurrentWave.GetTotalEnemyCount();
         _isBetweenWaves = false;
-
-        // update UI
         OnWaveChanged?.Invoke(_waveCounter);
-
-        // run corountine spawn enemies
         if(_spawnCoroutine != null)
         {
             StopCoroutine(_spawnCoroutine);
         }
         _spawnCoroutine = StartCoroutine(ProcessWave());
     }
-
-    // Corountine handle spawn Enemy
     private IEnumerator ProcessWave()
     {
         _isSpawning = true;
-
-        // search each group in wave data
         foreach (var group in CurrentWave.groups)
         {
-            // delay before each group
             if (group.initialDelay > 0)
             {
                 yield return new WaitForSeconds(group.initialDelay);
             }
-
-            // spawn enemy in group
             for (int i = 0; i < group.count; i++)
             {
                 SpawnEnemy(group.enemyType);
-
-                // check final enemy, waiting for spawnInterval
                 if (i < group.count - 1)
                 {
                     yield return new WaitForSeconds(group.spawnInterval);
                 }
             }
         }
-
-        // finish spawn all groups
         _isSpawning = false;
     }
     private void SpawnEnemy(EnemyType type)
@@ -173,14 +160,11 @@ public class Spawner : MonoBehaviour
         {
             GameObject spawnedObject = pool.GetPooledObjected();
             spawnedObject.transform.position = transform.position;
-
-            float healthMultiplier = 1f + (_waveCounter * 0.1f); // + 10% health per wave
+            float healthMultiplier = 1f + (_waveCounter * 0.1f);
             Enemy enemy = spawnedObject.GetComponent<Enemy>();
             enemy.Initialized(_currentPath, healthMultiplier);
-
             spawnedObject.SetActive(true);
         }
-        
     }
     private void CheckWaveCompletion()
     {
@@ -191,13 +175,11 @@ public class Spawner : MonoBehaviour
     }
     private void FinishWave()
     {
-        // check win 
         if(_waveCounter + 1 >= LevelManager.Instance.CurrentLevel.wavesToWin && !_isEndlessMode)
         {
             OnMissionComplete?.Invoke();
             return;
         }
-        // if lose
         _isBetweenWaves = true;
         _waveCoolDown = _timeBetweenWaves;
     }
@@ -205,38 +187,6 @@ public class Spawner : MonoBehaviour
     {
         _currentWaveIndex = (_currentWaveIndex + 1) % _waves.Count;
         _waveCounter++;
-        StartWave();
-    }
-    private void HandleEnemyReachedEnd(EnemyData data)
-    {
-        _enemiesRemoved++;
-        CheckWaveCompletion();
-    }
-    private void HandleEnemyDestroyed(Enemy enemy)
-    {
-        _enemiesRemoved++;
-        CheckWaveCompletion();
-    }
-    public void EnableEndlessMode()
-    {
-        _isEndlessMode = true;
-    }
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        _isGamePlayScene = scene.name != "MainMenu";
-        ResetWaveState();
-
-        if(!_isGamePlayScene)
-        {
-            return;
-        }
-        _currentPath = GameObject.Find("Path1").GetComponent<Path>();
-        
-        if(LevelManager.Instance.CurrentLevel != null)
-        {
-            transform.position = LevelManager.Instance.CurrentLevel.initialSpawnPosition;
-        }
-
         StartWave();
     }
     private void ResetWaveState()
@@ -249,7 +199,6 @@ public class Spawner : MonoBehaviour
         _isSpawning = false;
         _enemiesRemoved = 0;
         _totalEnemiesInWave = 0;
-
         foreach (var pool in _poolDictionary.Values)
         {
             if(pool != null)
@@ -258,6 +207,32 @@ public class Spawner : MonoBehaviour
             }
         }
         OnWaveChanged?.Invoke(_waveCounter);
+    }
 
+    //====HANDLE
+    private void HandleEnemyReachedEnd(EnemyData data)
+    {
+        _enemiesRemoved++;
+        CheckWaveCompletion();
+    }
+    private void HandleEnemyDestroyed(Enemy enemy)
+    {
+        _enemiesRemoved++;
+        CheckWaveCompletion();
+    }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        _isGamePlayScene = scene.name != "MainMenu";
+        ResetWaveState();
+        if(!_isGamePlayScene)
+        {
+            return;
+        }
+        _currentPath = GameObject.Find("Path1").GetComponent<Path>();
+        if(LevelManager.Instance.CurrentLevel != null)
+        {
+            transform.position = LevelManager.Instance.CurrentLevel.initialSpawnPosition;
+        }
+        StartWave();
     }
 }

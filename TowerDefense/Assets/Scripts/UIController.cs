@@ -8,47 +8,51 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
-    public static UIController Instance { get; private set; } 
+    #region Singleton & Events
+    public static UIController Instance { get; private set; }
+    #endregion
 
+    #region Serialized Fields
     [SerializeField] private TMP_Text waveText;
     [SerializeField] private TMP_Text livesText;
     [SerializeField] private TMP_Text resourcesText;
     [SerializeField] private TMP_Text warningText;
-
-    [SerializeField] private GameObject towerPanel;
-    [SerializeField] private GameObject towerCardPrefab;
-    [SerializeField] private Transform cardsContainer;
-
-    [SerializeField] private TowerData[] towers;
-    private List<GameObject> activeCards = new List<GameObject>();
-
-    [SerializeField] private GameObject upgradePanel;
     [SerializeField] private TMP_Text levelText;      
     [SerializeField] private TMP_Text upgradeCostText;  
     [SerializeField] private TMP_Text sellPriceText;    
-    [SerializeField] private Button upgradeButton;
+    [SerializeField] private TMP_Text questText;
 
-    private Platform _currentPlatform;
-    private Tower _selectedTower;
+    [SerializeField] private GameObject towerPanel;
+    [SerializeField] private GameObject towerCardPrefab;
+    [SerializeField] private GameObject upgradePanel;
+    [SerializeField] private GameObject pausePanel;
+    [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private GameObject missionCompletePanel;
+
+    [SerializeField] private Transform cardsContainer;
+    [SerializeField] private TowerData[] towers;
 
     [SerializeField] private Button speed1Button;
     [SerializeField] private Button speed2Button;
     [SerializeField] private Button speed3Button;
     [SerializeField] private Button pauseButton;
     [SerializeField] private Button nextLevelButton;
+    [SerializeField] private Button upgradeButton;
+    #endregion
+
+    #region Private Fields
+    private bool _isGamePaused = false;
+    private bool _missionCompleteSoundPlayed = false;
+
+    private List<GameObject> activeCards = new List<GameObject>();
+    private Platform _currentPlatform;
+    private Tower _selectedTower;
 
     private Color normalButtonColor = Color.white;
     private Color selectedButtonColor = new Color(0f/255f,114f/255f,255f/255f,120f/255f);
     private Color normalTextColor = Color.black;
     private Color selectedTextColor = Color.white;
-
-    [SerializeField] private GameObject pausePanel;
-    private bool _isGamePaused = false;
-    [SerializeField] private GameObject gameOverPanel;
-    [SerializeField] private TMP_Text questText;
-
-    [SerializeField] private GameObject missionCompletePanel;
-    private bool _missionCompleteSoundPlayed = false;
+    #endregion
 
     private void Awake()
     {
@@ -83,7 +87,6 @@ public class UIController : MonoBehaviour
             SetGameSpeed(2.25f);
             AudioManager.Instance.PlaySpeedFast();
         });
-
         HighlightSelectedSpeedButton(GameManager.Instance.GameSpeed);
     }
     private void OnEnable()
@@ -113,87 +116,8 @@ public class UIController : MonoBehaviour
             TogglePause();
         }
     }
-    private void UpdateWaveText(int currentWave)
-    {
-        waveText.text = $"Wave: {currentWave + 1}";
-    }
-    private void UpdateLivesText(int currentLives)
-    {
-        livesText.text = $"Lives: {currentLives}";
 
-        if(currentLives <= 0)
-        {
-            ShowGameOver();
-        }
-    }
-    private void UpdateResourcesText(int currentResources)
-    {
-        resourcesText.text = $"Gold: {currentResources}$";
-    }
-    private void HandlePLatformClicked(Platform platform)
-    {
-        _currentPlatform = platform;
-        if(_currentPlatform.tower == null)
-        {
-            HideUpgradePanel();
-            ShowTowerPanel();
-        }
-        else
-        {
-            HideTowerPanel();
-            ShowUpgradePanel(_currentPlatform.tower);
-        }
-    }
-    private void ShowTowerPanel()
-    {
-        towerPanel.SetActive(true);
-        Platform.towerPanelOpen = true;
-        GameManager.Instance.SetTimeScale(0f);
-        PopulateTowerCards();
-        AudioManager.Instance.PlayPanelToggle();
-    }
-    public void HideTowerPanel()
-    {
-        towerPanel.SetActive(false);
-        Platform.towerPanelOpen = false;
-        GameManager.Instance.SetTimeScale(GameManager.Instance.GameSpeed);
-    }
-    private void PopulateTowerCards()
-    {
-        foreach (var card in activeCards)
-        {
-            Destroy(card);
-        }
-        activeCards.Clear();
-
-        foreach (var data in towers)
-        {
-            GameObject cardGameObject = Instantiate(towerCardPrefab, cardsContainer);
-            TowerCard card = cardGameObject.GetComponent<TowerCard>();
-            card.Initialize(data);
-            activeCards.Add(cardGameObject);
-        }
-    }
-    private void HandleTowerSelected(TowerData towerData)
-    {
-        if(_currentPlatform.transform.childCount > 0)
-        {
-            HideTowerPanel();
-            StartCoroutine(ShowWarningMessage("You already place Tower!"));
-            return;
-        }
-        if(GameManager.Instance.Resources >= towerData.cost)
-        {
-            AudioManager.Instance.PlayTowerPlaced();
-            GameManager.Instance.SpendResources(towerData.cost);
-            _currentPlatform.PlaceTower(towerData);
-        }
-        else
-        {
-            StartCoroutine(ShowWarningMessage("Not enough Gold$ !"));
-        }
-        HideTowerPanel();
-    }
+    //====PUBLIC
     public void ShowUpgradePanel(Tower tower)
     {
         _selectedTower = tower;
@@ -270,17 +194,13 @@ public class UIController : MonoBehaviour
             return;
         }
         TowerData currentData = _selectedTower.GetData();
-
         // plus money
         GameManager.Instance.AddResources(currentData.sellPrice);
         AudioManager.Instance.PlayTowerPlaced();
-
         // delete tower
         Destroy(_selectedTower.gameObject);
-
         // Reset 
         _currentPlatform.ResetPlatform();
-
         // close panel
         HideUpgradePanel();
     }
@@ -288,34 +208,11 @@ public class UIController : MonoBehaviour
     {
         HideUpgradePanel();
     }
-    private IEnumerator ShowWarningMessage(string message)
+    public void HideTowerPanel()
     {
-        warningText.text = message;
-        AudioManager.Instance.PlayWarning();
-        warningText.gameObject.SetActive(true);    
-        yield return new WaitForSecondsRealtime(3f);
-        warningText.gameObject.SetActive(false);
-    }
-    private void SetGameSpeed(float timeScale)
-    {
-        HighlightSelectedSpeedButton(timeScale);
-        GameManager.Instance.SetGameSpeed(timeScale);
-    }
-    private void UpdateButtonVisual(Button button, bool isSelected)
-    {
-        button.image.color = isSelected ? selectedButtonColor : normalButtonColor;
-
-        TMP_Text text = button.GetComponentInChildren<TMP_Text>();
-        if (text != null)
-        {
-            text.color = isSelected ? selectedTextColor : normalTextColor;
-        }
-    }
-    private void HighlightSelectedSpeedButton(float selectedSpeed)
-    {
-        UpdateButtonVisual(speed1Button, selectedSpeed == 0.2f);
-        UpdateButtonVisual(speed2Button, selectedSpeed == 1f);
-        UpdateButtonVisual(speed3Button, selectedSpeed == 2.25f);
+        towerPanel.SetActive(false);
+        Platform.towerPanelOpen = false;
+        GameManager.Instance.SetTimeScale(GameManager.Instance.GameSpeed);
     }
     public void TogglePause()
     {
@@ -359,38 +256,64 @@ public class UIController : MonoBehaviour
         GameManager.Instance.SetTimeScale(1f);
         SceneManager.LoadScene("MainMenu");
     }
-    private void ShowGameOver()
+    public void EnterEndlessMode()
     {
+        missionCompletePanel.SetActive(false);
+        GameManager.Instance.SetTimeScale(GameManager.Instance.GameSpeed);
+        Spawner.Instance.EnableEndlessMode();
+    }
+    public void LoadNextLevel()
+    {
+        var levelManager = LevelManager.Instance;
+        int currentIndex = Array.IndexOf(levelManager.allLevels, levelManager.CurrentLevel);
+        int nextIndex = currentIndex + 1;
+        if(nextIndex < levelManager.allLevels.Length)
+        {
+            missionCompletePanel.SetActive(false);
+            levelManager.LoadLevel(levelManager.allLevels[nextIndex]);
+        }
+    }
+
+    //====PRIVATE
+    private void UpdateWaveText(int currentWave)
+    {
+        waveText.text = $"Wave: {currentWave + 1}";
+    }
+    private void UpdateLivesText(int currentLives)
+    {
+        livesText.text = $"Lives: {currentLives}";
+        if(currentLives <= 0)
+        {
+            ShowGameOver();
+        }
+    }
+    private void UpdateResourcesText(int currentResources)
+    {
+        resourcesText.text = $"Gold: {currentResources}$";
+    }
+    private void ShowTowerPanel()
+    {
+        towerPanel.SetActive(true);
+        Platform.towerPanelOpen = true;
         GameManager.Instance.SetTimeScale(0f);
-        gameOverPanel.SetActive(true);
-        AudioManager.Instance.PlayGameOver();
+        PopulateTowerCards();
+        AudioManager.Instance.PlayPanelToggle();
     }
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    private void PopulateTowerCards()
     {
-        Camera mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        Canvas canvas = GetComponent<Canvas>();
-        canvas.worldCamera = mainCamera;
-
-        HidePanel();
-        _missionCompleteSoundPlayed = false;
-
-        if(scene.name == "MainMenu")
+        foreach (var card in activeCards)
         {
-            HideUI();
+            Destroy(card);
         }
-        else
+        activeCards.Clear();
+
+        foreach (var data in towers)
         {
-            ShowUI();
-            StartCoroutine(ShowQuest());
-            SetGameSpeed(1f);
+            GameObject cardGameObject = Instantiate(towerCardPrefab, cardsContainer);
+            TowerCard card = cardGameObject.GetComponent<TowerCard>();
+            card.Initialize(data);
+            activeCards.Add(cardGameObject);
         }
-    }
-    private IEnumerator ShowQuest()
-    {
-        questText.text = $"Mission: Survive {LevelManager.Instance.CurrentLevel.wavesToWin} Waves! ";
-        questText.gameObject.SetActive(true);
-        yield return new WaitForSeconds(6f);
-        questText.gameObject.SetActive(false);  
     }
     private void ShowMissionComplete()
     {
@@ -402,12 +325,6 @@ public class UIController : MonoBehaviour
             AudioManager.Instance.PlayMissionComplete();
             _missionCompleteSoundPlayed = true;
         }
-    }
-    public void EnterEndlessMode()
-    {
-        missionCompletePanel.SetActive(false);
-        GameManager.Instance.SetTimeScale(GameManager.Instance.GameSpeed);
-        Spawner.Instance.EnableEndlessMode();
     }
     private void HideUI()
     {
@@ -443,22 +360,107 @@ public class UIController : MonoBehaviour
         HideUpgradePanel();
         HideTowerPanel();
     }
-    public void LoadNextLevel()
-    {
-        var levelManager = LevelManager.Instance;
-        int currentIndex = Array.IndexOf(levelManager.allLevels, levelManager.CurrentLevel);
-        
-        int nextIndex = currentIndex + 1;
-        if(nextIndex < levelManager.allLevels.Length)
-        {
-            missionCompletePanel.SetActive(false);
-            levelManager.LoadLevel(levelManager.allLevels[nextIndex]);
-        }
-    }
     private void UpdateNextLevelButton()
     {
         var levelManager = LevelManager.Instance;
         int currentIndex = Array.IndexOf(levelManager.allLevels, levelManager.CurrentLevel);
         nextLevelButton.interactable = currentIndex + 1 < levelManager.allLevels.Length;
+    }
+    private void SetGameSpeed(float timeScale)
+    {
+        HighlightSelectedSpeedButton(timeScale);
+        GameManager.Instance.SetGameSpeed(timeScale);
+    }
+    private void UpdateButtonVisual(Button button, bool isSelected)
+    {
+        button.image.color = isSelected ? selectedButtonColor : normalButtonColor;
+
+        TMP_Text text = button.GetComponentInChildren<TMP_Text>();
+        if (text != null)
+        {
+            text.color = isSelected ? selectedTextColor : normalTextColor;
+        }
+    }
+    private void HighlightSelectedSpeedButton(float selectedSpeed)
+    {
+        UpdateButtonVisual(speed1Button, selectedSpeed == 0.2f);
+        UpdateButtonVisual(speed2Button, selectedSpeed == 1f);
+        UpdateButtonVisual(speed3Button, selectedSpeed == 2.25f);
+    }
+    private void ShowGameOver()
+    {
+        GameManager.Instance.SetTimeScale(0f);
+        gameOverPanel.SetActive(true);
+        AudioManager.Instance.PlayGameOver();
+    }
+
+    //====HANDLE
+    private void HandlePLatformClicked(Platform platform)
+    {
+        _currentPlatform = platform;
+        if(_currentPlatform.tower == null)
+        {
+            HideUpgradePanel();
+            ShowTowerPanel();
+        }
+        else
+        {
+            HideTowerPanel();
+            ShowUpgradePanel(_currentPlatform.tower);
+        }
+    }
+    private void HandleTowerSelected(TowerData towerData)
+    {
+        if(_currentPlatform.transform.childCount > 0)
+        {
+            HideTowerPanel();
+            StartCoroutine(ShowWarningMessage("You already place Tower!"));
+            return;
+        }
+        if(GameManager.Instance.Resources >= towerData.cost)
+        {
+            AudioManager.Instance.PlayTowerPlaced();
+            GameManager.Instance.SpendResources(towerData.cost);
+            _currentPlatform.PlaceTower(towerData);
+        }
+        else
+        {
+            StartCoroutine(ShowWarningMessage("Not enough Gold$ !"));
+        }
+        HideTowerPanel();
+    }
+    private IEnumerator ShowWarningMessage(string message)
+    {
+        warningText.text = message;
+        AudioManager.Instance.PlayWarning();
+        warningText.gameObject.SetActive(true);    
+        yield return new WaitForSecondsRealtime(3f);
+        warningText.gameObject.SetActive(false);
+    }    
+    private IEnumerator ShowQuest()
+    {
+        questText.text = $"Mission: Survive {LevelManager.Instance.CurrentLevel.wavesToWin} Waves! ";
+        questText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(6f);
+        questText.gameObject.SetActive(false);  
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Camera mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        Canvas canvas = GetComponent<Canvas>();
+        canvas.worldCamera = mainCamera;
+        HidePanel();
+        _missionCompleteSoundPlayed = false;
+        if(scene.name == "MainMenu")
+        {
+            HideUI();
+        }
+        else
+        {
+            ShowUI();
+            StartCoroutine(ShowQuest());
+            SetGameSpeed(1f);
+        }
     }
 }

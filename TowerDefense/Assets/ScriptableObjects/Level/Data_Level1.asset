@@ -14,74 +14,54 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelName: Level 1
   wavesToWin: 7
-  startingResources: 200
+  startingResources: 120
   startingLives: 20
   initialSpawnPosition: {x: -13, y: 5}
   waves:
   - groups:
-    - enemyType: 2
-      count: 1
-      spawnInterval: 1
-      initialDelay: 0
-  - groups:
-    - enemyType: 1
-      count: 3
-      spawnInterval: 2
-      initialDelay: 0
-    - enemyType: 0
-      count: 5
-      spawnInterval: 1.5
-      initialDelay: 3
-  - groups:
-    - enemyType: 1
-      count: 12
-      spawnInterval: 1.2
-      initialDelay: 0
-  - groups:
-    - enemyType: 4
-      count: 3
-      spawnInterval: 3
-      initialDelay: 0
-    - enemyType: 0
-      count: 6
-      spawnInterval: 1
-      initialDelay: 5
-  - groups:
     - enemyType: 0
       count: 10
-      spawnInterval: 0.8
+      spawnInterval: 1.5
       initialDelay: 0
-    - enemyType: 4
-      count: 4
-      spawnInterval: 2
-      initialDelay: 2
   - groups:
-    - enemyType: 4
-      count: 5
+    - enemyType: 0
+      count: 15
+      spawnInterval: 1
+      initialDelay: 0
+  - groups:
+    - enemyType: 0
+      count: 6
       spawnInterval: 1.2
       initialDelay: 0
-    - enemyType: 6
-      count: 3
-      spawnInterval: 1
-      initialDelay: 3
+    - enemyType: 1
+      count: 2
+      spawnInterval: 2.5
+      initialDelay: 4
   - groups:
+    - enemyType: 0
+      count: 20
+      spawnInterval: 0.6
+      initialDelay: 0
+  - groups:
+    - enemyType: 1
+      count: 5
+      spawnInterval: 2
+      initialDelay: 0
+  - groups:
+    - enemyType: 1
+      count: 3
+      spawnInterval: 2.5
+      initialDelay: 0
+    - enemyType: 0
+      count: 12
+      spawnInterval: 0.8
+      initialDelay: 2
+  - groups:
+    - enemyType: 0
+      count: 8
+      spawnInterval: 1
+      initialDelay: 0
     - enemyType: 2
       count: 1
       spawnInterval: 0
-      initialDelay: 0
-    - enemyType: 0
-      count: 5
-      spawnInterval: 2
-      initialDelay: 5
-    - enemyType: 5
-      count: 1
-      spawnInterval: 0
-      initialDelay: 10
-    - enemyType: 3
-      count: 5
-      spawnInterval: 2
-      initialDelay: 12
-    - enemyType: 7
-      count: 1
-      spawnInterval: 0
-      initialDelay: 15
+      initialDelay: 6
