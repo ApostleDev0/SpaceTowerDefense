@@ -28,9 +28,12 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private GameObject missionCompletePanel;
+    [SerializeField] private GameObject topInfoPanel;
 
     [SerializeField] private Transform cardsContainer;
     [SerializeField] private TowerData[] towers;
+    [SerializeField] private Slider waveSlider;
+    [SerializeField] private Slider livesSlider;
 
     [SerializeField] private Button speed1Button;
     [SerializeField] private Button speed2Button;
@@ -277,12 +280,40 @@ public class UIController : MonoBehaviour
     //====PRIVATE
     private void UpdateWaveText(int currentWave)
     {
-        waveText.text = $"Wave: {currentWave + 1}";
+        //waveText.text = $"Wave: {currentWave + 1}";
+        int totalWaves = 0;
+        if (LevelManager.Instance.CurrentLevel != null)
+        {
+            totalWaves = LevelManager.Instance.CurrentLevel.waves.Count;
+        }
+        if (waveText != null)
+        {
+            waveText.text = $"Waves: {currentWave + 1} / {totalWaves}";
+        }
+        if (waveSlider != null)
+        {
+            waveSlider.maxValue = totalWaves;
+            waveSlider.value = currentWave + 1;
+        }
     }
     private void UpdateLivesText(int currentLives)
     {
-        livesText.text = $"Lives: {currentLives}";
-        if(currentLives <= 0)
+        //livesText.text = $"Lives: {currentLives}";
+        int maxLives = 100;
+        if (LevelManager.Instance.CurrentLevel != null)
+        {
+            maxLives = LevelManager.Instance.CurrentLevel.startingLives;
+        }
+        if (livesText != null)
+        {
+            livesText.text = $"Lives: {currentLives}";
+        }
+        if (livesSlider != null)
+        {
+            livesSlider.maxValue = maxLives;
+            livesSlider.value = currentLives;
+        }
+        if (currentLives <= 0)
         {
             ShowGameOver();
         }
@@ -329,6 +360,10 @@ public class UIController : MonoBehaviour
     private void HideUI()
     {
         HidePanel();
+        if (topInfoPanel != null)
+        {
+            topInfoPanel.SetActive(false);
+        }
         waveText.gameObject.SetActive(false);
         resourcesText.gameObject.SetActive(false);
         livesText.gameObject.SetActive(false);
@@ -343,6 +378,10 @@ public class UIController : MonoBehaviour
     }
     private void ShowUI()
     {
+        if (topInfoPanel != null)
+        {
+            topInfoPanel.SetActive(true);
+        }
         waveText.gameObject.SetActive(true);
         resourcesText.gameObject.SetActive(true);
         livesText.gameObject.SetActive(true);
