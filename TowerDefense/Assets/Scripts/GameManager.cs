@@ -12,10 +12,13 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public static event Action<int> OnLivesChanged;
     public static event Action<int> OnResourcesChanged;
+    public static event Action<int, int> OnBountyProgressChanged;
     #endregion
 
     #region Serialized Fields
     [SerializeField] private TMP_FontAsset globalFont;
+    [SerializeField] private int enemiesToBonus = 10;
+    [SerializeField] private int bonusAmount = 50;
     #endregion
 
     #region Public Fields
@@ -27,6 +30,7 @@ public class GameManager : MonoBehaviour
     private int _lives = 5;
     private int _resource = 200;
     private float _gameSpeed = 1f;
+    private int _currentKillCount = 0;
     #endregion
 
     private void Awake()
@@ -90,6 +94,8 @@ public class GameManager : MonoBehaviour
         _resource = LevelManager.Instance.CurrentLevel.startingResources;
         OnResourcesChanged?.Invoke(_resource);
         SetGameSpeed(1f);
+        _currentKillCount = 0;
+        OnBountyProgressChanged?.Invoke(0, enemiesToBonus);
     }
 
     //====PRIVATE
@@ -110,6 +116,13 @@ public class GameManager : MonoBehaviour
     private void HandleEnemyDestroyed(Enemy enemy)
     {
         AddResources(Mathf.RoundToInt(enemy.Data.goldReward));
+        _currentKillCount++;
+        if (_currentKillCount >= enemiesToBonus)
+        {
+            AddResources(bonusAmount);
+            _currentKillCount = 0;    
+        }
+        OnBountyProgressChanged?.Invoke(_currentKillCount, enemiesToBonus);
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {

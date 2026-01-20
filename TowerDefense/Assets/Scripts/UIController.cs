@@ -34,6 +34,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private TowerData[] towers;
     [SerializeField] private Slider waveSlider;
     [SerializeField] private Slider livesSlider;
+    [SerializeField] private Slider resourcesSlider;
 
     [SerializeField] private Button speed1Button;
     [SerializeField] private Button speed2Button;
@@ -101,6 +102,7 @@ public class UIController : MonoBehaviour
         TowerCard.OnTowerSelected += HandleTowerSelected;
         SceneManager.sceneLoaded += OnSceneLoaded;
         Spawner.OnMissionComplete += ShowMissionComplete;
+        GameManager.OnBountyProgressChanged += UpdateResourcesSlider;
     }
     private void OnDisable()
     {
@@ -111,6 +113,7 @@ public class UIController : MonoBehaviour
         TowerCard.OnTowerSelected -= HandleTowerSelected;
         SceneManager.sceneLoaded -= OnSceneLoaded;
         Spawner.OnMissionComplete -= ShowMissionComplete;
+        GameManager.OnBountyProgressChanged -= UpdateResourcesSlider;
     }
     private void Update()
     {
@@ -431,6 +434,14 @@ public class UIController : MonoBehaviour
         GameManager.Instance.SetTimeScale(0f);
         gameOverPanel.SetActive(true);
         AudioManager.Instance.PlayGameOver();
+    }
+    private void UpdateResourcesSlider(int currentProgress, int maxProgress)
+    {
+        if (resourcesSlider != null)
+        {
+            resourcesSlider.maxValue = maxProgress;
+            resourcesSlider.value = currentProgress;
+        }
     }
 
     //====HANDLE
