@@ -4,6 +4,8 @@ using UnityEngine;
 [System.Serializable]
 public class WaveData
 {
+    public DialogueData openingDialogue;
+
     [System.Serializable]
     public class WaveGroup
     {
