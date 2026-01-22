@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bd4c345ecd05a91438eabaf54e4b161f, type: 3}
-  m_Name: Intro_Level1
+  m_Name: Lv2 - 1
   m_EditorClassIdentifier: 
-  characterName: Commander
-  portrait: {fileID: 0}
+  characterName: System
+  portrait: {fileID: 21300000, guid: 678eb2ea076031a42827ed76ab8f7873, type: 3}
   sentences:
-  - Welcome Player! Enemy will appear soon, get ready for it!
+  - Welcome to Level 2

@@ -90,10 +90,10 @@ public class Spawner : MonoBehaviour
     }
     private void Start()
     {
-        if(_isGamePlayScene)
-        {
-            StartWave();
-        }
+        //if(_isGamePlayScene)
+        //{
+        //    StartWave();
+        //}
     }
     private void Update()
     {
@@ -116,19 +116,35 @@ public class Spawner : MonoBehaviour
     {
         _isEndlessMode = true;
     }
-
-    //====PRIVATE
-    private void StartWave()
+    public void StartWave()
     {
+        if (LevelManager.Instance == null || LevelManager.Instance.CurrentLevel == null)
+        {
+            return;
+        }
         if (CurrentWave == null)
         {
             return;
         }
+
         _enemiesRemoved = 0;
         _totalEnemiesInWave = CurrentWave.GetTotalEnemyCount();
         _isBetweenWaves = false;
         OnWaveChanged?.Invoke(_waveCounter);
-        if(_spawnCoroutine != null)
+        if (CurrentWave.openingDialogue != null && !_isEndlessMode)
+        {
+            UIController.Instance.StartDialogue(CurrentWave.openingDialogue, BeginSpawning);
+        }
+        else
+        {
+            BeginSpawning();
+        }
+    }
+
+    //====PRIVATE
+    private void BeginSpawning()
+    {
+        if (_spawnCoroutine != null)
         {
             StopCoroutine(_spawnCoroutine);
         }
@@ -233,6 +249,6 @@ public class Spawner : MonoBehaviour
         {
             transform.position = LevelManager.Instance.CurrentLevel.initialSpawnPosition;
         }
-        StartWave();
+        //StartWave();
     }
 }

@@ -37,27 +37,8 @@ public class TutorialController : MonoBehaviour
     }
     private void Start()
     {
-        if(nextButton != null)
-        {
-            nextButton.onClick.RemoveAllListeners();
-            nextButton.onClick.AddListener(OnNextClicked);
-        }
-        if (backButton != null)
-        {
-            backButton.onClick.RemoveAllListeners();
-            backButton.onClick.AddListener(OnBackClicked);
-        }
-        // check log
-        Debug.Log("Tutorial is running at scene: " + SceneManager.GetActiveScene().name);
-
-        if (SceneManager.GetActiveScene().name == targetSceneName)
-        {
-            ShowTutorial();
-        }
-        else
-        {
-            HideTutorial();
-        }
+        SetupButtons();
+        HandleTutorialLogic();
     }
     private void Update()
     {
@@ -69,14 +50,7 @@ public class TutorialController : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == targetSceneName)
-        {
-            ShowTutorial();
-        }
-        else
-        {
-            HideTutorial();
-        }
+        HandleTutorialLogic();
     }
     public void ShowTutorial()
     {
@@ -94,13 +68,42 @@ public class TutorialController : MonoBehaviour
     }
     public void HideTutorial()
     {
-        if(tutorialPanel != null)
+        if (tutorialPanel != null)
         {
             tutorialPanel.SetActive(false);
         }
-        if(Time.timeScale == 0f)
+        if (Time.timeScale == 0f)
         {
             Time.timeScale = 1f;
+        }
+    }
+    private void HandleTutorialLogic()
+    {
+        if (LevelManager.Instance == null || LevelManager.Instance.CurrentLevel == null)
+        {
+            HideTutorial();
+            return;
+        }
+        if (SceneManager.GetActiveScene().name == targetSceneName)
+        {
+            ShowTutorial();
+        }
+        else
+        {
+            StartGame();
+        }
+    }
+    private void SetupButtons()
+    {
+        if (nextButton != null)
+        {
+            nextButton.onClick.RemoveAllListeners();
+            nextButton.onClick.AddListener(OnNextClicked);
+        }
+        if (backButton != null)
+        {
+            backButton.onClick.RemoveAllListeners();
+            backButton.onClick.AddListener(OnBackClicked);
         }
     }
     private void OnNextClicked()
@@ -149,6 +152,10 @@ public class TutorialController : MonoBehaviour
     {
         tutorialPanel.SetActive(false);
         Time.timeScale = 1f;
+        if (Spawner.Instance != null)
+        {
+            Spawner.Instance.StartWave();
+        }
     }
 
 }

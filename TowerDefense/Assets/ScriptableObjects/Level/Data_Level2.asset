@@ -18,22 +18,26 @@ MonoBehaviour:
   startingLives: 15
   initialSpawnPosition: {x: -13, y: 1}
   waves:
-  - groups:
+  - openingDialogue: {fileID: 11400000, guid: 87acb5f4e6056544b8275f1a2f4d7f95, type: 2}
+    groups:
     - enemyType: 0
       count: 15
       spawnInterval: 1
       initialDelay: 0
-  - groups:
+  - openingDialogue: {fileID: 0}
+    groups:
     - enemyType: 1
       count: 4
       spawnInterval: 2
       initialDelay: 0
-  - groups:
+  - openingDialogue: {fileID: 0}
+    groups:
     - enemyType: 3
       count: 8
       spawnInterval: 1.2
       initialDelay: 0
-  - groups:
+  - openingDialogue: {fileID: 0}
+    groups:
     - enemyType: 0
       count: 10
       spawnInterval: 1
@@ -42,17 +46,20 @@ MonoBehaviour:
       count: 5
       spawnInterval: 1
       initialDelay: 3
-  - groups:
+  - openingDialogue: {fileID: 0}
+    groups:
     - enemyType: 3
       count: 20
       spawnInterval: 0.5
       initialDelay: 0
-  - groups:
+  - openingDialogue: {fileID: 0}
+    groups:
     - enemyType: 4
       count: 3
       spawnInterval: 2
       initialDelay: 0
-  - groups:
+  - openingDialogue: {fileID: 0}
+    groups:
     - enemyType: 1
       count: 5
       spawnInterval: 1.5
@@ -61,7 +68,8 @@ MonoBehaviour:
       count: 3
       spawnInterval: 2
       initialDelay: 5
-  - groups:
+  - openingDialogue: {fileID: 0}
+    groups:
     - enemyType: 3
       count: 15
       spawnInterval: 0.4
@@ -70,12 +78,14 @@ MonoBehaviour:
       count: 1
       spawnInterval: 0
       initialDelay: 4
-  - groups:
+  - openingDialogue: {fileID: 0}
+    groups:
     - enemyType: 4
       count: 8
       spawnInterval: 1.2
       initialDelay: 0
-  - groups:
+  - openingDialogue: {fileID: 0}
+    groups:
     - enemyType: 3
       count: 15
       spawnInterval: 0.8

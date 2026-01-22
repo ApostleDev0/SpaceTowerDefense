@@ -35,6 +35,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private Slider waveSlider;
     [SerializeField] private Slider livesSlider;
     [SerializeField] private Slider resourcesSlider;
+    [SerializeField] private DialogueController dialogueController;
 
     [SerializeField] private Button speed1Button;
     [SerializeField] private Button speed2Button;
@@ -92,6 +93,10 @@ public class UIController : MonoBehaviour
             AudioManager.Instance.PlaySpeedFast();
         });
         HighlightSelectedSpeedButton(GameManager.Instance.GameSpeed);
+        if (dialogueController != null)
+        {
+            dialogueController.gameObject.SetActive(false);
+        }
     }
     private void OnEnable()
     {
@@ -279,6 +284,22 @@ public class UIController : MonoBehaviour
             levelManager.LoadLevel(levelManager.allLevels[nextIndex]);
         }
     }
+    public void StartDialogue(DialogueData data, Action onFinished)
+    {
+        if (dialogueController != null)
+        {
+            dialogueController.Initialize(data, () =>
+            {
+                onFinished?.Invoke();
+                StartCoroutine(ShowQuest());
+            });
+        }
+        else
+        {
+            onFinished?.Invoke();
+            StartCoroutine(ShowQuest());
+        }
+    }
 
     //====PRIVATE
     private void UpdateWaveText(int currentWave)
@@ -401,6 +422,7 @@ public class UIController : MonoBehaviour
         missionCompletePanel.SetActive(false);
         HideUpgradePanel();
         HideTowerPanel();
+        if (dialogueController != null) dialogueController.gameObject.SetActive(false);
     }
     private void UpdateNextLevelButton()
     {
