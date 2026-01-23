@@ -25,6 +25,6 @@ public class LevelManager : MonoBehaviour
     public void LoadLevel(LevelData levelData)
     {
         CurrentLevel = levelData;
-        SceneManager.LoadScene(levelData.levelName);
+        SceneManager.LoadScene(levelData.sceneName);
     }
 }

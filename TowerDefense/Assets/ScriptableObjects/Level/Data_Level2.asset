@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac385ad2876bc6342ab610ff59003f81, type: 3}
   m_Name: Data_Level2
   m_EditorClassIdentifier: 
-  levelName: Level 2
+  levelName: 'Level 2: Challenge Speed'
+  sceneName: Level 2
   wavesToWin: 10
   startingResources: 120
   startingLives: 15

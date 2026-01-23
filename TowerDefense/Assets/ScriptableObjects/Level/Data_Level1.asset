@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac385ad2876bc6342ab610ff59003f81, type: 3}
   m_Name: Data_Level1
   m_EditorClassIdentifier: 
-  levelName: Level 1
+  levelName: 'Level 1: The Invasion'
+  sceneName: Level 1
   wavesToWin: 7
   startingResources: 120
   startingLives: 20

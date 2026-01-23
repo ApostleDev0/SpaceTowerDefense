@@ -20,7 +20,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private TMP_Text levelText;      
     [SerializeField] private TMP_Text upgradeCostText;  
     [SerializeField] private TMP_Text sellPriceText;    
-    [SerializeField] private TMP_Text questText;
+    [SerializeField] private TMP_Text levelTitleText;
 
     [SerializeField] private GameObject towerPanel;
     [SerializeField] private GameObject towerCardPrefab;
@@ -36,6 +36,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private Slider livesSlider;
     [SerializeField] private Slider resourcesSlider;
     [SerializeField] private DialogueController dialogueController;
+    [SerializeField] private CanvasGroup levelTitleGroup;
 
     [SerializeField] private Button speed1Button;
     [SerializeField] private Button speed2Button;
@@ -291,20 +292,21 @@ public class UIController : MonoBehaviour
             dialogueController.Initialize(data, () =>
             {
                 onFinished?.Invoke();
-                StartCoroutine(ShowQuest());
             });
         }
         else
         {
             onFinished?.Invoke();
-            StartCoroutine(ShowQuest());
         }
+    }
+    public void PlayLevelTitleSequence(Action onComplete)
+    {
+        StartCoroutine(ShowLevelTitle(onComplete));
     }
 
     //====PRIVATE
     private void UpdateWaveText(int currentWave)
     {
-        //waveText.text = $"Wave: {currentWave + 1}";
         int totalWaves = 0;
         if (LevelManager.Instance.CurrentLevel != null)
         {
@@ -313,6 +315,16 @@ public class UIController : MonoBehaviour
         if (waveText != null)
         {
             waveText.text = $"Waves: {currentWave + 1} / {totalWaves}";
+            if (currentWave + 1 == totalWaves)
+            {
+                waveText.color = Color.red;
+                waveText.fontStyle = FontStyles.Bold;
+            }
+            else
+            {
+                waveText.color = Color.white;
+                waveText.fontStyle = FontStyles.Normal;
+            }
         }
         if (waveSlider != null)
         {
@@ -392,8 +404,7 @@ public class UIController : MonoBehaviour
         resourcesText.gameObject.SetActive(false);
         livesText.gameObject.SetActive(false);
         warningText.gameObject.SetActive(false);
-        questText.gameObject.SetActive(false);
-
+        if (levelTitleText != null) levelTitleText.gameObject.SetActive(false);
         speed1Button.gameObject.SetActive(false);
         speed2Button.gameObject.SetActive(false);
         speed3Button.gameObject.SetActive(false);
@@ -509,12 +520,44 @@ public class UIController : MonoBehaviour
         yield return new WaitForSecondsRealtime(3f);
         warningText.gameObject.SetActive(false);
     }    
-    private IEnumerator ShowQuest()
+    private IEnumerator ShowLevelTitle(Action onComplete = null)
     {
-        questText.text = $"Mission: Survive {LevelManager.Instance.CurrentLevel.wavesToWin} Waves! ";
-        questText.gameObject.SetActive(true);
-        yield return new WaitForSeconds(6f);
-        questText.gameObject.SetActive(false);  
+        string levelName = "MISSION START";
+        if (LevelManager.Instance.CurrentLevel != null && !string.IsNullOrEmpty(LevelManager.Instance.CurrentLevel.levelName))
+        {
+            levelName = LevelManager.Instance.CurrentLevel.levelName;
+        }
+
+        levelTitleText.text = levelName;
+        levelTitleText.gameObject.SetActive(true);
+        if (levelTitleGroup != null)
+        {
+            levelTitleGroup.alpha = 0f;
+            float duration = 0.5f;
+            float currentTime = 0f;
+
+            while (currentTime < duration)
+            {
+                currentTime += Time.deltaTime;
+                levelTitleGroup.alpha = Mathf.Lerp(0f, 1f, currentTime / duration);
+                yield return null;
+            }
+            levelTitleGroup.alpha = 1f;
+        }
+        yield return new WaitForSeconds(2.5f);
+        if (levelTitleGroup != null)
+        {
+            float duration = 0.5f;
+            float currentTime = 0f;
+            while (currentTime < duration)
+            {
+                currentTime += Time.deltaTime;
+                levelTitleGroup.alpha = Mathf.Lerp(1f, 0f, currentTime / duration);
+                yield return null;
+            }
+        }
+        levelTitleText.gameObject.SetActive(false);
+        onComplete?.Invoke();
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -531,7 +574,6 @@ public class UIController : MonoBehaviour
         else
         {
             ShowUI();
-            StartCoroutine(ShowQuest());
             SetGameSpeed(1f);
         }
     }

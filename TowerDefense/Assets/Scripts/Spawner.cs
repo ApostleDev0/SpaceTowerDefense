@@ -131,6 +131,25 @@ public class Spawner : MonoBehaviour
         _totalEnemiesInWave = CurrentWave.GetTotalEnemyCount();
         _isBetweenWaves = false;
         OnWaveChanged?.Invoke(_waveCounter);
+        if (_waveCounter == 0)
+        {
+            if (UIController.Instance != null)
+            {
+                UIController.Instance.PlayLevelTitleSequence(() =>
+                {
+                    ProcessWaveLogic();
+                });
+            }
+            else
+            {
+                ProcessWaveLogic();
+            }
+        }
+    }
+
+    //====PRIVATE
+    private void ProcessWaveLogic()
+    {
         if (CurrentWave.openingDialogue != null && !_isEndlessMode)
         {
             UIController.Instance.StartDialogue(CurrentWave.openingDialogue, BeginSpawning);
@@ -140,8 +159,6 @@ public class Spawner : MonoBehaviour
             BeginSpawning();
         }
     }
-
-    //====PRIVATE
     private void BeginSpawning()
     {
         if (_spawnCoroutine != null)

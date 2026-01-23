@@ -12,23 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac385ad2876bc6342ab610ff59003f81, type: 3}
   m_Name: Data_Level3
   m_EditorClassIdentifier: 
-  levelName: Level 3
+  levelName: 'Level 3: Fallen Brutal'
+  sceneName: Level 3
   wavesToWin: 12
   startingResources: 200
   startingLives: 10
   initialSpawnPosition: {x: -12, y: 5}
   waves:
-  - groups:
+  - openingDialogue: {fileID: 0}
+    groups:
     - enemyType: 0
       count: 20
       spawnInterval: 0.8
       initialDelay: 0
-  - groups:
+  - openingDialogue: {fileID: 0}
+    groups:
     - enemyType: 3
       count: 10
       spawnInterval: 1
       initialDelay: 0
-  - groups:
+  - openingDialogue: {fileID: 0}
+    groups:
     - enemyType: 1
       count: 5
       spawnInterval: 2
@@ -37,7 +41,8 @@ MonoBehaviour:
       count: 1
       spawnInterval: 0
       initialDelay: 5
-  - groups:
+  - openingDialogue: {fileID: 0}
+    groups:
     - enemyType: 0
       count: 20
       spawnInterval: 0.6
@@ -46,17 +51,20 @@ MonoBehaviour:
       count: 2
       spawnInterval: 4
       initialDelay: 0
-  - groups:
+  - openingDialogue: {fileID: 0}
+    groups:
     - enemyType: 4
       count: 6
       spawnInterval: 1.5
       initialDelay: 0
-  - groups:
+  - openingDialogue: {fileID: 0}
+    groups:
     - enemyType: 6
       count: 4
       spawnInterval: 3
       initialDelay: 0
-  - groups:
+  - openingDialogue: {fileID: 0}
+    groups:
     - enemyType: 2
       count: 1
       spawnInterval: 0
@@ -65,12 +73,14 @@ MonoBehaviour:
       count: 1
       spawnInterval: 0
       initialDelay: 8
-  - groups:
+  - openingDialogue: {fileID: 0}
+    groups:
     - enemyType: 3
       count: 30
       spawnInterval: 0.3
       initialDelay: 0
-  - groups:
+  - openingDialogue: {fileID: 0}
+    groups:
     - enemyType: 6
       count: 3
       spawnInterval: 3
@@ -83,12 +93,14 @@ MonoBehaviour:
       count: 15
       spawnInterval: 0.8
       initialDelay: 4
-  - groups:
+  - openingDialogue: {fileID: 0}
+    groups:
     - enemyType: 6
       count: 6
       spawnInterval: 2.5
       initialDelay: 0
-  - groups:
+  - openingDialogue: {fileID: 0}
+    groups:
     - enemyType: 5
       count: 1
       spawnInterval: 0
@@ -97,7 +109,8 @@ MonoBehaviour:
       count: 3
       spawnInterval: 2
       initialDelay: 3
-  - groups:
+  - openingDialogue: {fileID: 0}
+    groups:
     - enemyType: 0
       count: 30
       spawnInterval: 0.8
