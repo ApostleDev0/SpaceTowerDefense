@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,7 +12,10 @@ public class TutorialStep
 }
 public class TutorialController : MonoBehaviour
 {
+    #region Serialized Fields
     [SerializeField] private string targetSceneName = "Level 1";
+    [SerializeField] private bool showOnlyOnce = false;
+
     [SerializeField] private GameObject tutorialPanel;
     [SerializeField] private Image tutorialImage;
     [SerializeField] private TextMeshProUGUI descriptionText;
@@ -24,8 +25,12 @@ public class TutorialController : MonoBehaviour
     [SerializeField] private Button backButton;
 
     [SerializeField] private TutorialStep[] steps;
+    #endregion
 
+    #region Private Fields
     private int _currentIndex = 0;
+    private const string TUTORIAL_SHOWN_KEY = "TutorialShown_";
+    #endregion
 
     private void OnEnable()
     {
@@ -40,30 +45,15 @@ public class TutorialController : MonoBehaviour
         SetupButtons();
         HandleTutorialLogic();
     }
-    private void Update()
-    {
-        if(tutorialPanel.activeSelf && Time.timeScale != 0f)
-        {
-            Time.timeScale = 0f;
-        }
-    }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        HandleTutorialLogic();
-    }
+    //====PUBLIC
     public void ShowTutorial()
     {
-        if (steps == null || steps.Length == 0)
-        {
-            return;
-        }
-
-        Debug.Log("Show Tutorial!");
         tutorialPanel.SetActive(true);
         _currentIndex = 0;
         UpdateVisuals();
 
+        // Pause game
         Time.timeScale = 0f;
     }
     public void HideTutorial()
@@ -72,25 +62,42 @@ public class TutorialController : MonoBehaviour
         {
             tutorialPanel.SetActive(false);
         }
+
+        // Resume game if pausing
         if (Time.timeScale == 0f)
         {
             Time.timeScale = 1f;
         }
     }
+
+    //====PRIVATE
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        HandleTutorialLogic();
+    }
+
     private void HandleTutorialLogic()
     {
-        if (LevelManager.Instance == null || LevelManager.Instance.CurrentLevel == null)
+        if (steps == null || steps.Length == 0)
         {
-            HideTutorial();
+            StartGameDirectly();
             return;
         }
-        if (SceneManager.GetActiveScene().name == targetSceneName)
+
+        string currentScene = SceneManager.GetActiveScene().name;
+        if (currentScene == targetSceneName)
         {
+            if (showOnlyOnce && PlayerPrefs.GetInt(TUTORIAL_SHOWN_KEY + targetSceneName, 0) == 1)
+            {
+                StartGameDirectly();
+                return;
+            }
+
             ShowTutorial();
         }
         else
         {
-            StartGame();
+            HideTutorial();
         }
     }
     private void SetupButtons()
@@ -108,18 +115,22 @@ public class TutorialController : MonoBehaviour
     }
     private void OnNextClicked()
     {
-        if(_currentIndex < steps.Length - 1)
+        if (AudioManager.Instance != null) AudioManager.Instance.PlayButtonClick();
+
+        if (_currentIndex < steps.Length - 1)
         {
             _currentIndex++;
             UpdateVisuals();
         }
         else
         {
-            StartGame();
+            FinishTutorial();
         }
     }
     private void OnBackClicked()
     {
+        if (AudioManager.Instance != null) AudioManager.Instance.PlayButtonClick();
+
         if (_currentIndex > 0)
         {
             _currentIndex--;
@@ -129,16 +140,17 @@ public class TutorialController : MonoBehaviour
     private void UpdateVisuals()
     {
         TutorialStep currentStep = steps[_currentIndex];
-        if(tutorialImage != null && currentStep.Image != null)
+
+        if (tutorialImage != null)
         {
             tutorialImage.sprite = currentStep.Image;
-            tutorialImage.preserveAspect = true;
+            tutorialImage.gameObject.SetActive(currentStep.Image != null);
         }
-        if(descriptionText != null)
+        if (descriptionText != null)
         {
             descriptionText.text = currentStep.Description;
         }
-        if(nextButtonLabel != null)
+        if (nextButtonLabel != null)
         {
             bool isLastStep = (_currentIndex == steps.Length - 1);
             nextButtonLabel.text = isLastStep ? "START" : "NEXT";
@@ -148,14 +160,22 @@ public class TutorialController : MonoBehaviour
             backButton.gameObject.SetActive(_currentIndex > 0);
         }
     }
-    private void StartGame()
+    private void FinishTutorial()
     {
-        tutorialPanel.SetActive(false);
-        Time.timeScale = 1f;
+        if (showOnlyOnce)
+        {
+            PlayerPrefs.SetInt(TUTORIAL_SHOWN_KEY + targetSceneName, 1);
+            PlayerPrefs.Save();
+        }
+
+        StartGameDirectly();
+    }
+    private void StartGameDirectly()
+    {
+        HideTutorial();
         if (Spawner.Instance != null)
         {
             Spawner.Instance.StartWave();
         }
     }
-
 }

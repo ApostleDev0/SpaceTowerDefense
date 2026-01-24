@@ -7,17 +7,28 @@ using UnityEngine.UI;
 
 public class DialogueController : MonoBehaviour
 {
+    #region Serialized Fields
     [SerializeField] private Image portraitImage;
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text dialogueText;
     [SerializeField] private Button continueButton;
     [SerializeField] private float typingSpeed = 0.02f;
+    #endregion
 
+    #region Private Fields
     private Queue<string> _sentences = new Queue<string>();
     private bool _isTyping = false;
     private string _currentSentence;
     private Action _onDialogueFinished;
 
+    private Coroutine _typingCoroutine;
+    private WaitForSecondsRealtime _typingWait;
+    #endregion
+
+    private void Awake()
+    {
+        _typingWait = new WaitForSecondsRealtime(typingSpeed);
+    }
     private void Start()
     {
         if (continueButton != null)
@@ -26,25 +37,40 @@ public class DialogueController : MonoBehaviour
         }
     }
 
+    //====PUBLIC
     public void Initialize(DialogueData data, Action onFinished)
     {
+        if (data == null)
+        {
+            return;
+        }
         _onDialogueFinished = onFinished;
         _sentences.Clear();
-        nameText.text = data.CharacterName;
 
-        if (data.Portrait != null)
+        if (nameText != null)
         {
-            portraitImage.sprite = data.Portrait;
-            portraitImage.gameObject.SetActive(true);
+            nameText.text = data.CharacterName;
         }
-        else
+        if (portraitImage != null)
         {
-            portraitImage.gameObject.SetActive(false);
+            if (data.Portrait != null)
+            {
+                portraitImage.sprite = data.Portrait;
+                portraitImage.gameObject.SetActive(true);
+            }
+            else
+            {
+                portraitImage.gameObject.SetActive(false);
+            }
         }
-
-        foreach (string sentence in data.Sentences)
+        
+        // add sentence
+        if (data.Sentences != null)
         {
-            _sentences.Enqueue(sentence);
+            foreach (string sentence in data.Sentences)
+            {
+                _sentences.Enqueue(sentence);
+            }
         }
         gameObject.SetActive(true);
         DisplayNextSentence();
@@ -52,42 +78,50 @@ public class DialogueController : MonoBehaviour
 
     public void DisplayNextSentence()
     {
+        // skip the dialogue when typing
         if (_isTyping)
         {
-            StopAllCoroutines();
+            if (_typingCoroutine != null) StopCoroutine(_typingCoroutine);
+
             dialogueText.text = _currentSentence;
+            dialogueText.maxVisibleCharacters = _currentSentence.Length;
+
             _isTyping = false;
             return;
         }
 
+        // end dialogue
         if (_sentences.Count == 0)
         {
             EndDialogue();
             return;
         }
 
+        // start new dialogue
         _currentSentence = _sentences.Dequeue();
-        StopAllCoroutines();
-        StartCoroutine(TypeSentenceRoutine(_currentSentence));
+
+        if (_typingCoroutine != null) StopCoroutine(_typingCoroutine);
+        _typingCoroutine = StartCoroutine(TypeSentenceRoutine(_currentSentence));
     }
 
     private IEnumerator TypeSentenceRoutine(string sentence)
     {
         _isTyping = true;
-        dialogueText.text = "";
+        dialogueText.text = sentence;
+        dialogueText.maxVisibleCharacters = 0;
 
-        foreach (char letter in sentence.ToCharArray())
+        for (int i = 0; i <= sentence.Length; i++)
         {
-            dialogueText.text += letter;
-            yield return new WaitForSeconds(typingSpeed);
+            dialogueText.maxVisibleCharacters = i;
+            yield return _typingWait;
         }
-
         _isTyping = false;
     }
 
     private void EndDialogue()
     {
         gameObject.SetActive(false);
+        if (dialogueText != null) dialogueText.maxVisibleCharacters = int.MaxValue;
         _onDialogueFinished?.Invoke();
     }
 }

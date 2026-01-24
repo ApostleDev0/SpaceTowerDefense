@@ -5,45 +5,59 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class AssignRandomSprites : MonoBehaviour
 {
+    #region Serialized Fields
     [System.Serializable]
     public struct SpritePair
     {
         public Sprite normal;
         public Sprite special;
     }
-
     [SerializeField] private SpritePair[] spritePairs;
-    private SpritePair _choosePair;
+    #endregion
+
+    #region Private Fields
+    private SpritePair _currentPair;
     private SpriteRenderer _spriteRenderer;
+    private bool _initialized = false;
+    #endregion
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        ChooseRandomPair();
-        SetSpecial(false);
+        _initialized = true;
+    }
+    private void OnEnable()
+    {
+        // random sprite when object turn on
+        if (_initialized)
+        {
+            ChooseRandomPair();
+            SetSpecial(false);
+        }
     }
     private void ChooseRandomPair()
     {
         if(spritePairs == null || spritePairs.Length == 0)
         {
+            Debug.LogWarning($"AssignRandomSprites: Not Adding Sprite Pairs to {gameObject.name}!");
             return;
         }
         int index = Random.Range(0, spritePairs.Length);
-        _choosePair = spritePairs[index];
+        _currentPair = spritePairs[index];
     }
     public void SetSpecial(bool useSpecial)
     {
-        if(_choosePair.normal == null)
+        if (_spriteRenderer == null)
         {
             return;
         }
 
-        if(useSpecial && _choosePair.special != null)
+        if (useSpecial && _currentPair.special != null)
         {
-            _spriteRenderer.sprite = _choosePair.special;
+            _spriteRenderer.sprite = _currentPair.special;
         }
-        else
+        else if (_currentPair.normal != null)
         {
-            _spriteRenderer.sprite = _choosePair.normal;
+            _spriteRenderer.sprite = _currentPair.normal;
         }
     }
 

@@ -4,23 +4,37 @@ using UnityEngine;
 
 public class Floating : MonoBehaviour
 {
-    const float MOVE_AMPLITUDE = 0.1f;
-    const float MOVE_SPEED = 0.5f;
+    #region Serialized Fields
+    [SerializeField] private float moveAmplitude = 0.5f;
+    [SerializeField] private float moveSpeed = 1f;
+    #endregion
 
-    private Vector3 _startLocalPostion;
-    private Vector3 _sead;
+    #region Private
+    private Vector3 _startLocalPosition;
+    private Vector2 _randomSeed;
+    #endregion
 
     void Start()
     {
-        _startLocalPostion = transform.localPosition;
-        _sead = new Vector3(Random.value * 100f, Random.value * 100f, 0f);
+        // save base position
+        _startLocalPosition = transform.localPosition;
+
+        // random seed for random floating
+        _randomSeed = new Vector2(Random.Range(0f, 100f), Random.Range(0f, 100f));
     }
     void Update()
     {
-        float t = Time.time * MOVE_SPEED;
-        float offsetX = (Mathf.PerlinNoise(t +_sead.x,0) - 0.5f) * 2f * MOVE_AMPLITUDE;
-        float offsetY = (Mathf.PerlinNoise(0, t - _sead.y) - 0.5f) * 2f * MOVE_AMPLITUDE;
-        transform.localPosition = _startLocalPostion + new Vector3(offsetX, offsetY,0);
+        // calculate time
+        float time = Time.time * moveSpeed;
+
+        // apply Perlin Noise make random movement 
+        // Noise return 0..1 -> -0.5 to -0.5..0.5 -> time 2 back to -1..1
+        float x = (Mathf.PerlinNoise(time + _randomSeed.x, 0f) - 0.5f) * 2f;
+        float y = (Mathf.PerlinNoise(0f, time + _randomSeed.y) - 0.5f) * 2f;
+
+        // apply new position
+        Vector3 offset = new Vector3(x, y, 0) * moveAmplitude;
+        transform.localPosition = _startLocalPosition + offset;
 
     }
 }

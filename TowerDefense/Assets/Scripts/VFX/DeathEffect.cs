@@ -4,11 +4,29 @@ using UnityEngine;
 
 public class DeathEffect : MonoBehaviour
 {
-    [SerializeField] private float delay = 1.0f;
+    #region Serialized Fields
+    [SerializeField] private float defaultDelay = 1.0f;
+    [SerializeField] private bool autoCalculateDuration = true;
+    #endregion
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        Destroy(gameObject,delay);
+        float lifeTime = defaultDelay;
+
+        if (autoCalculateDuration)
+        {
+            ParticleSystem particle = GetComponent<ParticleSystem>();
+            if (particle != null)
+            {
+                float particleDuration = particle.main.duration + particle.main.startLifetime.constantMax;
+                lifeTime = Mathf.Max(lifeTime, particleDuration);
+            }
+            AudioSource audioSource = GetComponent<AudioSource>();
+            if (audioSource != null && audioSource.clip != null)
+            {
+                lifeTime = Mathf.Max(lifeTime, audioSource.clip.length);
+            }
+        }
+        Destroy(gameObject, lifeTime);
     }
 }

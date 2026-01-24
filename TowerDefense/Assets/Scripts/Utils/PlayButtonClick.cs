@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,10 +12,24 @@ public class PlayButtonClick : MonoBehaviour, IPointerEnterHandler
     private void Awake()
     {
         _button = GetComponent<Button>();
-        _button.onClick.AddListener(() => { AudioManager.Instance.PlayButtonClick(); });
+    }
+    private void OnDisable()
+    {
+        // prevent Memory Leak
+        _button.onClick.RemoveListener(OnButtonClick);
+    }
+    private void OnButtonClick()
+    {
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayButtonClick();
+        }
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        AudioManager.Instance.PlayButtonHover();
+        if (_button.interactable && AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayButtonHover();
+        }
     }
 }
