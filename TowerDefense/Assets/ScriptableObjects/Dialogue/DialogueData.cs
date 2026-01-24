@@ -5,8 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DialogueData", menuName = "Scriptable Objects/DialogueData")]
 public class DialogueData : ScriptableObject
 {
-    public string characterName;
-    public Sprite portrait;
+    [SerializeField] private string characterName;
+    [SerializeField] private Sprite portrait;
     [TextArea(3, 10)]
-    public string[] sentences;
+    [SerializeField] private string[] sentences;
+
+    public string CharacterName => characterName;
+    public Sprite Portrait => portrait;
+    public string[] Sentences => sentences;
 }

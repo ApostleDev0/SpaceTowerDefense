@@ -4,28 +4,38 @@ using UnityEngine;
 [System.Serializable]
 public class WaveData
 {
-    public DialogueData openingDialogue;
+    [SerializeField] private DialogueData openingDialogue;
+    [SerializeField] private List<WaveGroup> groups = new List<WaveGroup>();
+
+    public DialogueData OpeningDialogue => openingDialogue;
+    public List<WaveGroup> Groups => groups;
+
+    public int TotalEnemyCount
+    {
+        get
+        {
+            int total = 0;
+            if (groups != null)
+            {
+                foreach (var group in groups) total += group.Count;
+            }
+            return total;
+        }
+    }
 
     [System.Serializable]
     public class WaveGroup
     {
-        public EnemyType enemyType;
-        public int count;
-        public float spawnInterval;
-        public float initialDelay;
-    }
+        [SerializeField] private EnemyType enemyType;
 
-    public List<WaveGroup> groups = new List<WaveGroup>();
-    public int GetTotalEnemyCount()
-    {
-        int total = 0;
-        if(groups != null)
-        {
-            foreach(var group in groups )
-            {
-                total += group.count;
-            }
-        }
-        return total;
+        [SerializeField] private int count = 5;
+        [SerializeField] private float spawnInterval = 1f;
+        [SerializeField] private float initialDelay = 0f;
+
+        // Property public for Spawner read
+        public EnemyType Type => enemyType;
+        public int Count => count;
+        public float SpawnInterval => spawnInterval;
+        public float InitialDelay => initialDelay;
     }
 }

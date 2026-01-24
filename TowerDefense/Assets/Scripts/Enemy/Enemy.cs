@@ -78,9 +78,9 @@ public class Enemy : MonoBehaviour
         _hasBeenCounted = false;
 
         // reset stats
-        _maxHealth = data.maxHealth * healthMultiplier;
+        _maxHealth = data.MaxHealth * healthMultiplier;
         _currentHealth = _maxHealth;
-        _speed = UnityEngine.Random.Range(data.minSpeed, data.maxSpeed);
+        _speed = UnityEngine.Random.Range(data.MinSpeed, data.MaxSpeed);
 
         // calculate random position for movement
         float offsetX = UnityEngine.Random.Range(-0.5f, 0.5f);

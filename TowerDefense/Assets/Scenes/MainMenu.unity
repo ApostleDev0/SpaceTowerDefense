@@ -384,7 +384,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 878540133352928267, guid: 989a776791bb14f42af4f88136b5e267, type: 3}
-  poolSize: 5
+  poolSize: 10
+  poolType: 0
 --- !u!1001 &124154407
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1903,7 +1904,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 878540133352928267, guid: 5a683fd25a8ec064d8f93ecec5a27b30, type: 3}
-  poolSize: 5
+  poolSize: 10
+  poolType: 0
 --- !u!1001 &511850805
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5768,7 +5770,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 878540133352928267, guid: 62917cb046bbaf14e919f0863b63f22b, type: 3}
-  poolSize: 5
+  poolSize: 10
+  poolType: 0
 --- !u!4 &1200751512
 Transform:
   m_ObjectHideFlags: 0
@@ -5877,7 +5880,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 878540133352928267, guid: de2693037c4c09449838a2ba54e0e87c, type: 3}
-  poolSize: 5
+  poolSize: 10
+  poolType: 0
 --- !u!1 &1233436726
 GameObject:
   m_ObjectHideFlags: 0
@@ -6840,7 +6844,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 878540133352928267, guid: d1aa4db372bc99241954f3d3f34603fe, type: 3}
-  poolSize: 5
+  poolSize: 10
+  poolType: 0
 --- !u!4 &1593851377
 Transform:
   m_ObjectHideFlags: 0
@@ -7347,14 +7352,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a536c06d050e537488adbd77591c2b1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alphaCritterPool: {fileID: 1593851376}
-  alphaGruntPool: {fileID: 1786480888}
-  alphaBossPool: {fileID: 1200751511}
-  betaCritterPool: {fileID: 109010354}
-  betaGruntPool: {fileID: 1925207627}
-  betaBossPool: {fileID: 2034539365}
-  deltaGruntPool: {fileID: 1210927548}
-  deltaBossPool: {fileID: 497291984}
 --- !u!4 &1728434315
 Transform:
   m_ObjectHideFlags: 0
@@ -7972,7 +7969,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 878540133352928267, guid: 09f69d8256359064f9e091f6385de49d, type: 3}
-  poolSize: 5
+  poolSize: 10
+  poolType: 0
 --- !u!1 &1804908778
 GameObject:
   m_ObjectHideFlags: 0
@@ -8549,33 +8547,33 @@ MonoBehaviour:
   livesText: {fileID: 1363115260}
   resourcesText: {fileID: 1989865798}
   warningText: {fileID: 1974970915}
-  levelText: {fileID: 1159059702}
-  upgradeCostText: {fileID: 1199393595}
-  sellPriceText: {fileID: 700099718}
   levelTitleText: {fileID: 1777114102}
+  levelTitleGroup: {fileID: 1777114105}
+  topInfoPanel: {fileID: 531887541}
+  waveSlider: {fileID: 2071919686}
+  livesSlider: {fileID: 1347683676}
+  resourcesSlider: {fileID: 1711532669}
   towerPanel: {fileID: 947550683}
   towerCardPrefab: {fileID: 3835617887902175671, guid: 4b3e718cf9dbb214d8f410e8f2cf4ab3, type: 3}
   upgradePanel: {fileID: 30143241}
   pausePanel: {fileID: 700363552}
   gameOverPanel: {fileID: 129808712}
   missionCompletePanel: {fileID: 1028206848}
-  topInfoPanel: {fileID: 531887541}
   cardsContainer: {fileID: 1829327211}
-  towers:
-  - {fileID: 11400000, guid: a3679f98bfe2b494f96cab7cf79dd3c3, type: 2}
-  - {fileID: 11400000, guid: 859c9db543a80634fafa58496b68d0dc, type: 2}
-  - {fileID: 11400000, guid: a5f0a7636ecdc314988a5f545a5d93f7, type: 2}
-  waveSlider: {fileID: 2071919686}
-  livesSlider: {fileID: 1347683676}
-  resourcesSlider: {fileID: 1711532669}
-  dialogueController: {fileID: 888570782}
-  levelTitleGroup: {fileID: 1777114105}
+  levelText: {fileID: 1159059702}
+  upgradeCostText: {fileID: 1199393595}
+  sellPriceText: {fileID: 700099718}
+  upgradeButton: {fileID: 1508850710}
   speed1Button: {fileID: 1805836551}
   speed2Button: {fileID: 1804908782}
   speed3Button: {fileID: 899189763}
   pauseButton: {fileID: 1409277843}
   nextLevelButton: {fileID: 1703116913}
-  upgradeButton: {fileID: 1508850710}
+  towers:
+  - {fileID: 11400000, guid: a3679f98bfe2b494f96cab7cf79dd3c3, type: 2}
+  - {fileID: 11400000, guid: 859c9db543a80634fafa58496b68d0dc, type: 2}
+  - {fileID: 11400000, guid: a5f0a7636ecdc314988a5f545a5d93f7, type: 2}
+  dialogueController: {fileID: 888570782}
 --- !u!114 &1866716396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9260,7 +9258,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 878540133352928267, guid: 18d7230fd2af9d54cbab786c915864d8, type: 3}
-  poolSize: 5
+  poolSize: 10
+  poolType: 0
 --- !u!4 &1925207628
 Transform:
   m_ObjectHideFlags: 0
@@ -9744,7 +9743,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 878540133352928267, guid: f67a108cb8f8a2c4b84cacbd4c1b12a5, type: 3}
-  poolSize: 5
+  poolSize: 10
+  poolType: 0
 --- !u!1 &2039331249
 GameObject:
   m_ObjectHideFlags: 0

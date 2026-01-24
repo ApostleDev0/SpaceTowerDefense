@@ -30,11 +30,11 @@ public class DialogueController : MonoBehaviour
     {
         _onDialogueFinished = onFinished;
         _sentences.Clear();
-        nameText.text = data.characterName;
+        nameText.text = data.CharacterName;
 
-        if (data.portrait != null)
+        if (data.Portrait != null)
         {
-            portraitImage.sprite = data.portrait;
+            portraitImage.sprite = data.Portrait;
             portraitImage.gameObject.SetActive(true);
         }
         else
@@ -42,7 +42,7 @@ public class DialogueController : MonoBehaviour
             portraitImage.gameObject.SetActive(false);
         }
 
-        foreach (string sentence in data.sentences)
+        foreach (string sentence in data.Sentences)
         {
             _sentences.Enqueue(sentence);
         }

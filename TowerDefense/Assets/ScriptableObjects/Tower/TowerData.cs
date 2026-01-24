@@ -3,22 +3,40 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TowerData", menuName = "Scriptable Objects/TowerData")]
 public class TowerData : ScriptableObject
 {
-    // current tower data
-    public float range;
-    public float shootInterval;
-    public float projectileSpeed;
-    public float projectileDuration;
-    public float projectileSize;
-    public float damage;
+    [SerializeField] private string displayLevel = "Level 1";
+    [SerializeField] private Sprite sprite;
+    [SerializeField] private GameObject prefab;
 
-    public int cost;
-    public Sprite sprite;
-    public GameObject prefab;
+    [SerializeField] private float range = 3f;
+    [SerializeField] private float shootInterval = 1f;
+    [SerializeField] private float damage = 10f;
 
-    // next level tower data
-    public int upgradeCost;
-    public int sellPrice;
-    public string displayLevel;
-    public TowerData nextLevelData;
+    [SerializeField] private float projectileSpeed = 10f;
+    [SerializeField] private float projectileDuration = 2f;
+    [SerializeField] private float projectileSize = 1f;
+
+    [SerializeField] private int cost = 100;
+    [SerializeField] private int sellPrice = 50;
+    [SerializeField] private int upgradeCost = 150;
+    [SerializeField] private TowerData nextLevelData;
+
+
+    public string DisplayLevel => displayLevel;
+    public Sprite Sprite => sprite;
+    public GameObject Prefab => prefab;
+
+    public float Range => range;
+    public float ShootInterval => shootInterval;
+    public float Damage => damage;
+
+    public float ProjectileSpeed => projectileSpeed;
+    public float ProjectileDuration => projectileDuration;
+    public float ProjectileSize => projectileSize;
+
+    public int Cost => cost;
+    public int SellPrice => sellPrice;
+
+    public int UpgradeCost => upgradeCost;
+    public TowerData NextLevelData => nextLevelData;
 
 }

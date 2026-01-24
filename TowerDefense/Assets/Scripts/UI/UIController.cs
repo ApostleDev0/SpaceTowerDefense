@@ -177,7 +177,7 @@ public class UIController : MonoBehaviour
         }
         TowerData currentData = _selectedTower.GetData();
 
-        if(GameManager.Instance.TrySpendResources(currentData.upgradeCost))
+        if(GameManager.Instance.TrySpendResources(currentData.UpgradeCost))
         {
             AudioManager.Instance.PlayTowerPlaced();
 
@@ -189,7 +189,7 @@ public class UIController : MonoBehaviour
             Destroy(_selectedTower.gameObject);
 
             //create new tower next level
-            GameObject newTowerObj = Instantiate(currentData.nextLevelData.prefab, pos, rot);
+            GameObject newTowerObj = Instantiate(currentData.NextLevelData.Prefab, pos, rot);
             Tower newTowerScript = newTowerObj.GetComponent<Tower>();
 
             // up to date platfrom
@@ -213,7 +213,7 @@ public class UIController : MonoBehaviour
         TowerData currentData = _selectedTower.GetData();
 
         // plus money
-        GameManager.Instance.AddResources(currentData.sellPrice);
+        GameManager.Instance.AddResources(currentData.SellPrice);
         AudioManager.Instance.PlayTowerPlaced();
 
         // delete tower
@@ -311,7 +311,7 @@ public class UIController : MonoBehaviour
         {
             return;
         }
-        int totalWaves = LevelManager.Instance.CurrentLevel.waves.Count;
+        int totalWaves = LevelManager.Instance.CurrentLevel.TotalWaves;
 
         if (waveText != null)
         {
@@ -332,7 +332,7 @@ public class UIController : MonoBehaviour
         int maxLives = 100;
         if (LevelManager.Instance.CurrentLevel != null)
         {
-            maxLives = LevelManager.Instance.CurrentLevel.startingLives;
+            maxLives = LevelManager.Instance.CurrentLevel.StartingLives;
         }
 
         if (livesText != null)
@@ -476,13 +476,13 @@ public class UIController : MonoBehaviour
             return;
         }
         TowerData data = _selectedTower.GetData();
-        levelText.text = data.displayLevel;
-        sellPriceText.text = $"${data.sellPrice}";
+        levelText.text = data.DisplayLevel;
+        sellPriceText.text = $"${data.SellPrice}";
 
-        if (data.nextLevelData != null)
+        if (data.NextLevelData != null)
         {
             upgradeButton.interactable = true;
-            upgradeCostText.text = $"${data.upgradeCost}";
+            upgradeCostText.text = $"${data.UpgradeCost}";
         }
         else
         {
@@ -514,7 +514,7 @@ public class UIController : MonoBehaviour
             StartCoroutine(ShowWarningMessage("You already place Tower!"));
             return;
         }
-        if(GameManager.Instance.TrySpendResources(towerData.cost))
+        if(GameManager.Instance.TrySpendResources(towerData.Cost))
         {
             AudioManager.Instance.PlayTowerPlaced();
             _currentPlatform.PlaceTower(towerData);
@@ -541,9 +541,9 @@ public class UIController : MonoBehaviour
     private IEnumerator ShowLevelTitle(Action onComplete = null)
     {
         string levelName = "MISSION START";
-        if (LevelManager.Instance.CurrentLevel != null && !string.IsNullOrEmpty(LevelManager.Instance.CurrentLevel.levelName))
+        if (LevelManager.Instance.CurrentLevel != null && !string.IsNullOrEmpty(LevelManager.Instance.CurrentLevel.LevelName))
         {
-            levelName = LevelManager.Instance.CurrentLevel.levelName;
+            levelName = LevelManager.Instance.CurrentLevel.LevelName;
         }
 
         if(levelTitleText != null)

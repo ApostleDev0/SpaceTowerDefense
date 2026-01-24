@@ -37,13 +37,13 @@ public class Tower : MonoBehaviour
         _circleCollider = GetComponent<CircleCollider2D>();
         if(_circleCollider != null && data != null)
         {
-            _circleCollider.radius = data.range;
+            _circleCollider.radius = data.Range;
         }
 
         _projectilePool = GetComponent<ObjectPooler>();
         if(data != null)
         {
-            _shootTimer = data.shootInterval;
+            _shootTimer = data.ShootInterval;
 
         }
     }
@@ -57,7 +57,7 @@ public class Tower : MonoBehaviour
 
         if( _shootTimer <= 0 )
         {
-            _shootTimer = data.shootInterval;
+            _shootTimer = data.ShootInterval;
             Shoot();
         }
     }
@@ -72,7 +72,7 @@ public class Tower : MonoBehaviour
             if (status && data != null)
             {
                 rangeIndicator.transform.localPosition = Vector3.zero;
-                float diameter = data.range * 2f;
+                float diameter = data.Range * 2f;
                 rangeIndicator.transform.localScale = new Vector3(diameter, diameter, 1f);
             }
         }
@@ -165,7 +165,7 @@ public class Tower : MonoBehaviour
         {
             // color for range
             Gizmos.color = Color.cyan;
-            Gizmos.DrawWireSphere(transform.position, data.range);
+            Gizmos.DrawWireSphere(transform.position, data.Range);
         }
     }
 #endif

@@ -12,20 +12,10 @@ public class Spawner : MonoBehaviour
     public static event Action OnMissionComplete;
     #endregion
 
-    #region Serialized Fields
-    [SerializeField] private ObjectPooler alphaCritterPool;
-    [SerializeField] private ObjectPooler alphaGruntPool;
-    [SerializeField] private ObjectPooler alphaBossPool;
-    [SerializeField] private ObjectPooler betaCritterPool;
-    [SerializeField] private ObjectPooler betaGruntPool;
-    [SerializeField] private ObjectPooler betaBossPool;
-    [SerializeField] private ObjectPooler deltaGruntPool;
-    [SerializeField] private ObjectPooler deltaBossPool;
-    #endregion
-
     #region Private Field
-    private Dictionary<EnemyType,ObjectPooler> _poolDictionary;
-    private List<WaveData> _waves => LevelManager.Instance.CurrentLevel.waves;
+    // Dictionary: Enum -> Entry
+    private Dictionary<EnemyType, ObjectPooler> _poolDictionary;
+    private List<WaveData> _waves => LevelManager.Instance.CurrentLevel.Waves;
     private Path _currentPath;
     private Coroutine _spawnCoroutine;
 
@@ -33,21 +23,19 @@ public class Spawner : MonoBehaviour
     private int _waveCounter = 0;
     private int _totalEnemiesInWave = 0;
     private int _enemiesRemoved = 0;
+
     private float _timeBetweenWaves = 2f;
     private float _waveCoolDown;
-
     private bool _isBetweenWaves = false;
     private bool _isSpawning = false;
     private bool _isEndlessMode = false;
     private bool _isGamePlayScene = false;
+
     private WaveData CurrentWave
     {
         get
         {
-            if(_waves == null || _currentWaveIndex >= _waves.Count)
-            {
-                return null;
-            }
+            if (_waves == null || _currentWaveIndex >= _waves.Count) return null;
             return _waves[_currentWaveIndex];
         }
     }
@@ -55,26 +43,14 @@ public class Spawner : MonoBehaviour
 
     private void Awake()
     {
-        _poolDictionary = new Dictionary<EnemyType, ObjectPooler>()
-        {
-            {EnemyType.AlphaCritter, alphaCritterPool },
-            {EnemyType.AlphaGrunt, alphaGruntPool },
-            {EnemyType.AlphaBoss, alphaBossPool },
-            {EnemyType.BetaCritter, betaCritterPool },
-            {EnemyType.BetaGrunt, betaGruntPool },
-            {EnemyType.BetaBoss, betaBossPool },
-            {EnemyType.DeltaGrunt, deltaGruntPool },
-            {EnemyType.DeltaBoss, deltaBossPool },
-        };
         if(Instance != null && Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
-        else
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+        InitializePoolsAuto();
     }
     private void OnEnable()
     {
@@ -87,13 +63,6 @@ public class Spawner : MonoBehaviour
         Enemy.OnEnemyReachedEnd -= HandleEnemyReachedEnd;
         Enemy.OnEnemyDestroyed -= HandleEnemyDestroyed;
         SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-    private void Start()
-    {
-        //if(_isGamePlayScene)
-        //{
-        //    StartWave();
-        //}
     }
     private void Update()
     {
@@ -128,8 +97,9 @@ public class Spawner : MonoBehaviour
         }
 
         _enemiesRemoved = 0;
-        _totalEnemiesInWave = CurrentWave.GetTotalEnemyCount();
+        _totalEnemiesInWave = CurrentWave.TotalEnemyCount;
         _isBetweenWaves = false;
+
         OnWaveChanged?.Invoke(_waveCounter);
         if (_waveCounter == 0)
         {
@@ -145,14 +115,33 @@ public class Spawner : MonoBehaviour
                 ProcessWaveLogic();
             }
         }
+        else
+        {
+            ProcessWaveLogic();
+        }
     }
 
     //====PRIVATE
+    private void InitializePoolsAuto()
+    {
+        _poolDictionary = new Dictionary<EnemyType, ObjectPooler>();
+
+        // find all ObjectPooler inside child object of Spawner
+        ObjectPooler[] pools = GetComponentsInChildren<ObjectPooler>();
+
+        foreach (ObjectPooler pool in pools)
+        {
+            if (!_poolDictionary.ContainsKey(pool.PoolType))
+            {
+                _poolDictionary.Add(pool.PoolType, pool);
+            }
+        }
+    }
     private void ProcessWaveLogic()
     {
-        if (CurrentWave.openingDialogue != null && !_isEndlessMode)
+        if (CurrentWave.OpeningDialogue != null && !_isEndlessMode)
         {
-            UIController.Instance.StartDialogue(CurrentWave.openingDialogue, BeginSpawning);
+            UIController.Instance.StartDialogue(CurrentWave.OpeningDialogue, BeginSpawning);
         }
         else
         {
@@ -170,33 +159,40 @@ public class Spawner : MonoBehaviour
     private IEnumerator ProcessWave()
     {
         _isSpawning = true;
-        foreach (var group in CurrentWave.groups)
+        foreach (var group in CurrentWave.Groups)
         {
-            if (group.initialDelay > 0)
+            if (group.InitialDelay > 0)
             {
-                yield return new WaitForSeconds(group.initialDelay);
+                yield return new WaitForSeconds(group.InitialDelay);
             }
-            for (int i = 0; i < group.count; i++)
+
+            for (int i = 0; i < group.Count; i++)
             {
-                SpawnEnemy(group.enemyType);
-                if (i < group.count - 1)
-                {
-                    yield return new WaitForSeconds(group.spawnInterval);
-                }
+                SpawnEnemy(group.Type);
+                if (i < group.Count - 1) yield return new WaitForSeconds(group.SpawnInterval);
             }
         }
         _isSpawning = false;
     }
     private void SpawnEnemy(EnemyType type)
     {
-        if(_poolDictionary.TryGetValue(type, out var pool))
+        // fast search
+        if (_poolDictionary.TryGetValue(type, out var pool))
         {
             GameObject spawnedObject = pool.GetInstance();
             spawnedObject.transform.position = transform.position;
+
             float healthMultiplier = 1f + (_waveCounter * 0.1f);
-            Enemy enemy = spawnedObject.GetComponent<Enemy>();
-            enemy.Initialize(_currentPath, healthMultiplier);
+            if (spawnedObject.TryGetComponent<Enemy>(out Enemy enemy))
+            {
+                enemy.Initialize(_currentPath, healthMultiplier);
+            }
+
             spawnedObject.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning($"Spawner: Pool Not Found for '{type}'! Check Again Spawner.");
         }
     }
     private void CheckWaveCompletion()
@@ -208,7 +204,7 @@ public class Spawner : MonoBehaviour
     }
     private void FinishWave()
     {
-        if(_waveCounter + 1 >= LevelManager.Instance.CurrentLevel.wavesToWin && !_isEndlessMode)
+        if(_waveCounter + 1 >= LevelManager.Instance.CurrentLevel.TotalWaves && !_isEndlessMode)
         {
             OnMissionComplete?.Invoke();
             return;
@@ -232,13 +228,16 @@ public class Spawner : MonoBehaviour
         _isSpawning = false;
         _enemiesRemoved = 0;
         _totalEnemiesInWave = 0;
-        foreach (var pool in _poolDictionary.Values)
+
+        // Reset Pool
+        if (_poolDictionary != null)
         {
-            if(pool != null)
+            foreach (var pool in _poolDictionary.Values)
             {
-                pool.ResetPool();
+                if (pool != null) pool.ResetPool();
             }
         }
+
         OnWaveChanged?.Invoke(_waveCounter);
     }
 
@@ -257,15 +256,19 @@ public class Spawner : MonoBehaviour
     {
         _isGamePlayScene = scene.name != "MainMenu";
         ResetWaveState();
+
         if(!_isGamePlayScene)
         {
             return;
         }
-        _currentPath = GameObject.Find("Path1").GetComponent<Path>();
-        if(LevelManager.Instance.CurrentLevel != null)
+        _currentPath = FindObjectOfType<Path>();
+        if (_currentPath == null)
         {
-            transform.position = LevelManager.Instance.CurrentLevel.initialSpawnPosition;
+            _currentPath = GameObject.FindAnyObjectByType<Path>();
         }
-        //StartWave();
+        if (LevelManager.Instance != null && LevelManager.Instance.CurrentLevel != null)
+        {
+            transform.position = LevelManager.Instance.CurrentLevel.InitialSpawnPosition;
+        }
     }
 }

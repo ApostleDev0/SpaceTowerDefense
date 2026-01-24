@@ -70,11 +70,11 @@ public class Platform : MonoBehaviour
     //====LOGIC
     public void PlaceTower(TowerData data)
     {
-        if (data == null || data.prefab == null)
+        if (data == null || data.Prefab == null)
         {
             return;
         }
-        GameObject newTowerObj = Instantiate(data.prefab,transform.position, Quaternion.identity,transform);
+        GameObject newTowerObj = Instantiate(data.Prefab,transform.position, Quaternion.identity,transform);
 
         CurrentTower = newTowerObj.GetComponent<Tower>();
 

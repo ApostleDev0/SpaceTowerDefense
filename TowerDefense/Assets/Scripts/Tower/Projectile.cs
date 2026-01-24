@@ -21,7 +21,7 @@ public class Projectile : MonoBehaviour
         else
         {
             _projectileDuration -= Time.deltaTime;
-            transform.position += _shootDirection * _data.projectileSpeed * Time.deltaTime;
+            transform.position += _shootDirection * _data.ProjectileSpeed * Time.deltaTime;
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -30,7 +30,7 @@ public class Projectile : MonoBehaviour
         {
             if (collision.TryGetComponent<Enemy>(out Enemy enemy))
             {
-                enemy.TakeDamage(_data.damage);
+                enemy.TakeDamage(_data.Damage);
                 gameObject.SetActive(false);
             }
         }
@@ -39,9 +39,9 @@ public class Projectile : MonoBehaviour
     {
         _data = data;
         _shootDirection = shootDirection;
-        _projectileDuration = _data.projectileDuration;
+        _projectileDuration = _data.ProjectileDuration;
 
-        transform.localScale = Vector3.one * _data.projectileSize;
+        transform.localScale = Vector3.one * _data.ProjectileSize;
 
         float angle = Mathf.Atan2(_shootDirection.y, _shootDirection.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);

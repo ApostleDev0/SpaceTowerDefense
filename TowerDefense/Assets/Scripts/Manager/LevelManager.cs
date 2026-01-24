@@ -44,11 +44,11 @@ public class LevelManager : MonoBehaviour
         CurrentLevel = levelData;
 
         // check scene name data = Scene's name
-        if(string.IsNullOrEmpty(levelData.sceneName))
+        if(string.IsNullOrEmpty(levelData.SceneName))
         {
             Debug.LogError($"LevelManager: Scene Name is empty in LevelData '{levelData.name}'");
         }
-        SceneManager.LoadScene(levelData.sceneName);
+        SceneManager.LoadScene(levelData.SceneName);
     }
     public void RestartCurrentLevel()
     {

@@ -6,59 +6,55 @@ public class ObjectPooler : MonoBehaviour
 {
     #region Serialized Fields
     [SerializeField] private GameObject prefab;
-    [SerializeField] private int initialPoolSize = 5;
+    [SerializeField] private int poolSize = 10;
+    [SerializeField] private EnemyType poolType;
     #endregion
 
     #region Private Fields
-    private List<GameObject> _pool;
+    private List<GameObject> _pooledObjects;
     #endregion
 
-    // Start is called before the first frame update
-    void Awake()
-    {
-        // check prefab
-        if(prefab == null)
-        {
-            Debug.LogError($"ObjectPooler on {gameObject.name} is missing Prefab!");
-            return;
-        }
+    #region Public Properties
+    public EnemyType PoolType => poolType;
+    #endregion
 
-        // create pool
-        _pool = new List<GameObject>();
-        for(int i = 0; i< initialPoolSize; i++)
+    private void Awake()
+    {
+        _pooledObjects = new List<GameObject>();
+        for (int i = 0; i < poolSize; i++)
         {
-            CreateNewInstance();
+            GameObject obj = Instantiate(prefab);
+            obj.SetActive(false);
+            obj.transform.SetParent(transform);
+            _pooledObjects.Add(obj);
         }
     }
 
-    //====PUBLIC
     public GameObject GetInstance()
     {
-        // check inactive object
-        foreach(GameObject obj in _pool)
+        foreach (GameObject obj in _pooledObjects)
         {
-            if(!obj.activeSelf)
+            if (!obj.activeInHierarchy)
             {
                 return obj;
             }
         }
-        // add new object if full
-        return CreateNewInstance();
-    }
-    public void ResetPool()
-    {
-        foreach (GameObject obj in _pool)
-        {
-            obj.SetActive(false);
-        }
+
+        GameObject newObj = Instantiate(prefab);
+        newObj.SetActive(false);
+        newObj.transform.SetParent(transform);
+        _pooledObjects.Add(newObj);
+        return newObj;
     }
 
-    //====PRIVATE
-    private GameObject CreateNewInstance()
+    public void ResetPool()
     {
-        GameObject obj = Instantiate(prefab,transform);
-        obj.SetActive(false);
-        _pool.Add(obj);
-        return obj;
+        foreach (GameObject obj in _pooledObjects)
+        {
+            if (obj.activeInHierarchy)
+            {
+                obj.SetActive(false);
+            }
+        }
     }
 }

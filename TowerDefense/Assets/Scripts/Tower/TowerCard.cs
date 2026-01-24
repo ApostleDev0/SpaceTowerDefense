@@ -28,11 +28,11 @@ public class TowerCard : MonoBehaviour
 
         if (towerImage != null)
         {
-            towerImage.sprite = data.sprite;
+            towerImage.sprite = data.Sprite;
         }
         if(costText != null)
         {
-            costText.text = $"${data.cost}";
+            costText.text = $"${data.Cost}";
         }
     }
     public void PlaceTower()

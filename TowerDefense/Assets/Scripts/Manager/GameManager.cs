@@ -94,8 +94,8 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
-        _lives = LevelManager.Instance.CurrentLevel.startingLives;
-        _resource = LevelManager.Instance.CurrentLevel.startingResources;
+        _lives = LevelManager.Instance.CurrentLevel.StartingLives;
+        _resource = LevelManager.Instance.CurrentLevel.StartingResources;
         _currentKillCount = 0;
 
         SetGameSpeed(1f);
@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour
     //====HANDLE
     private void HandleEnemyReachedEnd(EnemyData data)
     {
-        _lives = Mathf.Max(0, _lives - data.damageToBase);
+        _lives = Mathf.Max(0, _lives - data.DamageToBase);
         OnLivesChanged?.Invoke(_lives);
         if (_lives <= 0)
         {
@@ -132,7 +132,7 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
-        AddResources(Mathf.RoundToInt(enemy.Data.goldReward));
+        AddResources(Mathf.RoundToInt(enemy.Data.GoldReward));
 
         // bonus gold when kill
         _currentKillCount++;
