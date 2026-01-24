@@ -12,38 +12,54 @@ public class UIController : MonoBehaviour
     public static UIController Instance { get; private set; }
     #endregion
 
-    #region Serialized Fields
+    #region Serialized Fields - HUD
+    [Header("HUD Elements")]
     [SerializeField] private TMP_Text waveText;
     [SerializeField] private TMP_Text livesText;
     [SerializeField] private TMP_Text resourcesText;
     [SerializeField] private TMP_Text warningText;
-    [SerializeField] private TMP_Text levelText;      
-    [SerializeField] private TMP_Text upgradeCostText;  
-    [SerializeField] private TMP_Text sellPriceText;    
     [SerializeField] private TMP_Text levelTitleText;
+    [SerializeField] private CanvasGroup levelTitleGroup;
+    [SerializeField] private GameObject topInfoPanel;
 
+    [Header("Sliders")]
+    [SerializeField] private Slider waveSlider;
+    [SerializeField] private Slider livesSlider;
+    [SerializeField] private Slider resourcesSlider;
+    #endregion
+
+    #region Serialized Fields - Panels
+    [Header("Panels")]
     [SerializeField] private GameObject towerPanel;
     [SerializeField] private GameObject towerCardPrefab;
     [SerializeField] private GameObject upgradePanel;
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private GameObject missionCompletePanel;
-    [SerializeField] private GameObject topInfoPanel;
-
     [SerializeField] private Transform cardsContainer;
-    [SerializeField] private TowerData[] towers;
-    [SerializeField] private Slider waveSlider;
-    [SerializeField] private Slider livesSlider;
-    [SerializeField] private Slider resourcesSlider;
-    [SerializeField] private DialogueController dialogueController;
-    [SerializeField] private CanvasGroup levelTitleGroup;
+    #endregion
 
+    #region Serialized Fields - Upgrade Info
+    [Header("Upgrade UI")]
+    [SerializeField] private TMP_Text levelText;
+    [SerializeField] private TMP_Text upgradeCostText;  
+    [SerializeField] private TMP_Text sellPriceText;    
+    [SerializeField] private Button upgradeButton;
+    #endregion
+
+    #region Serialized Fields - Controls
+    [Header("Controls")]
     [SerializeField] private Button speed1Button;
     [SerializeField] private Button speed2Button;
     [SerializeField] private Button speed3Button;
     [SerializeField] private Button pauseButton;
     [SerializeField] private Button nextLevelButton;
-    [SerializeField] private Button upgradeButton;
+    #endregion
+
+    #region Serialized Fields - External References
+    [Header("Data & Refs")]
+    [SerializeField] private TowerData[] towers;
+    [SerializeField] private DialogueController dialogueController;
     #endregion
 
     #region Private Fields
@@ -54,10 +70,10 @@ public class UIController : MonoBehaviour
     private Platform _currentPlatform;
     private Tower _selectedTower;
 
-    private Color normalButtonColor = Color.white;
-    private Color selectedButtonColor = new Color(0f/255f,114f/255f,255f/255f,120f/255f);
-    private Color normalTextColor = Color.black;
-    private Color selectedTextColor = Color.white;
+    private readonly Color normalButtonColor = Color.white;
+    private readonly Color selectedButtonColor = new Color(0f, 0.447f, 1f, 0.47f); // (0, 114, 255, 120)
+    private readonly Color normalTextColor = Color.black;
+    private readonly Color selectedTextColor = Color.white;
     #endregion
 
     private void Awake()
@@ -74,52 +90,47 @@ public class UIController : MonoBehaviour
     }
     private void Start()
     {
-        if(upgradePanel != null)
+        InitializeButtons();
+        if (upgradePanel != null)
         {
             upgradePanel.SetActive(false);
         }
-        speed1Button.onClick.AddListener(() =>
-        {
-            SetGameSpeed(0.2f);
-            AudioManager.Instance.PlaySpeedSlow();
-        });
-        speed2Button.onClick.AddListener(() =>
-        {
-            SetGameSpeed(1f);
-            AudioManager.Instance.PlaySpeedNormal();
-        });
-        speed3Button.onClick.AddListener(() =>
-        {
-            SetGameSpeed(2.25f);
-            AudioManager.Instance.PlaySpeedFast();
-        });
-        HighlightSelectedSpeedButton(GameManager.Instance.GameSpeed);
         if (dialogueController != null)
         {
             dialogueController.gameObject.SetActive(false);
+        }
+        if (warningText != null)
+        {
+            warningText.gameObject.SetActive(false);
         }
     }
     private void OnEnable()
     {
         Spawner.OnWaveChanged += UpdateWaveText;
+        Spawner.OnMissionComplete += ShowMissionComplete;
+
         GameManager.OnLivesChanged += UpdateLivesText;
         GameManager.OnResourcesChanged += UpdateResourcesText;
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
         Platform.OnPLatformClicked += HandlePLatformClicked;
         TowerCard.OnTowerSelected += HandleTowerSelected;
-        SceneManager.sceneLoaded += OnSceneLoaded;
-        Spawner.OnMissionComplete += ShowMissionComplete;
+
         GameManager.OnBountyProgressChanged += UpdateResourcesSlider;
     }
     private void OnDisable()
     {
         Spawner.OnWaveChanged -= UpdateWaveText;
+        Spawner.OnMissionComplete -= ShowMissionComplete;
+
         GameManager.OnLivesChanged -= UpdateLivesText;
         GameManager.OnResourcesChanged -= UpdateResourcesText;
+        GameManager.OnBountyProgressChanged -= UpdateResourcesSlider;
+
         Platform.OnPLatformClicked -= HandlePLatformClicked;
         TowerCard.OnTowerSelected -= HandleTowerSelected;
+
         SceneManager.sceneLoaded -= OnSceneLoaded;
-        Spawner.OnMissionComplete -= ShowMissionComplete;
-        GameManager.OnBountyProgressChanged -= UpdateResourcesSlider;
     }
     private void Update()
     {
@@ -129,29 +140,18 @@ public class UIController : MonoBehaviour
         }
     }
 
-    //====PUBLIC
+    //====PUBLIC (UI)
     public void ShowUpgradePanel(Tower tower)
     {
         _selectedTower = tower;
         upgradePanel.SetActive(true);
         Platform.towerPanelOpen = true;
+
         GameManager.Instance.SetTimeScale(0f);
         AudioManager.Instance.PlayPanelToggle();
 
         _selectedTower.ToggleRange(true);
-        TowerData data = _selectedTower.GetData();
-        levelText.text = data.displayLevel;
-        sellPriceText.text = $"${data.sellPrice}";
-        if(data.nextLevelData != null)
-        {
-            upgradeButton.interactable = true;
-            upgradeCostText.text = $"${data.upgradeCost}";
-        }
-        else
-        {
-            upgradeButton.interactable = false;
-            upgradeCostText.text = "MAX";
-        }
+        UpdateUpgradePanelInfo();
     }
     public void HideUpgradePanel()
     {
@@ -164,6 +164,8 @@ public class UIController : MonoBehaviour
             }
             upgradePanel.SetActive(false);
             Platform.towerPanelOpen = false;
+
+            // reset normal speed
             GameManager.Instance.SetTimeScale(GameManager.Instance.GameSpeed);
         }
     }
@@ -174,25 +176,28 @@ public class UIController : MonoBehaviour
             return;
         }
         TowerData currentData = _selectedTower.GetData();
-        if(GameManager.Instance.Resources >= currentData.upgradeCost)
+
+        if(GameManager.Instance.TrySpendResources(currentData.upgradeCost))
         {
-            // Minus money
-            GameManager.Instance.TrySpendResources(currentData.upgradeCost);
             AudioManager.Instance.PlayTowerPlaced();
+
             // save old position
             Vector3 pos = _selectedTower.transform.position;
             Quaternion rot = _selectedTower.transform.rotation;
+
             // delete old tower
             Destroy(_selectedTower.gameObject);
-            //create new tower
+
+            //create new tower next level
             GameObject newTowerObj = Instantiate(currentData.nextLevelData.prefab, pos, rot);
             Tower newTowerScript = newTowerObj.GetComponent<Tower>();
-            // update platfrom & child of platform
+
+            // up to date platfrom
             _currentPlatform.tower = newTowerScript;
             newTowerObj.transform.SetParent(_currentPlatform.transform);
+
             // display panel for new tower
             ShowUpgradePanel(newTowerScript);
-
         }
         else
         {
@@ -206,14 +211,16 @@ public class UIController : MonoBehaviour
             return;
         }
         TowerData currentData = _selectedTower.GetData();
+
         // plus money
         GameManager.Instance.AddResources(currentData.sellPrice);
         AudioManager.Instance.PlayTowerPlaced();
+
         // delete tower
         Destroy(_selectedTower.gameObject);
-        // Reset 
+
+        // reset platform & close panel
         _currentPlatform.ResetPlatform();
-        // close panel
         HideUpgradePanel();
     }
     public void OnCloseUpgradePanelClicked()
@@ -226,20 +233,20 @@ public class UIController : MonoBehaviour
         Platform.towerPanelOpen = false;
         GameManager.Instance.SetTimeScale(GameManager.Instance.GameSpeed);
     }
+
+    //====PUBLIC (Game Flow)
     public void TogglePause()
     {
+        // check pause at MainMenu or open Tower Panel
         if(SceneManager.GetActiveScene().name == "MainMenu")
         {
             return;
         }
-        if(towerPanel.activeSelf)
+        if(towerPanel.activeSelf || upgradePanel.activeSelf)
         {
             return;
         }
-        if(upgradePanel.activeSelf)
-        {
-            return;
-        }
+
         if(_isGamePaused)
         {
             pausePanel.SetActive(false);
@@ -266,7 +273,7 @@ public class UIController : MonoBehaviour
     public void GoToMainMenu()
     {
         GameManager.Instance.SetTimeScale(1f);
-        SceneManager.LoadScene("MainMenu");
+        LevelManager.Instance.LoadMainMenu();
     }
     public void EnterEndlessMode()
     {
@@ -276,23 +283,16 @@ public class UIController : MonoBehaviour
     }
     public void LoadNextLevel()
     {
-        var levelManager = LevelManager.Instance;
-        int currentIndex = Array.IndexOf(levelManager.allLevels, levelManager.CurrentLevel);
-        int nextIndex = currentIndex + 1;
-        if(nextIndex < levelManager.allLevels.Length)
-        {
-            missionCompletePanel.SetActive(false);
-            levelManager.LoadLevel(levelManager.allLevels[nextIndex]);
-        }
+        missionCompletePanel.SetActive(false);
+        LevelManager.Instance.LoadNextLevel();
     }
+
+    //==== PUBLIC (DIALOGUE & CINEMATIC)
     public void StartDialogue(DialogueData data, Action onFinished)
     {
         if (dialogueController != null)
         {
-            dialogueController.Initialize(data, () =>
-            {
-                onFinished?.Invoke();
-            });
+            dialogueController.Initialize(data, onFinished);
         }
         else
         {
@@ -307,24 +307,19 @@ public class UIController : MonoBehaviour
     //====PRIVATE
     private void UpdateWaveText(int currentWave)
     {
-        int totalWaves = 0;
-        if (LevelManager.Instance.CurrentLevel != null)
+        if (LevelManager.Instance.CurrentLevel == null)
         {
-            totalWaves = LevelManager.Instance.CurrentLevel.waves.Count;
+            return;
         }
+        int totalWaves = LevelManager.Instance.CurrentLevel.waves.Count;
+
         if (waveText != null)
         {
             waveText.text = $"Waves: {currentWave + 1} / {totalWaves}";
-            if (currentWave + 1 == totalWaves)
-            {
-                waveText.color = Color.red;
-                waveText.fontStyle = FontStyles.Bold;
-            }
-            else
-            {
-                waveText.color = Color.white;
-                waveText.fontStyle = FontStyles.Normal;
-            }
+            bool isFinalWave = (currentWave + 1 == totalWaves);
+
+            waveText.color = isFinalWave ? Color.red : Color.white;
+            waveText.fontStyle = isFinalWave ? FontStyles.Bold : FontStyles.Normal;
         }
         if (waveSlider != null)
         {
@@ -334,12 +329,12 @@ public class UIController : MonoBehaviour
     }
     private void UpdateLivesText(int currentLives)
     {
-        //livesText.text = $"Lives: {currentLives}";
         int maxLives = 100;
         if (LevelManager.Instance.CurrentLevel != null)
         {
             maxLives = LevelManager.Instance.CurrentLevel.startingLives;
         }
+
         if (livesText != null)
         {
             livesText.text = $"Lives: {currentLives}";
@@ -356,7 +351,18 @@ public class UIController : MonoBehaviour
     }
     private void UpdateResourcesText(int currentResources)
     {
-        resourcesText.text = $"Gold: {currentResources}$";
+        if(resourcesText != null)
+        { 
+            resourcesText.text = $"Gold: {currentResources}$";
+        }
+    }
+    private void UpdateResourcesSlider(int currentProgress, int maxProgress)
+    {
+        if (resourcesSlider != null)
+        {
+            resourcesSlider.maxValue = maxProgress;
+            resourcesSlider.value = currentProgress;
+        }
     }
     private void ShowTowerPanel()
     {
@@ -368,18 +374,23 @@ public class UIController : MonoBehaviour
     }
     private void PopulateTowerCards()
     {
+        // delete old cards
         foreach (var card in activeCards)
         {
             Destroy(card);
         }
         activeCards.Clear();
 
+        // create new cards
         foreach (var data in towers)
         {
-            GameObject cardGameObject = Instantiate(towerCardPrefab, cardsContainer);
-            TowerCard card = cardGameObject.GetComponent<TowerCard>();
-            card.Initialize(data);
-            activeCards.Add(cardGameObject);
+            GameObject cardObj = Instantiate(towerCardPrefab, cardsContainer);
+            TowerCard card = cardObj.GetComponent<TowerCard>();
+            if(card != null)
+            {
+                card.Initialize(data);
+                activeCards.Add(cardObj);
+            }
         }
     }
     private void ShowMissionComplete()
@@ -393,61 +404,46 @@ public class UIController : MonoBehaviour
             _missionCompleteSoundPlayed = true;
         }
     }
-    private void HideUI()
-    {
-        HidePanel();
-        if (topInfoPanel != null)
-        {
-            topInfoPanel.SetActive(false);
-        }
-        waveText.gameObject.SetActive(false);
-        resourcesText.gameObject.SetActive(false);
-        livesText.gameObject.SetActive(false);
-        warningText.gameObject.SetActive(false);
-        if (levelTitleText != null) levelTitleText.gameObject.SetActive(false);
-        speed1Button.gameObject.SetActive(false);
-        speed2Button.gameObject.SetActive(false);
-        speed3Button.gameObject.SetActive(false);
-        HighlightSelectedSpeedButton(GameManager.Instance.GameSpeed);
-        pauseButton.gameObject.SetActive(false);
-    }
-    private void ShowUI()
-    {
-        if (topInfoPanel != null)
-        {
-            topInfoPanel.SetActive(true);
-        }
-        waveText.gameObject.SetActive(true);
-        resourcesText.gameObject.SetActive(true);
-        livesText.gameObject.SetActive(true);
-
-        speed1Button.gameObject.SetActive(true);
-        speed2Button.gameObject.SetActive(true);
-        speed3Button.gameObject.SetActive(true);
-        pauseButton.gameObject.SetActive(true);
-    }
-    private void HidePanel()
-    {
-        pausePanel.SetActive(false);
-        gameOverPanel.SetActive(false);
-        missionCompletePanel.SetActive(false);
-        HideUpgradePanel();
-        HideTowerPanel();
-        if (dialogueController != null) dialogueController.gameObject.SetActive(false);
-    }
     private void UpdateNextLevelButton()
     {
-        var levelManager = LevelManager.Instance;
-        int currentIndex = Array.IndexOf(levelManager.allLevels, levelManager.CurrentLevel);
-        nextLevelButton.interactable = currentIndex + 1 < levelManager.allLevels.Length;
+        if (nextLevelButton != null)
+        {
+            nextLevelButton.interactable = LevelManager.Instance.HasNextLevel();
+        }
     }
-    private void SetGameSpeed(float timeScale)
+    private void SetGameSpeed(float timeScale, bool playSound = false)
     {
         HighlightSelectedSpeedButton(timeScale);
         GameManager.Instance.SetGameSpeed(timeScale);
+
+        if (playSound)
+        {
+            if (timeScale < 1f)
+            {
+                AudioManager.Instance.PlaySpeedSlow();
+            }
+            else if (timeScale > 1f)
+            {
+                AudioManager.Instance.PlaySpeedFast();
+            }
+            else
+            {
+                AudioManager.Instance.PlaySpeedNormal();
+            }
+        }
+    }
+    private void HighlightSelectedSpeedButton(float selectedSpeed)
+    {
+        UpdateButtonVisual(speed1Button, Mathf.Approximately(selectedSpeed, 0.2f));
+        UpdateButtonVisual(speed2Button, Mathf.Approximately(selectedSpeed, 1f));
+        UpdateButtonVisual(speed3Button, Mathf.Approximately(selectedSpeed, 2.25f));
     }
     private void UpdateButtonVisual(Button button, bool isSelected)
     {
+        if (button == null)
+        {
+            return;
+        }
         button.image.color = isSelected ? selectedButtonColor : normalButtonColor;
 
         TMP_Text text = button.GetComponentInChildren<TMP_Text>();
@@ -456,24 +452,42 @@ public class UIController : MonoBehaviour
             text.color = isSelected ? selectedTextColor : normalTextColor;
         }
     }
-    private void HighlightSelectedSpeedButton(float selectedSpeed)
-    {
-        UpdateButtonVisual(speed1Button, selectedSpeed == 0.2f);
-        UpdateButtonVisual(speed2Button, selectedSpeed == 1f);
-        UpdateButtonVisual(speed3Button, selectedSpeed == 2.25f);
-    }
     private void ShowGameOver()
     {
         GameManager.Instance.SetTimeScale(0f);
         gameOverPanel.SetActive(true);
         AudioManager.Instance.PlayGameOver();
     }
-    private void UpdateResourcesSlider(int currentProgress, int maxProgress)
+    private void InitializeButtons()
     {
-        if (resourcesSlider != null)
+        speed1Button.onClick.AddListener(() => SetGameSpeed(0.2f, true));
+        speed2Button.onClick.AddListener(() => SetGameSpeed(1f, true));
+        speed3Button.onClick.AddListener(() => SetGameSpeed(2.25f, true));
+
+        // Highlight normal speed
+        if (GameManager.Instance != null)
+            HighlightSelectedSpeedButton(GameManager.Instance.GameSpeed);
+    }
+    private void UpdateUpgradePanelInfo()
+    {
+        // check selected tower
+        if(_selectedTower == null)
         {
-            resourcesSlider.maxValue = maxProgress;
-            resourcesSlider.value = currentProgress;
+            return;
+        }
+        TowerData data = _selectedTower.GetData();
+        levelText.text = data.displayLevel;
+        sellPriceText.text = $"${data.sellPrice}";
+
+        if (data.nextLevelData != null)
+        {
+            upgradeButton.interactable = true;
+            upgradeCostText.text = $"${data.upgradeCost}";
+        }
+        else
+        {
+            upgradeButton.interactable = false;
+            upgradeCostText.text = "MAX";
         }
     }
 
@@ -500,10 +514,9 @@ public class UIController : MonoBehaviour
             StartCoroutine(ShowWarningMessage("You already place Tower!"));
             return;
         }
-        if(GameManager.Instance.Resources >= towerData.cost)
+        if(GameManager.Instance.TrySpendResources(towerData.cost))
         {
             AudioManager.Instance.PlayTowerPlaced();
-            GameManager.Instance.TrySpendResources(towerData.cost);
             _currentPlatform.PlaceTower(towerData);
         }
         else
@@ -514,11 +527,16 @@ public class UIController : MonoBehaviour
     }
     private IEnumerator ShowWarningMessage(string message)
     {
-        warningText.text = message;
-        AudioManager.Instance.PlayWarning();
-        warningText.gameObject.SetActive(true);    
-        yield return new WaitForSecondsRealtime(3f);
-        warningText.gameObject.SetActive(false);
+        if(warningText != null)
+        {
+            warningText.text = message;
+            warningText.gameObject.SetActive(true);    
+            AudioManager.Instance.PlayWarning();
+
+            yield return new WaitForSecondsRealtime(2f);
+
+            warningText.gameObject.SetActive(false);
+        }
     }    
     private IEnumerator ShowLevelTitle(Action onComplete = null)
     {
@@ -528,14 +546,18 @@ public class UIController : MonoBehaviour
             levelName = LevelManager.Instance.CurrentLevel.levelName;
         }
 
-        levelTitleText.text = levelName;
-        levelTitleText.gameObject.SetActive(true);
+        if(levelTitleText != null)
+        {
+            levelTitleText.text = levelName;
+            levelTitleText.gameObject.SetActive(true);
+        }
+
+        // Fade in
         if (levelTitleGroup != null)
         {
             levelTitleGroup.alpha = 0f;
             float duration = 0.5f;
             float currentTime = 0f;
-
             while (currentTime < duration)
             {
                 currentTime += Time.deltaTime;
@@ -544,7 +566,10 @@ public class UIController : MonoBehaviour
             }
             levelTitleGroup.alpha = 1f;
         }
-        yield return new WaitForSeconds(2.5f);
+
+        yield return new WaitForSeconds(2.0f);
+
+        // Fade out
         if (levelTitleGroup != null)
         {
             float duration = 0.5f;
@@ -556,25 +581,82 @@ public class UIController : MonoBehaviour
                 yield return null;
             }
         }
-        levelTitleText.gameObject.SetActive(false);
+
+        if(levelTitleText != null)
+        {
+            levelTitleText.gameObject.SetActive(false);
+        }
         onComplete?.Invoke();
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Camera mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        Canvas canvas = GetComponent<Canvas>();
-        canvas.worldCamera = mainCamera;
-        HidePanel();
+        GameObject camObj = GameObject.FindGameObjectWithTag("MainCamera");
+        if(camObj != null)
+        {
+            Canvas canvas = GetComponent<Canvas>();
+            if (canvas != null)
+            {
+                canvas.worldCamera = camObj.GetComponent<Camera>();
+            }
+        }
+        HideAllPanels();
         _missionCompleteSoundPlayed = false;
+
         if(scene.name == "MainMenu")
         {
-            HideUI();
+            HideHUD();
         }
         else
         {
-            ShowUI();
-            SetGameSpeed(1f);
+            ShowHUD();
+            SetGameSpeed(1f, false);
         }
+    }    
+    private void HideAllPanels()
+    {
+        if (pausePanel)
+        {
+            pausePanel.SetActive(false);
+        }
+        if (gameOverPanel)
+        {
+            gameOverPanel.SetActive(false);
+        }
+        if (missionCompletePanel)
+        {
+            missionCompletePanel.SetActive(false);
+        }
+        if (dialogueController != null)
+        {
+            dialogueController.gameObject.SetActive(false);
+        }
+        HideUpgradePanel();
+        HideTowerPanel();
+    }
+    private void HideHUD()
+    {
+        if (topInfoPanel) topInfoPanel.SetActive(false);
+        if (waveText) waveText.gameObject.SetActive(false);
+        if (resourcesText) resourcesText.gameObject.SetActive(false);
+        if (livesText) livesText.gameObject.SetActive(false);
+        if (warningText) warningText.gameObject.SetActive(false);
+
+        if (speed1Button) speed1Button.gameObject.SetActive(false);
+        if (speed2Button) speed2Button.gameObject.SetActive(false);
+        if (speed3Button) speed3Button.gameObject.SetActive(false);
+        if (pauseButton) pauseButton.gameObject.SetActive(false);
+    }
+    private void ShowHUD()
+    {
+        if (topInfoPanel) topInfoPanel.SetActive(true);
+        if (waveText) waveText.gameObject.SetActive(true);
+        if (resourcesText) resourcesText.gameObject.SetActive(true);
+        if (livesText) livesText.gameObject.SetActive(true);
+
+        if (speed1Button) speed1Button.gameObject.SetActive(true);
+        if (speed2Button) speed2Button.gameObject.SetActive(true);
+        if (speed3Button) speed3Button.gameObject.SetActive(true);
+        if (pauseButton) pauseButton.gameObject.SetActive(true);
     }
 }
