@@ -177,7 +177,7 @@ public class UIController : MonoBehaviour
         if(GameManager.Instance.Resources >= currentData.upgradeCost)
         {
             // Minus money
-            GameManager.Instance.SpendResources(currentData.upgradeCost);
+            GameManager.Instance.TrySpendResources(currentData.upgradeCost);
             AudioManager.Instance.PlayTowerPlaced();
             // save old position
             Vector3 pos = _selectedTower.transform.position;
@@ -503,7 +503,7 @@ public class UIController : MonoBehaviour
         if(GameManager.Instance.Resources >= towerData.cost)
         {
             AudioManager.Instance.PlayTowerPlaced();
-            GameManager.Instance.SpendResources(towerData.cost);
+            GameManager.Instance.TrySpendResources(towerData.cost);
             _currentPlatform.PlaceTower(towerData);
         }
         else

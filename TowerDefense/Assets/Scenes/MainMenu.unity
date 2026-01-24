@@ -5284,6 +5284,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sfxSource: {fileID: 1160082414}
   musicSource: {fileID: 1160082413}
+  musicVolume: 0.3
+  sfxVolume: 0.6
   mainMenuMusic: {fileID: 8300000, guid: ae9cb2e4212088040aca9173b3ede319, type: 3}
   gameplayMusic: {fileID: 8300000, guid: 2e106ed1011865a46b07c06d550d2834, type: 3}
   buttonClickClip: {fileID: 8300000, guid: 807e0bd8427060648ad0161ef18c87e1, type: 3}

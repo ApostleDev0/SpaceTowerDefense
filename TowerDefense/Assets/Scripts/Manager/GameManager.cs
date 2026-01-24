@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -16,12 +13,12 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Serialized Fields
-    [SerializeField] private TMP_FontAsset globalFont;
+    [SerializeField] private TMP_FontAsset globalFont; // think twice to remove
     [SerializeField] private int enemiesToBonus = 10;
-    [SerializeField] private int bonusAmount = 50;
+    [SerializeField] private int bonusAmount = 30;
     #endregion
 
-    #region Public Fields
+    #region Public Properties
     public int Resources => _resource;
     public float GameSpeed => _gameSpeed;
     #endregion
@@ -43,7 +40,7 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            ApplyGlobalFont();
+            ApplyGlobalFont(); // need to remove 
         }
     }
     private void OnEnable()
@@ -60,6 +57,7 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
+        // Init UI at First
         OnLivesChanged?.Invoke(_lives);
         OnResourcesChanged?.Invoke(_resource);
     }
@@ -70,36 +68,46 @@ public class GameManager : MonoBehaviour
         _resource += amount;
         OnResourcesChanged?.Invoke(_resource);
     }
-    public void SetTimeScale(float scale)
+    public bool TrySpendResources(int amount)
     {
-        Time.timeScale = scale;
+        if(_resource >= amount)
+        {
+            _resource -= amount;
+            OnResourcesChanged?.Invoke(_resource);
+            return true;
+        }
+        return false;
     }
     public void SetGameSpeed(float newSpeed)
     {
         _gameSpeed = newSpeed;
         SetTimeScale(newSpeed);
     }
-    public void SpendResources(int amount)
+    public void SetTimeScale(float scale)
     {
-        if(_resource >= amount)
-        {
-            _resource -= amount;
-            OnResourcesChanged?.Invoke(_resource);
-        }
+        Time.timeScale = scale;
     }
     public void ResetGameState()
     {
+        // Check before access LevelManager
+        if (LevelManager.Instance == null || LevelManager.Instance.CurrentLevel == null)
+        {
+            return;
+        }
         _lives = LevelManager.Instance.CurrentLevel.startingLives;
-        OnLivesChanged?.Invoke(_lives);
         _resource = LevelManager.Instance.CurrentLevel.startingResources;
-        OnResourcesChanged?.Invoke(_resource);
-        SetGameSpeed(1f);
         _currentKillCount = 0;
+
+        SetGameSpeed(1f);
+
+        // update UI
+        OnLivesChanged?.Invoke(_lives);
+        OnResourcesChanged?.Invoke(_resource);
         OnBountyProgressChanged?.Invoke(0, enemiesToBonus);
     }
 
     //====PRIVATE
-    private void ApplyGlobalFont()
+    private void ApplyGlobalFont() // need to set up font 
     {
         foreach(var tmp in UnityEngine.Object.FindObjectsByType<TextMeshProUGUI>(FindObjectsInactive.Include,FindObjectsSortMode.None))
         {
@@ -112,10 +120,21 @@ public class GameManager : MonoBehaviour
     {
         _lives = Mathf.Max(0, _lives - data.damageToBase);
         OnLivesChanged?.Invoke(_lives);
+        if (_lives <= 0)
+        {
+            SetTimeScale(0f);
+        }
     }
     private void HandleEnemyDestroyed(Enemy enemy)
     {
+        // check enemy data
+        if(enemy == null || enemy.Data == null)
+        {
+            return;
+        }
         AddResources(Mathf.RoundToInt(enemy.Data.goldReward));
+
+        // bonus gold when kill
         _currentKillCount++;
         if (_currentKillCount >= enemiesToBonus)
         {
@@ -126,14 +145,24 @@ public class GameManager : MonoBehaviour
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(scene.name == "MainMenu")
+        // optimization
+        bool isMainMenu = scene.name.Equals("MainMenu");
+
+        // check before play music
+        if (isMainMenu)
         {
-            AudioManager.Instance.PlayMusic(AudioManager.Instance.mainMenuMusic);
+            if(AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayMusic(AudioManager.Instance.mainMenuMusic);
+            }
         }
-        else if(LevelManager.Instance != null && LevelManager.Instance.CurrentLevel != null)
+        else
         {
+            if(AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayMusic(AudioManager.Instance.gameplayMusic);
+            }
             ResetGameState();
-            AudioManager.Instance.PlayMusic(AudioManager.Instance.gameplayMusic);
         }
     }
 }
