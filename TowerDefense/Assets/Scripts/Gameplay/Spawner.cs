@@ -195,7 +195,7 @@ public class Spawner : MonoBehaviour
             spawnedObject.transform.position = transform.position;
             float healthMultiplier = 1f + (_waveCounter * 0.1f);
             Enemy enemy = spawnedObject.GetComponent<Enemy>();
-            enemy.Initialized(_currentPath, healthMultiplier);
+            enemy.Initialize(_currentPath, healthMultiplier);
             spawnedObject.SetActive(true);
         }
     }

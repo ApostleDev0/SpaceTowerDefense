@@ -1,15 +1,19 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FlashDamage : MonoBehaviour
 {
+    #region Serialized Fields
     [SerializeField] private Color flashColor = Color.red; 
     [SerializeField] private float duration = 0.2f;
     [SerializeField] private SpriteRenderer _spriteRenderer;
+    #endregion
 
+    #region Private Fields
     private Color _originalColor;
     private Coroutine _flashRoutine;
+    private WaitForSeconds _wait;
+    #endregion
 
     void Awake()
     {
@@ -17,36 +21,34 @@ public class FlashDamage : MonoBehaviour
         {
             _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         }
-
-        //if (_spriteRenderer != null)
-        //{
-        //    _originalColor = _spriteRenderer.color;
-        //}
         _originalColor = Color.white;
+
+        // setup before start
+        _wait = new WaitForSeconds(duration);
     }
-    void OnEnable()
+    private void OnEnable()
     {
-        if (_spriteRenderer != null)
+        ResetColor();
+        _flashRoutine = null;
+    }
+    private void OnDisable()
+    {
+        ResetColor();
+        if (_flashRoutine != null)
         {
-            _spriteRenderer.color = _originalColor;
+            StopCoroutine(_flashRoutine);
             _flashRoutine = null;
-        }
-    }
-    void OnDisable()
-    {
-        if (_spriteRenderer != null)
-        {
-            _spriteRenderer.color = _originalColor;
         }
     }
 
     public void Flash()
     {
-        if (_spriteRenderer == null)
+        if (_spriteRenderer == null || !gameObject.activeInHierarchy)
         {
             return;
         }
 
+        // reset time
         if (_flashRoutine != null)
         {
             StopCoroutine(_flashRoutine); 
@@ -54,12 +56,18 @@ public class FlashDamage : MonoBehaviour
 
         _flashRoutine = StartCoroutine(FlashRoutine());
     }
-
     private IEnumerator FlashRoutine()
     {
         _spriteRenderer.color = flashColor;
-        yield return new WaitForSeconds(duration);
+        yield return _wait;
         _spriteRenderer.color = _originalColor;
         _flashRoutine = null;
+    }
+    private void ResetColor()
+    {
+        if (_spriteRenderer != null)
+        {
+            _spriteRenderer.color = _originalColor;
+        }
     }
 }

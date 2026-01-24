@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Transform healthBar;
     #endregion
 
-    #region Public Fields
+    #region Public Properties
     public EnemyData Data => data;
     #endregion
 
@@ -26,88 +26,142 @@ public class Enemy : MonoBehaviour
     private Vector3 _healthBarOriginalScale;
     private Vector3 _offset;
 
-    private int _currentWaypoints;
-    private float _lives;
-    private float _maxLives;
-    private float speed;
+    private int _currentWaypointIndex;
+    private float _currentHealth;
+    private float _maxHealth;
+    private float _speed;
     private bool _hasBeenCounted = false;
     #endregion
 
     private void Awake()
     {
-        _healthBarOriginalScale = transform.localScale;
         _flashEffect = GetComponent<FlashDamage>();
         _enemyVisuals = GetComponentInChildren<EnemyVisuals>();
+        if (healthBar != null)
+        {
+            _healthBarOriginalScale = healthBar.localScale;
+        }
     }
-    void Update()
+    private void Update()
     {
+        // check enemy die or reach end will not calculate
         if(_hasBeenCounted)
         {
             return;
         }
-        transform.position = Vector3.MoveTowards(transform.position, _targetPosition, speed * Time.deltaTime);
-        float relativeDistance = (transform.position - _targetPosition).magnitude;
-        if(relativeDistance < 0.1f)
+        if (_currentPath == null)
         {
-            if(_currentWaypoints < _currentPath.WaypointCount - 1)
+            return;
+        }
+
+        transform.position = Vector3.MoveTowards(transform.position, _targetPosition, _speed * Time.deltaTime);
+        float sqrDistance = (transform.position - _targetPosition).sqrMagnitude;
+        if (sqrDistance < 0.01f)
+        {
+            if (_currentWaypointIndex < _currentPath.WaypointCount - 1)
             {
-                _currentWaypoints++;
-                _targetPosition = _currentPath.GetPosition(_currentWaypoints) + _offset;
+                _currentWaypointIndex++;
+                _targetPosition = _currentPath.GetPosition(_currentWaypointIndex) + _offset;
             }
             else
             {
-                _hasBeenCounted = true;
-                OnEnemyReachedEnd?.Invoke(data);
-                gameObject.SetActive(false);
+                ReachEnd();
             }
         }
     }
 
     //====PUBLIC
+    public void Initialize(Path path, float healthMultiplier = 1f)
+    {
+        _currentPath = path;
+        _currentWaypointIndex = 0;
+        _hasBeenCounted = false;
+
+        // reset stats
+        _maxHealth = data.maxHealth * healthMultiplier;
+        _currentHealth = _maxHealth;
+        _speed = UnityEngine.Random.Range(data.minSpeed, data.maxSpeed);
+
+        // calculate random position for movement
+        float offsetX = UnityEngine.Random.Range(-0.5f, 0.5f);
+        float offsetY = UnityEngine.Random.Range(-0.5f, 0.5f);
+        _offset = new Vector3(offsetX, offsetY, 0);
+
+        // set first position
+        if (_currentPath != null && _currentPath.WaypointCount > 0)
+        {
+            transform.position = _currentPath.GetPosition(0) + _offset;
+            // Target next point
+            if (_currentPath.WaypointCount > 1)
+            {
+                _currentWaypointIndex = 1;
+                _targetPosition = _currentPath.GetPosition(1) + _offset;
+            }
+            else
+            {
+                _targetPosition = transform.position;
+            }
+        }
+        UpdateHealthBar();
+        gameObject.SetActive(true);
+    }
+
     public void TakeDamage(float damage)
     {
-        if(_hasBeenCounted) { return; }
-        _lives -= damage;
-        _lives = Mathf.Max(_lives, 0);
+        if(_hasBeenCounted) 
+        { 
+            return; 
+        }
+        _currentHealth -= damage;
+        _currentHealth = Mathf.Max(_currentHealth, 0);
+
+        // effect red flash
         if (_flashEffect != null)
         {
             _flashEffect.Flash();
         }
         UpdateHealthBar();
-        if(_lives <=0)
+        if (_currentHealth <= 0)
         {
-            if (_enemyVisuals != null)
-            {
-                _enemyVisuals.HandleDeathEffect();
-            }
-            AudioManager.Instance.PlayEnemyDestroyed();
-            _hasBeenCounted = true;
-            OnEnemyDestroyed?.Invoke(this);
-            gameObject.SetActive(false);
+            Die();
         }
-    }
-    public void Initialized(Path path, float healthMultiplier)
-    {
-        _currentPath = path;
-        _currentWaypoints = 0;
-        _targetPosition = _currentPath.GetPosition(_currentWaypoints) + _offset;
-        _hasBeenCounted = false;
-        _maxLives = data.maxHealth * healthMultiplier;
-        _lives = _maxLives;
-        UpdateHealthBar();
-        speed = UnityEngine.Random.Range(data.minSpeed, data.maxSpeed);
-        float offsetX = UnityEngine.Random.Range(-0.5f, 0.5f);
-        float offsetY = UnityEngine.Random.Range(-0.5f, 0.5f);
-        _offset = new Vector2(offsetX, offsetY);
     }
 
     //====PRIVATE
     private void UpdateHealthBar()
     {
-        float healthPercent = _lives / _maxLives;
-        Vector3 scale = _healthBarOriginalScale;
-        scale.x = _healthBarOriginalScale.x * healthPercent;
-        healthBar.localScale = scale;
+        if (healthBar == null)
+        {
+            return;
+        }
+
+        float healthPercent = Mathf.Clamp01(_currentHealth / _maxHealth);
+        Vector3 newScale = _healthBarOriginalScale;
+        newScale.x = _healthBarOriginalScale.x * healthPercent;
+        healthBar.localScale = newScale;
     }
-    
+    private void ReachEnd()
+    {
+        _hasBeenCounted = true;
+        OnEnemyReachedEnd?.Invoke(data);
+        gameObject.SetActive(false);
+    }
+    private void Die()
+    {
+        _hasBeenCounted = true;
+
+        // effect explode (VFX)
+        if (_enemyVisuals != null)
+        {
+            _enemyVisuals.HandleDeathEffect();
+        }
+
+        // sound
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayEnemyDestroyed();
+        }
+        OnEnemyDestroyed?.Invoke(this);
+        gameObject.SetActive(false);
+    }
 }
