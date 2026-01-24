@@ -49,7 +49,7 @@ public class Enemy : MonoBehaviour
         float relativeDistance = (transform.position - _targetPosition).magnitude;
         if(relativeDistance < 0.1f)
         {
-            if(_currentWaypoints < _currentPath.Waypoints.Length - 1)
+            if(_currentWaypoints < _currentPath.WaypointCount - 1)
             {
                 _currentWaypoints++;
                 _targetPosition = _currentPath.GetPosition(_currentWaypoints) + _offset;

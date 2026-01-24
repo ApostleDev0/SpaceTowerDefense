@@ -191,7 +191,7 @@ public class Spawner : MonoBehaviour
     {
         if(_poolDictionary.TryGetValue(type, out var pool))
         {
-            GameObject spawnedObject = pool.GetPooledObjected();
+            GameObject spawnedObject = pool.GetInstance();
             spawnedObject.transform.position = transform.position;
             float healthMultiplier = 1f + (_waveCounter * 0.1f);
             Enemy enemy = spawnedObject.GetComponent<Enemy>();

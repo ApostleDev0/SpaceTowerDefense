@@ -90,7 +90,7 @@ public class Tower : MonoBehaviour
 
         if(_enemiesInRange.Count > 0)
         {
-            GameObject projectile = _projectilePool.GetPooledObjected();
+            GameObject projectile = _projectilePool.GetInstance();
             if(projectile != null )
             {
                 projectile.transform.position = transform.position;
