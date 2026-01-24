@@ -193,7 +193,7 @@ public class UIController : MonoBehaviour
             Tower newTowerScript = newTowerObj.GetComponent<Tower>();
 
             // up to date platfrom
-            _currentPlatform.tower = newTowerScript;
+            _currentPlatform.SetTower(newTowerScript);
             newTowerObj.transform.SetParent(_currentPlatform.transform);
 
             // display panel for new tower
@@ -495,7 +495,7 @@ public class UIController : MonoBehaviour
     private void HandlePLatformClicked(Platform platform)
     {
         _currentPlatform = platform;
-        if(_currentPlatform.tower == null)
+        if(_currentPlatform.CurrentTower == null)
         {
             HideUpgradePanel();
             ShowTowerPanel();
@@ -503,7 +503,7 @@ public class UIController : MonoBehaviour
         else
         {
             HideTowerPanel();
-            ShowUpgradePanel(_currentPlatform.tower);
+            ShowUpgradePanel(_currentPlatform.CurrentTower);
         }
     }
     private void HandleTowerSelected(TowerData towerData)

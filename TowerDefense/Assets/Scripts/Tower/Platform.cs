@@ -1,62 +1,104 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Platform : MonoBehaviour
 {
+    #region Events & Static State
     public static event Action<Platform> OnPLatformClicked;
-    [SerializeField] private LayerMask platformLayerMask;
     public static bool towerPanelOpen { get; set; } = false;
-    private SpriteRenderer _spriteRenderer;
+    #endregion
 
-    public Tower tower;
+    #region Public Properties
+    public Tower CurrentTower { get; private set; }
+    #endregion
+
+    #region Private Fields
+    private SpriteRenderer _spriteRenderer;
+    private Color _startColor;
+    private Color _hoverColor;
+    #endregion
+
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        if (_spriteRenderer != null)
+        {
+            _startColor = _spriteRenderer.color;
+            // set colour brighter
+            _hoverColor = new Color(_startColor.r, _startColor.g, _startColor.b, 0.7f);
+        }
     }
-    private void Update()
+
+    //====INPUT HANDLE
+    private void OnMouseDown()
     {
+        // check condition prevent click
         if (towerPanelOpen || Time.timeScale == 0f)
         {
             return;
         }
 
-        if(Input.GetMouseButtonDown(0))
+        // prevent click throught UI
+        if (UnityEngine.EventSystems.EventSystem.current != null &&
+            UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
-            Vector3 mouseScreenPosition = Input.mousePosition;
-            Vector2 worldPoint = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
-            RaycastHit2D raycastHit = Physics2D.Raycast(worldPoint,Vector2.zero,Mathf.Infinity,platformLayerMask);
-
-            if(raycastHit.collider != null)
-            {
-                Platform hitPlatform = raycastHit.collider.GetComponent<Platform>();
-                if(hitPlatform != null && hitPlatform == this)
-                {
-                    OnPLatformClicked?.Invoke(hitPlatform);
-                }
-            }
-
+            return;
+        }
+        OnPLatformClicked?.Invoke(this);
+    }
+    private void OnMouseEnter()
+    {
+        if (towerPanelOpen || Time.timeScale == 0f)
+        {
+            return;
+        }
+        if (_spriteRenderer != null && CurrentTower == null)
+        {
+            _spriteRenderer.color = _hoverColor;
         }
     }
+    private void OnMouseExit()
+    {
+        if (_spriteRenderer != null && CurrentTower == null)
+        {
+            _spriteRenderer.color = _startColor;
+        }
+    }
+
+    //====LOGIC
     public void PlaceTower(TowerData data)
     {
+        if (data == null || data.prefab == null)
+        {
+            return;
+        }
         GameObject newTowerObj = Instantiate(data.prefab,transform.position, Quaternion.identity,transform);
 
-        tower = newTowerObj.GetComponent<Tower>();
+        CurrentTower = newTowerObj.GetComponent<Tower>();
 
-        if(_spriteRenderer != null)
+        if (_spriteRenderer != null)
         {
             _spriteRenderer.enabled = false;
+            _spriteRenderer.color = _startColor;
         }
     }
     public void ResetPlatform()
     {
-        tower = null; 
+        CurrentTower = null;
         if (_spriteRenderer != null)
         {
             _spriteRenderer.enabled = true;
+            _spriteRenderer.color = _startColor;
+        }
+    }
+    public void SetTower(Tower tower)
+    {
+        CurrentTower = tower;
+        if (_spriteRenderer != null)
+        {
+            _spriteRenderer.enabled = false;
         }
     }
 }

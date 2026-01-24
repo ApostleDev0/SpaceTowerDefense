@@ -1,26 +1,45 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class TowerCard : MonoBehaviour
 {
+    #region Static Events
+    public static event Action<TowerData> OnTowerSelected;
+    #endregion
+
+    #region Serialized Fields
     [SerializeField] private Image towerImage;
     [SerializeField] private TMP_Text costText;
+    #endregion
 
+    #region Private Fields
     private TowerData _towerData;
-    public static event Action<TowerData> OnTowerSelected;
+    #endregion
 
     public void Initialize(TowerData data)
     {
+        if (data == null)
+        {
+            return;
+        }
         _towerData = data;
-        towerImage.sprite = data.sprite;
-        costText.text = data.cost.ToString();
+
+        if (towerImage != null)
+        {
+            towerImage.sprite = data.sprite;
+        }
+        if(costText != null)
+        {
+            costText.text = $"${data.cost}";
+        }
     }
     public void PlaceTower()
     {
-        OnTowerSelected?.Invoke(_towerData);
+        if (_towerData != null)
+        {
+            OnTowerSelected?.Invoke(_towerData);
+        }
     }
 }

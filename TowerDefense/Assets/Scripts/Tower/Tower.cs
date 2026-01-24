@@ -22,6 +22,7 @@ public class Tower : MonoBehaviour
         {
             rangeIndicator.SetActive(false);
         }
+        _enemiesInRange = new List<Enemy>();
     }
     private void OnEnable()
     {
@@ -34,14 +35,26 @@ public class Tower : MonoBehaviour
     private void Start()
     {
         _circleCollider = GetComponent<CircleCollider2D>();
-        _circleCollider.radius = data.range;
-        _enemiesInRange = new List<Enemy>();
+        if(_circleCollider != null && data != null)
+        {
+            _circleCollider.radius = data.range;
+        }
+
         _projectilePool = GetComponent<ObjectPooler>();
-        _shootTimer = data.shootInterval;
+        if(data != null)
+        {
+            _shootTimer = data.shootInterval;
+
+        }
     }
     private void Update()
     {
+        if (data == null)
+        {
+            return;
+        }
         _shootTimer -= Time.deltaTime;
+
         if( _shootTimer <= 0 )
         {
             _shootTimer = data.shootInterval;
@@ -50,16 +63,13 @@ public class Tower : MonoBehaviour
     }
 
     //====PUBLIC
-    public TowerData GetData()
-    {
-        return data;
-    }
+    public TowerData GetData() => data;
     public void ToggleRange(bool status)
     {
         if(rangeIndicator != null)
         {
             rangeIndicator.SetActive(status);
-            if(status)
+            if (status && data != null)
             {
                 rangeIndicator.transform.localPosition = Vector3.zero;
                 float diameter = data.range * 2f;
@@ -69,52 +79,94 @@ public class Tower : MonoBehaviour
     }
 
     //====PRIVATE
-    private void OnDrawGizmos()
+    private void Shoot()
     {
-        if(data != null)
+        // get valid target
+        Enemy target = GetTarget();
+
+        // shoot when target
+        if (target != null)
         {
-            Gizmos.DrawWireSphere(transform.position,data.range);
+            GameObject projectileObj = _projectilePool.GetInstance();
+
+            if (projectileObj != null)
+            {
+                projectileObj.transform.position = transform.position;
+                projectileObj.SetActive(true);
+
+                // calculate direction to shoot
+                Vector3 direction = (target.transform.position - transform.position).normalized;
+
+                // get projectile and shoot
+                if (projectileObj.TryGetComponent<Projectile>(out Projectile projectileScript))
+                {
+                    projectileScript.Shoot(data, direction);
+                }
+            }
         }
     }
+    private Enemy GetTarget()
+    {
+        // clear list at first
+        while (_enemiesInRange.Count > 0)
+        {
+            Enemy potentialTarget = _enemiesInRange[0];
+
+            // check target null or pooled
+            if (potentialTarget == null || !potentialTarget.gameObject.activeInHierarchy)
+            {
+                _enemiesInRange.RemoveAt(0);
+            }
+            else
+            {
+                // select target alive
+                return potentialTarget;
+            }
+        }
+        return null;
+    }
+
+    //====TRIGGER & EVENTS
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.CompareTag("Enemy"))
         {
-            Enemy enemy = collision.GetComponent<Enemy>();
-            _enemiesInRange.Add(enemy);
-        }
-    }
-    private void Shoot()
-    {
-        _enemiesInRange.RemoveAll(enemy => enemy == null || !enemy.gameObject.activeInHierarchy);
-
-        if(_enemiesInRange.Count > 0)
-        {
-            GameObject projectile = _projectilePool.GetInstance();
-            if(projectile != null )
+            if (collision.TryGetComponent<Enemy>(out Enemy enemy))
             {
-                projectile.transform.position = transform.position;
-                projectile.SetActive(true);
-                Vector2 _shootDirection = (_enemiesInRange[0].transform.position - transform.position).normalized;
-                projectile.GetComponent<Projectile>().Shoot(data, _shootDirection);
+                _enemiesInRange.Add(enemy);
             }
         }
     }
-
-    //====HANDLE
     private void OnTriggerExit2D(Collider2D collision)
     {
         if(collision.CompareTag("Enemy"))
         {
-            Enemy enemy = collision.GetComponent<Enemy>();
-            if(_enemiesInRange.Contains(enemy))
+            if (collision.TryGetComponent<Enemy>(out Enemy enemy))
             {
-                _enemiesInRange.Remove(enemy);
+                if (_enemiesInRange.Contains(enemy))
+                {
+                    _enemiesInRange.Remove(enemy);
+                }
             }
         }
     }
     private void HandleEnemyDestroyed(Enemy enemy)
     {
-        _enemiesInRange.Remove(enemy);
+        if (_enemiesInRange.Contains(enemy))
+        {
+            _enemiesInRange.Remove(enemy);
+        }
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        if (data != null)
+        {
+            // color for range
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(transform.position, data.range);
+        }
+    }
+#endif
 }
