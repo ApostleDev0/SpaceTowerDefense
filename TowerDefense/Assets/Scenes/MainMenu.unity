@@ -385,7 +385,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 878540133352928267, guid: 989a776791bb14f42af4f88136b5e267, type: 3}
   poolSize: 10
-  poolType: 0
+  poolType: 3
 --- !u!1001 &124154407
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1905,7 +1905,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 878540133352928267, guid: 5a683fd25a8ec064d8f93ecec5a27b30, type: 3}
   poolSize: 10
-  poolType: 0
+  poolType: 7
 --- !u!1001 &511850805
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5771,7 +5771,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 878540133352928267, guid: 62917cb046bbaf14e919f0863b63f22b, type: 3}
   poolSize: 10
-  poolType: 0
+  poolType: 2
 --- !u!4 &1200751512
 Transform:
   m_ObjectHideFlags: 0
@@ -5881,7 +5881,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 878540133352928267, guid: de2693037c4c09449838a2ba54e0e87c, type: 3}
   poolSize: 10
-  poolType: 0
+  poolType: 6
 --- !u!1 &1233436726
 GameObject:
   m_ObjectHideFlags: 0
@@ -7970,7 +7970,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 878540133352928267, guid: 09f69d8256359064f9e091f6385de49d, type: 3}
   poolSize: 10
-  poolType: 0
+  poolType: 1
 --- !u!1 &1804908778
 GameObject:
   m_ObjectHideFlags: 0
@@ -8680,6 +8680,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetSceneName: Level 1
+  showOnlyOnce: 0
   tutorialPanel: {fileID: 955992048}
   tutorialImage: {fileID: 1854835900}
   descriptionText: {fileID: 2133600242}
@@ -9259,7 +9260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 878540133352928267, guid: 18d7230fd2af9d54cbab786c915864d8, type: 3}
   poolSize: 10
-  poolType: 0
+  poolType: 4
 --- !u!4 &1925207628
 Transform:
   m_ObjectHideFlags: 0
@@ -9744,7 +9745,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 878540133352928267, guid: f67a108cb8f8a2c4b84cacbd4c1b12a5, type: 3}
   poolSize: 10
-  poolType: 0
+  poolType: 5
 --- !u!1 &2039331249
 GameObject:
   m_ObjectHideFlags: 0
