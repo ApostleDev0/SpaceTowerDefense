@@ -15,5 +15,5 @@ MonoBehaviour:
   characterName: System
   portrait: {fileID: 21300000, guid: 678eb2ea076031a42827ed76ab8f7873, type: 3}
   sentences:
-  - Welcome Back!
-  - 'This is Test for Wave 3 Dialogue '
+  - It seems like there's another wave of monsters coming.
+  - They are BIGGER ! Prepare your defenses !

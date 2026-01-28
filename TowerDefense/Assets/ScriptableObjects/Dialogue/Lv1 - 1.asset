@@ -15,5 +15,5 @@ MonoBehaviour:
   characterName: System
   portrait: {fileID: 21300000, guid: 678eb2ea076031a42827ed76ab8f7873, type: 3}
   sentences:
-  - Welcome Player!
-  - This is Test Dialogue Wave 1
+  - Commander ! We have detected suspicious movement in outer space.
+  - Build the defensive tower now !

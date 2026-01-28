@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            ApplyGlobalFont(); // need to remove 
+            ApplyGlobalFont();
         }
     }
     private void OnEnable()
