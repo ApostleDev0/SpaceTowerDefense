@@ -15,5 +15,7 @@ MonoBehaviour:
   characterName: System
   portrait: {fileID: 21300000, guid: 678eb2ea076031a42827ed76ab8f7873, type: 3}
   sentences:
-  - Commander ! We have detected suspicious movement in outer space.
-  - Build the defensive tower now !
+  - Commander! Long-range scanners have detected hostile signals approaching Sector
+    Alpha.
+  - They are moving in a simple loop pattern. Likely a scouting party.
+  - 'Status: Red Alert. Deploy defensive towers immediately!'

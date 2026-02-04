@@ -4179,7 +4179,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: GameOver
+  m_text: Game Over
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -8386,7 +8386,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -20}
-  m_SizeDelta: {x: 1600, y: 600}
+  m_SizeDelta: {x: 1600, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1842146035
 MonoBehaviour:
@@ -8449,8 +8449,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 570, y: -300}
-  m_SizeDelta: {x: 800, y: 580}
+  m_AnchoredPosition: {x: 570, y: -200}
+  m_SizeDelta: {x: 700, y: 380}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1854835900
 MonoBehaviour:
@@ -8505,7 +8505,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 800
+  m_PreferredWidth: 700
   m_PreferredHeight: 400
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -8688,14 +8688,15 @@ MonoBehaviour:
   nextButtonLabel: {fileID: 556778632}
   backButton: {fileID: 815782957}
   steps:
-  - Image: {fileID: 21300000, guid: a82e1c7e99e01804e93ccafce64507b5, type: 3}
+  - Image: {fileID: 21300000, guid: b10e2fa95f22d1c448c4b01a54040fcd, type: 3}
     Description: Enemies appear from the left side. They follow the glowing path
       to attack your base.
   - Image: {fileID: 21300000, guid: b662b19c59627e74ba501c1b4c3997b8, type: 3}
-    Description: This is your Satellite Base. You must protect it at all costs.
+    Description: This is your Satellite Base on the right side. You lose lives if
+      enemies reach here.
   - Image: {fileID: 21300000, guid: 23551c07815950d4c89f80e4b4edf4aa, type: 3}
-    Description: 'Floating platforms are construction sites. This is where you place
-      your defenses.
+    Description: 'Floating platforms are construction sites. Tap on an empty platform
+      to build a defensive tower.
 
 '
   - Image: {fileID: 21300000, guid: 29a2fcc3a186bbb44beac4da70325b70, type: 3}
@@ -8703,13 +8704,12 @@ MonoBehaviour:
       to stop the enemy.
 
 '
-  - Image: {fileID: 21300000, guid: f166fb49202f218468fb9b9a1b8b8ac7, type: 3}
-    Description: 'You need Gold to build and upgrade towers. Spend it wisely!
-
-'
-  - Image: {fileID: 21300000, guid: 855d61db1af7e454880fd9490245ea99, type: 3}
-    Description: If your Base Lives reach 0, it's Game Over. Survive as long as you
-      can!
+  - Image: {fileID: 21300000, guid: 8f3fc1e4c9e58bc4a82755a9aa09c475, type: 3}
+    Description: The progress bar shows the current enemy wave status.
+  - Image: {fileID: 21300000, guid: 538f2f266149c5843a4e68c5322f177c, type: 3}
+    Description: his shows your current Gold. Defeat enemies to earn more Gold.
+  - Image: {fileID: 21300000, guid: befceb5b35620154d8449259884fede4, type: 3}
+    Description: This is your Life counter. The game ends if it reaches zero.
 --- !u!1 &1876965442
 GameObject:
   m_ObjectHideFlags: 0
@@ -9998,8 +9998,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1230, y: -300}
-  m_SizeDelta: {x: 400, y: 580}
+  m_AnchoredPosition: {x: 1180, y: -200}
+  m_SizeDelta: {x: 400, y: 380}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2133600242
 MonoBehaviour:

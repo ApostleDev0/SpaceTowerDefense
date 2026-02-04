@@ -10,12 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bd4c345ecd05a91438eabaf54e4b161f, type: 3}
-  m_Name: Lv2 - 1
+  m_Name: Lv3 - 11
   m_EditorClassIdentifier: 
   characterName: System
   portrait: {fileID: 21300000, guid: 678eb2ea076031a42827ed76ab8f7873, type: 3}
   sentences:
-  - We have tracked the enemy source to the Nebula Belt.
-  - 'Caution: The spatial distortion here creates a spiral path.'
-  - 'Tactical Tip: Place towers centrally to maximize their firing range across multiple
-    paths.'
+  - CRITICAL WARNING! Class-S Leviathan detected!
+  - It intends to consume the Core. Unleash everything we have!

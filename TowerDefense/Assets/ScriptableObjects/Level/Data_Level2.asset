@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelName: 'Level 2: Challenge Speed'
   sceneName: Level 2
-  wavesToWin: 10
   startingResources: 120
   startingLives: 15
   initialSpawnPosition: {x: -13, y: 1}
@@ -85,7 +84,7 @@ MonoBehaviour:
       count: 8
       spawnInterval: 1.2
       initialDelay: 0
-  - openingDialogue: {fileID: 0}
+  - openingDialogue: {fileID: 11400000, guid: f5d333229659e1d4c8deaeb991cdc462, type: 2}
     groups:
     - enemyType: 3
       count: 15
