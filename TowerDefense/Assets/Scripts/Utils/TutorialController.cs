@@ -98,6 +98,10 @@ public class TutorialController : MonoBehaviour
         else
         {
             HideTutorial();
+            if (currentScene != "MainMenu")
+            {
+                StartGameDirectly();
+            }
         }
     }
     private void SetupButtons()
